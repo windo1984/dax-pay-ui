@@ -54,3 +54,6 @@ vite.config.ts.*
 
 # dev HTTPS self-signed certs (Passkey real device debugging)
 certs/
+pnpm-lock.yaml
+/fighter-micro-app
+pnpm-lock.yaml
