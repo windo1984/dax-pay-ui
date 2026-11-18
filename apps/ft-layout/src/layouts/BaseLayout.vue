@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MicroPane from '../components/MicroPane.vue'
+import { appGroups, flatApps, findApp, findGroupOfApp } from '../config/apps'
 import { useAuth } from '../store/auth'
 
 interface MenuItem {
@@ -32,24 +33,25 @@ async function handleLogout() {
 
 const headerHover = ref(false)
 
-// 菜单配置：hover ☰ 弹出
-const appMenu: MenuItem[] = [
-  { key: 'admin', title: '运营端', icon: '🏛️', closable: true },
-  { key: 'merchant', title: '商户端', icon: '🏪', closable: true },
-]
+// 首页固定标签，其余按注册表生成
+const homeTab: MenuItem = { key: 'home', title: '首页', icon: '🏠', closable: false }
 
 const tabMeta: Record<string, MenuItem> = {
-  home: { key: 'home', title: '首页', icon: '🏠', closable: false },
-  admin: { key: 'admin', title: '运营端', icon: '🏛️', closable: true },
-  merchant: { key: 'merchant', title: '商户端', icon: '🏪', closable: true },
+  home: homeTab,
+  ...Object.fromEntries(
+    flatApps.map((app) => [app.key, { key: app.key, title: app.title, icon: app.icon, closable: true }]),
+  ),
 }
 
-const tabs = ref<MenuItem[]>([tabMeta.home])
+const tabs = ref<MenuItem[]>([homeTab])
 const activeTab = ref('home')
 const opened = ref<string[]>(['home'])
 
 const closableCount = computed(() => tabs.value.filter((t) => t.closable).length)
 const closableTabs = computed(() => tabs.value.filter((t) => t.key !== 'home'))
+
+/** 当前子应用所属分组（顶栏面包屑式提示） */
+const currentGroup = computed(() => findGroupOfApp(activeTab.value))
 
 function ensureTab(key: string) {
   if (!tabs.value.find((t) => t.key === key)) {
@@ -71,14 +73,16 @@ watch(
   },
 )
 
-function openTab(item: MenuItem) {
-  ensureTab(item.key)
-  router.push({ name: item.key })
+function openTab(path: string) {
+  const key = path.replace(/^\//, '')
+  const target = key === '' ? 'home' : key
+  if (tabMeta[target]) ensureTab(target)
+  router.push({ path: key === '' ? '/' : `/${key}` })
 }
 
 function switchTab(key: string) {
   activeTab.value = key
-  router.push({ name: key })
+  router.push({ path: key === 'home' ? '/' : `/${key}` })
 }
 
 function closeTab(key: string) {
@@ -87,14 +91,14 @@ function closeTab(key: string) {
   if (activeTab.value === key) {
     const next = tabs.value[idx - 1]?.key || tabs.value[tabs.value.length - 1]?.key || 'home'
     activeTab.value = next
-    router.replace({ name: next })
+    router.replace({ path: next === 'home' ? '/' : `/${next}` })
   }
 }
 
 function closeAll() {
   tabs.value = tabs.value.filter((t) => !t.closable)
   activeTab.value = 'home'
-  router.replace({ name: 'home' })
+  router.replace({ path: '/' })
 }
 
 function reloadActive() {
@@ -116,17 +120,18 @@ function reloadActive() {
       </button>
 
       <nav class="flex h-12 items-center">
-        <!-- 汉堡菜单 -->
+        <!-- 分组菜单：hover ☰ 弹出，按 IAM / DaxPay / Yudao 分组 -->
         <div
           class="relative flex h-full items-center"
           @mouseenter="headerHover = true"
           @mouseleave="headerHover = false"
         >
           <button
-            class="flex h-full items-center px-3 text-base text-gray-700 hover:bg-gray-100"
+            class="flex h-full items-center gap-2 px-3 text-base text-gray-700 hover:bg-gray-100"
             :class="headerHover ? 'bg-emerald-50 text-emerald-600' : ''"
           >
-            ☰
+            <span>☰</span>
+            <span class="text-sm">{{ currentGroup?.title ?? '全部应用' }}</span>
           </button>
           <transition
             enter-active-class="transition duration-150"
@@ -136,17 +141,26 @@ function reloadActive() {
           >
             <div
               v-if="headerHover"
-              class="absolute left-0 top-12 z-50 min-w-48 rounded border border-gray-200 bg-white py-1 shadow-lg"
+              class="absolute left-0 top-12 z-50 w-64 rounded border border-gray-200 bg-white py-1 shadow-lg"
             >
-              <div
-                v-for="item in appMenu"
-                :key="item.key"
-                class="flex cursor-pointer items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100"
-                :class="item.key === activeTab ? 'text-emerald-600' : ''"
-                @click="openTab(item)"
-              >
-                <span class="w-5 text-center">{{ item.icon }}</span>
-                <span>{{ item.title }}</span>
+              <div v-for="group in appGroups" :key="group.key" class="py-1">
+                <div
+                  class="flex items-center gap-2 border-b border-gray-100 px-4 pb-1 text-xs font-medium uppercase tracking-wide text-gray-400"
+                >
+                  <span>{{ group.icon }}</span>
+                  <span>{{ group.title }}</span>
+                </div>
+                <div
+                  v-for="app in group.apps"
+                  :key="app.key"
+                  class="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  :class="app.key === activeTab ? 'text-emerald-600' : ''"
+                  @click="openTab(app.path)"
+                >
+                  <span class="w-5 text-center">{{ app.icon }}</span>
+                  <span class="flex-1">{{ app.title }}</span>
+                  <span v-if="app.key === activeTab" class="text-[11px] text-emerald-600">当前</span>
+                </div>
               </div>
             </div>
           </transition>
@@ -156,14 +170,14 @@ function reloadActive() {
         <button
           class="flex h-full items-center gap-1.5 px-3 text-sm text-gray-700 hover:bg-gray-100"
           :class="activeTab === 'home' ? 'bg-emerald-50 text-emerald-600' : ''"
-          @click="openTab({ key: 'home', title: '首页', icon: '🏠' })"
+          @click="openTab('/')"
         >
           <span>🏠</span>
           <span>首页</span>
         </button>
       </nav>
 
-      <!-- Tab 栏：合并到顶栏右侧，竖线分隔 -->
+      <!-- Tab 栏 -->
       <div class="ml-3 flex h-12 flex-1 items-center gap-1.5 overflow-x-auto border-l-2 border-gray-300 pl-3">
         <div
           v-for="tab in closableTabs"
@@ -200,7 +214,9 @@ function reloadActive() {
       <div class="ml-auto flex shrink-0 items-center gap-3 border-l-2 border-gray-300 pl-3">
         <div class="text-right leading-tight">
           <div class="text-sm font-medium text-gray-800">{{ userName || '已登录' }}</div>
-          <div class="text-[11px] text-gray-400">{{ identity }}<span v-if="userRole"> · {{ userRole }}</span></div>
+          <div class="text-[11px] text-gray-400">
+            {{ identity }}<span v-if="userRole"> · {{ userRole }}</span>
+          </div>
         </div>
         <button
           class="rounded border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-500 hover:border-red-200 hover:text-red-600"
@@ -213,28 +229,48 @@ function reloadActive() {
 
     <main class="flex flex-1 flex-col overflow-hidden">
       <div class="flex-1 overflow-hidden bg-white">
-        <!-- 首页 -->
+        <!-- 首页：按分组展示应用入口 -->
         <div v-show="activeTab === 'home'" class="h-full overflow-auto p-6">
-          <h2 class="mb-3 text-xl font-bold">欢迎使用 Fighter 微前端基座</h2>
-          <p class="text-gray-600">顶部 ☰ hover 展开子应用，点击后以 Tab 形式打开，多 Tab 可并存。</p>
-          <ul class="mt-4 list-disc pl-6 text-gray-600">
-            <li>运营端 daxpay-admin（:6999）→ <code class="rounded bg-gray-100 px-1">/admin</code></li>
-            <li>商户端 daxpay-merchant（:7999）→ <code class="rounded bg-gray-100 px-1">/merchant</code></li>
-          </ul>
+          <h2 class="mb-1 text-xl font-bold">欢迎使用 Fighter 微前端基座</h2>
+          <p class="text-gray-600">
+            顶部 ☰ hover 按产品线展开子应用，点击后以 Tab 形式打开，多 Tab 可并存；未登录仅能停留在登录页。
+          </p>
+
+          <div v-for="group in appGroups" :key="group.key" class="mt-6">
+            <div class="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+              <span>{{ group.icon }}</span>
+              <span>{{ group.title }}</span>
+              <span class="text-xs font-normal text-gray-400">{{ group.apps.length }} 个应用</span>
+            </div>
+            <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+              <div
+                v-for="app in group.apps"
+                :key="app.key"
+                class="cursor-pointer rounded border border-gray-200 bg-white p-4 hover:border-emerald-300 hover:shadow-sm"
+                @click="openTab(app.path)"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2 text-sm font-medium text-gray-800">
+                    <span>{{ app.icon }}</span>
+                    <span>{{ app.title }}</span>
+                  </div>
+                  <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500">{{ app.path }}</span>
+                </div>
+                <div class="mt-2 text-xs text-gray-500">{{ app.desc }}</div>
+                <div class="mt-1 break-all text-[11px] text-gray-400">{{ app.url }}</div>
+              </div>
+            </div>
+          </div>
         </div>
 
+        <!-- 子应用容器：全部常驻，按 opened/active 控制显示 -->
         <MicroPane
-          name="daxpay-admin"
-          url="http://localhost:6999/"
-          :opened="opened.includes('admin')"
-          :active="activeTab === 'admin'"
-        />
-
-        <MicroPane
-          name="daxpay-merchant"
-          url="http://localhost:7999/"
-          :opened="opened.includes('merchant')"
-          :active="activeTab === 'merchant'"
+          v-for="app in flatApps"
+          :key="app.key"
+          :name="app.key"
+          :url="app.url"
+          :opened="opened.includes(app.key)"
+          :active="activeTab === app.key"
         />
       </div>
     </main>

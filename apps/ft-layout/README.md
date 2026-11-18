@@ -2,7 +2,7 @@
 
 由 `fighter-micro-app/fighter-layout` 迁移而来：应用位置从独立工作区 `fighter-micro-app/*` 迁到主仓库 `apps/ft-layout`，
 源码、依赖组合、端口与交互保持不变，仅把版本来源接到主仓库的 `catalog:`（版本目录）。
-在此基础上**新增登录**：未登录只能停在登录页，无法访问任何子应用模块。
+在此基础上完成两件事：**新增登录**（未登录只能停在登录页）与**按 IAM / DaxPay / Yudao 三条产品线编排菜单导航**。
 
 ## 迁移对照
 
@@ -39,6 +39,7 @@
 
 ```
 apps/ft-layout
+├── .env                     # 四个子应用地址（VITE_APP_*_URL）
 ├── index.html               # 标题：Fighter 微前端基座
 ├── package.json             # 依赖同原工程，版本走 catalog:
 ├── tsconfig.json            # 原 standalone tsconfig
@@ -49,18 +50,33 @@ apps/ft-layout
     ├── api
     │   ├── request.ts       # fetch 封装：/api 前缀、Accesstoken/clientid/tenant-id 头、code!=0 抛错
     │   └── auth.ts          # 登录/登出/用户信息/权限信息
+    ├── config/apps.ts       # 子应用注册表：按 IAM / DaxPay / Yudao 分组
     ├── store/auth.ts        # 登录态（reactive + localStorage，不引 pinia）
     ├── router
-    │   ├── index.ts         # /login、/、/admin、/merchant
+    │   ├── index.ts         # /login、/、/iam、/admin、/merchant、/yudao（子应用路由由注册表生成）
     │   └── guard.ts         # 登录守卫（白名单 + token 校验）
     ├── views/LoginPage.vue  # 登录页（tailwind）
-    ├── layouts/BaseLayout.vue   # 顶栏（☰ 悬浮菜单 + 首页 + Tab 栏 + 用户/退出）与子应用容器
+    ├── layouts/BaseLayout.vue   # 顶栏（☰ 分组菜单 + 首页 + Tab 栏 + 用户/退出）与子应用容器
     ├── components
     │   ├── AppHeader.vue    # 抽出的顶栏组件（AppMenu / 刷新）
     │   ├── TabBar.vue       # 抽出的 Tab 栏组件
     │   └── MicroPane.vue    # 子应用 iframe 容器（opened / active 双开关）
     └── styles/index.css     # tailwind 入口 + micro-app/iframe 撑满
 ```
+
+## 菜单导航（按产品线分组）
+
+顶部 `☰` hover 弹出的菜单按三组编排，首页同样按分组展示卡片：
+
+| 分组 | 应用 | 基座路径 | 子应用地址（默认） |
+| --- | --- | --- | --- |
+| 🛡️ IAM 统一认证 | 统一认证（ft-iam） | `/iam` | http://localhost:7001/ |
+| 💳 DaxPay 支付 | 运营端（daxpay-admin） | `/admin` | http://localhost:6999/ |
+| 💳 DaxPay 支付 | 商户端（daxpay-merchant） | `/merchant` | http://localhost:7999/ |
+| 🧩 Yudao 芋道 | 芋道管理端（yudao-ui-admin-vue3） | `/yudao` | http://localhost/ |
+
+- 增删应用只改 `src/config/apps.ts`：路由、菜单、标签页、iframe 容器、首页卡片都按注册表自动生成。
+- 地址优先读 `.env` 的 `VITE_APP_IAM_URL` / `VITE_APP_ADMIN_URL` / `VITE_APP_MERCHANT_URL` / `VITE_APP_YUDAO_URL`，未配置时用上表默认值。
 
 ## 启动
 
@@ -73,17 +89,15 @@ corepack pnpm dev:layout
 
 登录账号：`admin / admin123`（租户 `fighter`，身份域 `admin`），需先启动 ft-iam（19310）。
 
-基座加载的子应用（`src/layouts/BaseLayout.vue` 内配置）：
-
-| 名称 | 地址 | 基座路径 |
-| --- | --- | --- |
-| 运营端 daxpay-admin | http://localhost:6999/ | `/admin` |
-| 商户端 daxpay-merchant | http://localhost:7999/ | `/merchant` |
+按需启动对应子应用：
 
 ```bash
-corepack pnpm dev:admin      # 6999
-corepack pnpm dev:merchant   # 7999
+corepack pnpm dev:iam         # ft-iam，7001
+corepack pnpm dev:admin       # daxpay-admin，6999
+corepack pnpm dev:merchant    # daxpay-merchant，7999
+# yudao：在 D:\z390_svn\fighter-github\yudao\yudao-ui-admin-vue3-fork 下 pnpm dev（其 .env 里 VITE_PORT=80）
 ```
+
 
 ## 部署要点
 
