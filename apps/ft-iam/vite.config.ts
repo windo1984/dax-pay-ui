@@ -38,7 +38,7 @@ export default defineConfig(async () => {
           '/api': {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
-            target: process.env.FT_IAM_PROXY_TARGET || 'http://localhost:19310',
+            target: process.env.VITE_APP_GATEWAY_URL,
             ws: true,
           },
         },
