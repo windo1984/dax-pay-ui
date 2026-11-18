@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* micro-app iframe 模式：iframe 默认 0x0，需强制撑满 */
+micro-app {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+micro-app iframe {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
+}
