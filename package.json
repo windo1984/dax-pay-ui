@@ -22,6 +22,7 @@
     "dev:layout": "pnpm -F ft-layout run dev",
     "dev:merchant": "pnpm -F daxpay-merchant run dev",
     "dev:docs": "pnpm -F @vben/docs run dev",
+    "dev:all": "pnpm --parallel --filter daxpay-admin --filter ft-iam --filter ft-layout --filter daxpay-merchant run dev",
     "format": "prettier --write .",
     "lint": "vsh lint",
     "postinstall": "pnpm -r run stub --if-present",
