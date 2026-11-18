@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
 import MicroPane from '../components/MicroPane.vue'
-import { appGroups, flatApps, findApp, findGroupOfApp } from '../config/apps'
+import { useAppRegistry } from '../config/apps'
+import { removeAppRoutes } from '../router/dynamic'
 import { useAuth } from '../store/auth'
 
 interface MenuItem {
@@ -15,6 +17,8 @@ interface MenuItem {
 const route = useRoute()
 const router = useRouter()
 const auth = useAuth()
+/** 子应用注册表：登录后从 ft-iam 的 /auth/app-tree 拉取，已按权限裁剪 */
+const registry = useAppRegistry()
 
 /** 当前登录用户显示名 */
 const userName = computed(
@@ -25,9 +29,17 @@ const identity = computed(
   () => `${auth.state.userInfo?.clientCode ?? 'admin'} / 租户 ${auth.state.userInfo?.tenantId ?? '—'}`,
 )
 
-/** 退出登录：清本地态并回登录页 */
+const appGroups = computed(() => registry.state.groups)
+const flatApps = computed(() => registry.state.flat)
+
+/** 退出登录：清本地态、卸载动态路由、销毁子应用（否则 iframe 内仍持有各自域的登录态），再回登录页 */
 async function handleLogout() {
   await auth.logout()
+  removeAppRoutes(router)
+  registry.reset()
+  tabs.value = [homeTab]
+  opened.value = ['home']
+  activeTab.value = 'home'
   await router.replace({ name: 'login' })
 }
 
@@ -36,12 +48,15 @@ const headerHover = ref(false)
 // 首页固定标签，其余按注册表生成
 const homeTab: MenuItem = { key: 'home', title: '首页', icon: '🏠', closable: false }
 
-const tabMeta: Record<string, MenuItem> = {
+const tabMeta = computed<Record<string, MenuItem>>(() => ({
   home: homeTab,
   ...Object.fromEntries(
-    flatApps.map((app) => [app.key, { key: app.key, title: app.title, icon: app.icon, closable: true }]),
+    flatApps.value.map((app) => [
+      app.key,
+      { key: app.key, title: app.title, icon: app.icon, closable: true },
+    ]),
   ),
-}
+}))
 
 const tabs = ref<MenuItem[]>([homeTab])
 const activeTab = ref('home')
@@ -51,11 +66,14 @@ const closableCount = computed(() => tabs.value.filter((t) => t.closable).length
 const closableTabs = computed(() => tabs.value.filter((t) => t.key !== 'home'))
 
 /** 当前子应用所属分组（顶栏面包屑式提示） */
-const currentGroup = computed(() => findGroupOfApp(activeTab.value))
+const currentGroup = computed(() => registry.findGroupOfApp(activeTab.value))
 
 function ensureTab(key: string) {
+  const meta = tabMeta.value[key]
+  // 注册表里没有这个 key（无权限 / 已下线）就不开标签，避免空白 Tab
+  if (!meta) return
   if (!tabs.value.find((t) => t.key === key)) {
-    tabs.value.push(tabMeta[key])
+    tabs.value.push(meta)
   }
   if (!opened.value.includes(key)) {
     opened.value.push(key)
@@ -69,20 +87,23 @@ watch(
   () => route.name,
   (name) => {
     const key = (name as string) || 'home'
-    if (tabMeta[key]) ensureTab(key)
+    if (tabMeta.value[key]) ensureTab(key)
   },
 )
 
+/** 菜单点击：按注册表里的 path 跳转（不再靠字符串拼 /key） */
 function openTab(path: string) {
-  const key = path.replace(/^\//, '')
-  const target = key === '' ? 'home' : key
-  if (tabMeta[target]) ensureTab(target)
-  router.push({ path: key === '' ? '/' : `/${key}` })
+  const app = registry.findByPath(path)
+  const key = app?.key ?? (path === '/' ? 'home' : path.replace(/^\//, ''))
+  if (key !== 'home' && !tabMeta.value[key]) return
+  ensureTab(key)
+  router.push({ path: app?.path ?? (key === 'home' ? '/' : `/${key}`) })
 }
 
 function switchTab(key: string) {
   activeTab.value = key
-  router.push({ path: key === 'home' ? '/' : `/${key}` })
+  const app = registry.findApp(key)
+  router.push({ path: app?.path ?? (key === 'home' ? '/' : `/${key}`) })
 }
 
 function closeTab(key: string) {
@@ -91,7 +112,7 @@ function closeTab(key: string) {
   if (activeTab.value === key) {
     const next = tabs.value[idx - 1]?.key || tabs.value[tabs.value.length - 1]?.key || 'home'
     activeTab.value = next
-    router.replace({ path: next === 'home' ? '/' : `/${next}` })
+    switchTab(next)
   }
 }
 
@@ -120,7 +141,7 @@ function reloadActive() {
       </button>
 
       <nav class="flex h-12 items-center">
-        <!-- 分组菜单：hover ☰ 弹出，按 IAM / DaxPay / Yudao 分组 -->
+        <!-- 分组菜单：hover ☰ 弹出，分组与应用全部来自库（iam_micro_app_group / iam_micro_app） -->
         <div
           class="relative flex h-full items-center"
           @mouseenter="headerHover = true"
@@ -143,6 +164,9 @@ function reloadActive() {
               v-if="headerHover"
               class="absolute left-0 top-12 z-50 w-64 rounded border border-gray-200 bg-white py-1 shadow-lg"
             >
+              <div v-if="!appGroups.length" class="px-4 py-3 text-xs text-gray-400">
+                当前账号没有可访问的模块
+              </div>
               <div v-for="group in appGroups" :key="group.key" class="py-1">
                 <div
                   class="flex items-center gap-2 border-b border-gray-100 px-4 pb-1 text-xs font-medium uppercase tracking-wide text-gray-400"
@@ -229,12 +253,26 @@ function reloadActive() {
 
     <main class="flex flex-1 flex-col overflow-hidden">
       <div class="flex-1 overflow-hidden bg-white">
-        <!-- 首页：按分组展示应用入口 -->
+        <!-- 首页：按分组展示应用入口（分组与应用均来自数据库，已按权限裁剪） -->
         <div v-show="activeTab === 'home'" class="h-full overflow-auto p-6">
           <h2 class="mb-1 text-xl font-bold">欢迎使用 Fighter 微前端基座</h2>
           <p class="text-gray-600">
             顶部 ☰ hover 按产品线展开子应用，点击后以 Tab 形式打开，多 Tab 可并存；未登录仅能停留在登录页。
           </p>
+
+          <!-- 模块树拉取失败 / 无可用模块 -->
+          <div
+            v-if="!appGroups.length"
+            class="mt-6 rounded border border-dashed border-gray-300 bg-gray-50 p-4 text-sm"
+          >
+            <div v-if="registry.state.error" class="text-red-600">
+              主菜单加载失败：{{ registry.state.error }}
+            </div>
+            <div v-else class="text-gray-500">
+              当前账号没有可访问的模块。请联系管理员在「IAM → 角色管理 → 分配菜单」中授予模块访问权限
+              （app:iam:access / app:daxpay:admin:access / app:daxpay:merchant:access / app:yudao:access）。
+            </div>
+          </div>
 
           <div v-for="group in appGroups" :key="group.key" class="mt-6">
             <div class="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
@@ -263,12 +301,15 @@ function reloadActive() {
           </div>
         </div>
 
-        <!-- 子应用容器：全部常驻，按 opened/active 控制显示 -->
+        <!-- 子应用容器：只渲染当前用户有权限的模块，按 opened/active 控制显示 -->
         <MicroPane
           v-for="app in flatApps"
           :key="app.key"
           :name="app.key"
           :url="app.url"
+          :token="auth.state.token"
+          :tenant-id="auth.state.userInfo?.tenantId"
+          :client-code="auth.state.userInfo?.clientCode"
           :opened="opened.includes(app.key)"
           :active="activeTab === app.key"
         />
