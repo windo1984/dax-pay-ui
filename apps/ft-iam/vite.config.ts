@@ -28,11 +28,17 @@ export default defineConfig(async () => {
               }
             : undefined,
         proxy: {
-          // 前端统一走 /api，开发期直连 ft-iam（19310），路径前缀去掉
+          // 前端统一走 /api，开发期转发到 ft-iam，路径前缀去掉。
+          //
+          // 两种联调方式，用环境变量切换（重启 dev server 生效）：
+          //   1) 直连服务（默认）  target = http://localhost:19310
+          //   2) 走网关            设 FT_IAM_PROXY_TARGET=http://localhost:19200
+          //     网关侧已配 /auth/**、/system/** → lb://ft-iam 的路由，
+          //     且这两个前缀原样转发（网关不做 StripPrefix），所以 rewrite 依然只去 /api。
           '/api': {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
-            target: 'http://localhost:19310',
+            target: process.env.FT_IAM_PROXY_TARGET || 'http://localhost:19310',
             ws: true,
           },
         },
