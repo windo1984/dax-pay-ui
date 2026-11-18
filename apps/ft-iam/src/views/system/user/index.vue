@@ -39,6 +39,19 @@
   const editing = ref(false);
   const form = reactive<UserSaveParam>({ status: 0, sex: 1, clientCode: 'admin' });
 
+  // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
+  // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
+  const columns = [
+    { key: 'username', title: '账号', dataIndex: 'username' },
+    { key: 'nickname', title: '昵称', dataIndex: 'nickname' },
+    { key: 'deptId', title: '部门', width: 140 },
+    { key: 'mobile', title: '手机号', dataIndex: 'mobile', width: 140 },
+    { key: 'clientCode', title: '身份域', dataIndex: 'clientCode', width: 100 },
+    { key: 'status', title: '状态', width: 90 },
+    { key: 'createTime', title: '创建时间', width: 180 },
+    { key: 'action', title: '操作', width: 260, fixed: 'right' },
+  ];
+
   // 重置密码弹窗
   const resetOpen = ref(false);
   const resetTarget = ref<null | User>(null);
@@ -217,6 +230,7 @@
       </a-form>
 
       <a-table
+        :columns="columns"
         :data-source="list"
         :loading="loading"
         :pagination="{
@@ -230,27 +244,19 @@
         size="middle"
         @change="(pag: any) => { query.pageNo = pag.current; query.pageSize = pag.pageSize; load(); }"
       >
-        <a-table-column key="username" title="账号" data-index="username" />
-        <a-table-column key="nickname" title="昵称" data-index="nickname" />
-        <a-table-column key="deptId" title="部门" :width="140">
-          <template #default="{ record }">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'deptId'">
             {{ deptOptions.find((d) => d.value === record.deptId)?.label || '—' }}
           </template>
-        </a-table-column>
-        <a-table-column key="mobile" title="手机号" data-index="mobile" :width="140" />
-        <a-table-column key="clientCode" title="身份域" data-index="clientCode" :width="100" />
-        <a-table-column key="status" title="状态" :width="90">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'green' : 'red'">
               {{ record.status === 0 ? '启用' : '停用' }}
             </a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="createTime" title="创建时间" :width="180">
-          <template #default="{ record }">{{ (record.createTime || '').replace('T', ' ').slice(0, 19) }}</template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" :width="260" fixed="right">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'createTime'">
+            {{ (record.createTime || '').replace('T', ' ').slice(0, 19) }}
+          </template>
+          <template v-else-if="column.key === 'action'">
             <a-space>
               <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
               <a v-if="canReset" @click="resetPassword(record)">重置密码</a>
@@ -258,7 +264,7 @@
               <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
             </a-space>
           </template>
-        </a-table-column>
+        </template>
       </a-table>
     </a-card>
 

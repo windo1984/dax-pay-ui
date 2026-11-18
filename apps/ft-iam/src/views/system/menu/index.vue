@@ -34,6 +34,19 @@
     clientCode: 'admin',
   });
 
+  // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
+  // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
+  const columns = [
+    { key: 'name', title: '名称', dataIndex: 'name' },
+    { key: 'icon', title: '图标', width: 150 },
+    { key: 'type', title: '类型', width: 80 },
+    { key: 'path', title: '路由', width: 150 },
+    { key: 'component', title: '组件', width: 180 },
+    { key: 'permission', title: '权限标识', width: 180 },
+    { key: 'status', title: '状态', width: 90 },
+    { key: 'action', title: '操作', width: 180, fixed: 'right' },
+  ];
+
   const typeOptions = [
     { label: '目录', value: 1 },
     { label: '菜单', value: 2 },
@@ -185,6 +198,7 @@
       </a-form>
 
       <a-table
+        :columns="columns"
         :data-source="tree"
         :loading="loading"
         :pagination="false"
@@ -192,40 +206,27 @@
         size="middle"
         default-expand-all-rows
       >
-        <a-table-column key="name" title="名称" data-index="name" />
-        <a-table-column key="icon" title="图标" :width="150">
-          <template #default="{ record }">{{ record.icon || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="type" title="类型" :width="80">
-          <template #default="{ record }">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'icon'">{{ record.icon || '—' }}</template>
+          <template v-else-if="column.key === 'type'">
             <a-tag :color="record.type === 1 ? 'blue' : record.type === 2 ? 'green' : 'default'">
               {{ record.type === 1 ? '目录' : record.type === 2 ? '菜单' : '按钮' }}
             </a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="path" title="路由" :width="150">
-          <template #default="{ record }">{{ record.path || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="component" title="组件" :width="180">
-          <template #default="{ record }">{{ record.component || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="permission" title="权限标识" :width="180">
-          <template #default="{ record }">{{ record.permission || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="status" title="状态" :width="90">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'path'">{{ record.path || '—' }}</template>
+          <template v-else-if="column.key === 'component'">{{ record.component || '—' }}</template>
+          <template v-else-if="column.key === 'permission'">{{ record.permission || '—' }}</template>
+          <template v-else-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" :width="180" fixed="right">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'action'">
             <a-space>
               <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
               <a v-if="canCreate" @click="openCreate(record)">新增子项</a>
               <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
             </a-space>
           </template>
-        </a-table-column>
+        </template>
       </a-table>
     </a-card>
 

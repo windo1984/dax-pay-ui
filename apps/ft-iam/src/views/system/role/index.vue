@@ -34,6 +34,18 @@
   const editing = ref(false);
   const form = reactive<RoleSaveParam>({ status: 0, dataScope: 1, sort: 0, type: 2, clientCode: 'admin' });
 
+  // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
+  // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
+  const columns = [
+    { key: 'name', title: '角色名称', dataIndex: 'name' },
+    { key: 'code', title: '编码', dataIndex: 'code', width: 160 },
+    { key: 'sort', title: '排序', dataIndex: 'sort', width: 80 },
+    { key: 'dataScope', title: '数据范围', width: 130 },
+    { key: 'type', title: '类型', width: 90 },
+    { key: 'status', title: '状态', width: 90 },
+    { key: 'action', title: '操作', width: 230, fixed: 'right' },
+  ];
+
   // 菜单授权
   const assignOpen = ref(false);
   const assignTarget = ref<null | Role>(null);
@@ -205,6 +217,7 @@
       </a-form>
 
       <a-table
+        :columns="columns"
         :data-source="list"
         :loading="loading"
         :pagination="{
@@ -218,26 +231,17 @@
         size="middle"
         @change="(pag: any) => { query.pageNo = pag.current; query.pageSize = pag.pageSize; load(); }"
       >
-        <a-table-column key="name" title="角色名称" data-index="name" />
-        <a-table-column key="code" title="编码" data-index="code" :width="160" />
-        <a-table-column key="sort" title="排序" data-index="sort" :width="80" />
-        <a-table-column key="dataScope" title="数据范围" :width="130">
-          <template #default="{ record }">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'dataScope'">
             {{ dataScopeOptions.find((d) => d.value === record.dataScope)?.label || '—' }}
           </template>
-        </a-table-column>
-        <a-table-column key="type" title="类型" :width="90">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'type'">
             <a-tag :color="record.internal ? 'blue' : 'default'">{{ record.internal ? '内置' : '自定义' }}</a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="status" title="状态" :width="90">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" :width="230" fixed="right">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'action'">
             <a-space>
               <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
               <a v-if="canAssign" @click="openAssign(record)">菜单授权</a>
@@ -245,7 +249,7 @@
               <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
             </a-space>
           </template>
-        </a-table-column>
+        </template>
       </a-table>
     </a-card>
 

@@ -24,6 +24,17 @@
   const editing = ref(false);
   const form = reactive<PostSaveParam>({ status: 0, sort: 0 });
 
+  // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
+  // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
+  const columns = [
+    { key: 'code', title: '编码', dataIndex: 'code', width: 180 },
+    { key: 'name', title: '岗位名称', dataIndex: 'name' },
+    { key: 'sort', title: '排序', dataIndex: 'sort', width: 80 },
+    { key: 'status', title: '状态', width: 90 },
+    { key: 'remark', title: '备注' },
+    { key: 'action', title: '操作', width: 140, fixed: 'right' },
+  ];
+
   async function load() {
     loading.value = true;
     try {
@@ -133,26 +144,26 @@
         </a-form-item>
       </a-form>
 
-      <a-table :data-source="list" :loading="loading" :pagination="false" row-key="id" size="middle">
-        <a-table-column key="code" title="编码" data-index="code" :width="180" />
-        <a-table-column key="name" title="岗位名称" data-index="name" />
-        <a-table-column key="sort" title="排序" data-index="sort" :width="80" />
-        <a-table-column key="status" title="状态" :width="90">
-          <template #default="{ record }">
+      <a-table
+        :columns="columns"
+        :data-source="list"
+        :loading="loading"
+        :pagination="false"
+        row-key="id"
+        size="middle"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="remark" title="备注">
-          <template #default="{ record }">{{ record.remark || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" :width="140" fixed="right">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'remark'">{{ record.remark || '—' }}</template>
+          <template v-else-if="column.key === 'action'">
             <a-space>
               <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
               <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
             </a-space>
           </template>
-        </a-table-column>
+        </template>
       </a-table>
     </a-card>
 

@@ -18,7 +18,7 @@ import { generateAccess } from './access';
  * 否则访问 /dashboard 时守卫会直接 return true，跳过下面的权限初始化，
  * accessMenus 永远是空数组 —— 表现为工作台能打开、但侧边栏一个菜单都没有。
  */
-const ACCESS_FREE_ROUTE_NAMES = ['Authentication', 'FallbackNotFound', 'Login'];
+const ACCESS_FREE_ROUTE_NAMES = ['Authentication', 'Login'];
 
 function setupCommonGuard(router: Router) {
   const loadedPaths = new Set<string>();
@@ -45,7 +45,8 @@ function setupAccessGuard(router: Router) {
     const userStore = useUserStore();
     const authStore = useAuthStore();
 
-    // 登录页 / 404 这类基础页面不需要登录态；其余（含 /dashboard）都要走权限初始化
+    // 只有登录页/登录态跳转不需要登录；FallbackNotFound 也要先建权限路由，
+    // 否则直接输入 /system/dept 这类动态地址时会被 404 兜底捕获、永远出不来
     if (ACCESS_FREE_ROUTE_NAMES.includes(to.name as string)) {
       if (to.path === LOGIN_PATH && accessStore.accessToken) {
         return HOME_PATH;

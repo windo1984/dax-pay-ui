@@ -38,6 +38,27 @@
   const editing = ref(false);
   const form = reactive<TenantSaveParam>({ status: 0, accountCount: 10 });
 
+  // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
+  // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
+  const columns = [
+    { key: 'code', title: '租户编码', dataIndex: 'code', width: 140 },
+    { key: 'name', title: '租户名称', dataIndex: 'name' },
+    { key: 'contactName', title: '联系人', width: 120 },
+    { key: 'contactMobile', title: '联系电话', width: 130 },
+    { key: 'accountCount', title: '账号数', dataIndex: 'accountCount', width: 90 },
+    { key: 'expireTime', title: '到期时间', width: 140 },
+    { key: 'status', title: '状态', width: 90 },
+    { key: 'action', title: '操作', width: 140, fixed: 'right' },
+  ];
+
+  // 套餐列表（弹窗内的表格）
+  const packageColumns = [
+    { key: 'code', title: '编码', dataIndex: 'code', width: 140 },
+    { key: 'name', title: '套餐名称', dataIndex: 'name' },
+    { key: 'status', title: '状态', width: 90 },
+    { key: 'action', title: '操作', width: 120 },
+  ];
+
   // 套餐管理
   const packageOpen = ref(false);
   const packageLoading = ref(false);
@@ -242,6 +263,7 @@
       </a-form>
 
       <a-table
+        :columns="columns"
         :data-source="list"
         :loading="loading"
         :pagination="{
@@ -255,31 +277,20 @@
         size="middle"
         @change="(pag: any) => { query.pageNo = pag.current; query.pageSize = pag.pageSize; load(); }"
       >
-        <a-table-column key="code" title="租户编码" data-index="code" :width="140" />
-        <a-table-column key="name" title="租户名称" data-index="name" />
-        <a-table-column key="contactName" title="联系人" :width="120">
-          <template #default="{ record }">{{ record.contactName || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="contactMobile" title="联系电话" :width="130">
-          <template #default="{ record }">{{ record.contactMobile || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="accountCount" title="账号数" data-index="accountCount" :width="90" />
-        <a-table-column key="expireTime" title="到期时间" :width="140">
-          <template #default="{ record }">{{ record.expireTime || '—' }}</template>
-        </a-table-column>
-        <a-table-column key="status" title="状态" :width="90">
-          <template #default="{ record }">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'contactName'">{{ record.contactName || '—' }}</template>
+          <template v-else-if="column.key === 'contactMobile'">{{ record.contactMobile || '—' }}</template>
+          <template v-else-if="column.key === 'expireTime'">{{ record.expireTime || '—' }}</template>
+          <template v-else-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" :width="140" fixed="right">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'action'">
             <a-space>
               <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
               <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
             </a-space>
           </template>
-        </a-table-column>
+        </template>
       </a-table>
     </a-card>
 
@@ -361,22 +372,25 @@
       <div class="pkg-toolbar">
         <a-button type="primary" size="small" @click="openPackageCreate">新增套餐</a-button>
       </div>
-      <a-table :data-source="packages" :loading="packageLoading" :pagination="false" row-key="id" size="small">
-        <a-table-column key="code" title="编码" data-index="code" :width="140" />
-        <a-table-column key="name" title="套餐名称" data-index="name" />
-        <a-table-column key="status" title="状态" :width="90">
-          <template #default="{ record }">
+      <a-table
+        :columns="packageColumns"
+        :data-source="packages"
+        :loading="packageLoading"
+        :pagination="false"
+        row-key="id"
+        size="small"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'status'">
             <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
           </template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" :width="120">
-          <template #default="{ record }">
+          <template v-else-if="column.key === 'action'">
             <a-space>
               <a @click="openPackageEdit(record)">编辑</a>
               <a class="danger" @click="removePackage(record)">删除</a>
             </a-space>
           </template>
-        </a-table-column>
+        </template>
       </a-table>
     </a-modal>
 
