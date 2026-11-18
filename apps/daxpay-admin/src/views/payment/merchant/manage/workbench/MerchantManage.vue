@@ -20,6 +20,7 @@
   import { useMessage } from '#/hooks/useMessage';
   import { usePermission } from '#/hooks/usePermission';
   import { useRequiredRouteQuery } from '#/hooks/useRequiredRouteQuery';
+  import CredentialStatusTag from '#/views/payment/shared/CredentialStatusTag.vue';
 
   defineOptions({ name: 'MerchantManage' });
 
@@ -30,26 +31,44 @@
     messageKey: 'payment.common.route.missingMchNo',
     fallbackPath: '/payment/merchant',
   });
-  const { message: msg } = useMessage();
+  const { confirm, message: msg } = useMessage();
   const { openDeleteConfirm } = useDeleteConfirm();
   const { hasPermission } = usePermission();
 
   const loading = ref(false);
   const mchNo = ref<string>('');
   const merchantInfo = ref<MerchantInfo>({});
-  // 设备与支付应用计数(系统终端台数/虚拟设备台数/微信应用数/抖音应用数, 加载失败时缺省不展示角标)
+  // 设备与支付应用计数(商户码牌张数/商户终端台数/虚拟设备台数/微信应用数/抖音应用数, 加载失败时缺省不展示角标)
   const deviceCounts = ref<MchDeviceCountResult>({});
-  // 基础数据计数(商户用户/门店/通道商户/应用/域名校验文件, 加载失败时缺省不展示角标)
+  // 基础数据计数(商户用户/门店/通道商户/应用/域名校验文件 + 对接凭证配置状态, 加载失败时缺省不展示角标与状态标签)
   const baseCounts = ref<MchBaseCountResult>({});
   // 页签标题动态化为「{商户名} · 商户工作台」
   const { setTabObjectTitle } = useDynamicTabTitle($t('payment.merchant.workbench.workbench.title'));
 
   /**
+   * 对接配置缺失明细(「对接配置」磁贴待配置时 tooltip 列出)
+   *
+   * 平台公钥由平台侧注入、不在计数接口内, 不列入; 计数未加载时为空数组(标签本身也不渲染)。
+   */
+  const credentialMissing = computed(() => {
+    const missing: string[] = [];
+    if (baseCounts.value.publicKeyConfigured === false) {
+      // 商户公钥
+      missing.push($t('payment.merchant.credential.credential.publicKey'));
+    }
+    if (baseCounts.value.secretKeyConfigured === false) {
+      // 通信密钥
+      missing.push($t('payment.merchant.credential.credential.secretKey'));
+    }
+    return missing;
+  });
+
+  /**
    * 功能卡片配置: 五组制(基础/支付/收银与设备/接入/危险)
    *
-   * 收银与设备组收纳收款端实体(系统终端/虚拟设备), 与支付通路配置分离;
+   * 收银与设备组收纳收款端实体(码牌/商户终端/虚拟设备), 与支付通路配置分离;
    * 除商户资料卡外均带数字角标(存量计数): 基础/支付/接入组取数见 loadBaseCounts,
-   * 微信/抖音应用卡与系统终端/虚拟设备卡取数见 loadDeviceCounts。
+   * 微信/抖音应用卡与码牌/商户终端/虚拟设备卡取数见 loadDeviceCounts。
    */
   const functionCards = computed((): WorkbenchTileGroup[] => {
     const groups: WorkbenchTileGroup[] = [];
@@ -141,20 +160,32 @@
       cards: paymentCards,
     });
 
-    // 收银与设备(收款端实体: 系统终端 / 虚拟设备)
-    const deviceCards: WorkbenchTile[] = [
-      {
-        key: 'terminal',
-        // 系统终端
-        title: $t('payment.merchant.workbench.workbench.cardTerminal'),
-        icon: 'ant-design:monitor-outlined',
-        // 商户逻辑终端编号与通道终端绑定管理
-        description: $t('payment.merchant.workbench.workbench.cardTerminalDesc'),
-        // 台数角标(存量总数, 不限启用态)
-        count: deviceCounts.value.terminalCount,
-        countUnit: $t('payment.merchant.workbench.workbench.unitDevice'),
-      },
-    ];
+    // 收银与设备(收款端实体: 码牌 / 商户终端 / 虚拟设备)
+    const deviceCards: WorkbenchTile[] = [];
+    if (hasPermission(PermCodes.Device.QrCode.VIEW)) {
+      deviceCards.push({
+        key: 'qrcode',
+        // 码牌管理 — 标题与菜单 i18n_key 一致(跳转码牌列表页, URL 带 mchNo 预置筛选)
+        title: $t('menu.device.qrcode'),
+        icon: 'lucide:qr-code',
+        // 该商户名下码牌的台账与归属绑定配置
+        description: $t('payment.merchant.workbench.workbench.cardQrcodeDesc'),
+        // 张数角标(存量总数, 含未激活码牌)
+        count: deviceCounts.value.qrCodeCount,
+        countUnit: $t('payment.merchant.workbench.workbench.unitQrcode'),
+      });
+    }
+    deviceCards.push({
+      key: 'terminal',
+      // 商户终端
+      title: $t('payment.merchant.workbench.workbench.cardTerminal'),
+      icon: 'ant-design:monitor-outlined',
+      // 商户逻辑终端编号与通道终端绑定管理
+      description: $t('payment.merchant.workbench.workbench.cardTerminalDesc'),
+      // 台数角标(存量总数, 不限启用态)
+      count: deviceCounts.value.terminalCount,
+      countUnit: $t('payment.merchant.workbench.workbench.unitDevice'),
+    });
     if (hasPermission(PermCodes.Device.Virtual.VIEW)) {
       deviceCards.push({
         key: 'virtualDevice',
@@ -200,12 +231,23 @@
       cards: accessCards,
     });
 
-    // 危险操作: 仅持有商户管理权限的用户可见(删除入口从列表操作列移入此处)
-    if (hasPermission(PermCodes.Merchant.Info.MANAGE)) {
+    // 管理操作: 仅持有商户管理权限的用户可见(启停/删除入口从详情与列表移入此处)
+    if (hasPermission(PermCodes.Merchant.Info.MANAGE) && merchantInfo.value.status) {
+      const disabling = merchantInfo.value.status === 'enable';
       groups.push({
-        group: $t('payment.merchant.workbench.workbench.groupDanger'),
+        group: $t('payment.merchant.workbench.workbench.groupManage'),
         color: 'red',
         cards: [
+          {
+            key: 'toggleStatus',
+            // 禁用商户 / 启用商户（按当前状态切换）
+            title: disabling
+              ? $t('payment.merchant.workbench.workbench.cardDisableMerchant')
+              : $t('payment.merchant.workbench.workbench.cardEnableMerchant'),
+            icon: 'ant-design:poweroff-outlined',
+            // 切换启用/禁用状态, 禁用后商户无法发起交易
+            description: $t('payment.merchant.workbench.workbench.cardToggleStatusDesc'),
+          },
           {
             key: 'deleteMerchant',
             // 删除商户
@@ -252,7 +294,7 @@
   }
 
   /**
-   * 加载设备与支付应用计数(系统终端/虚拟设备/微信应用/抖音应用)
+   * 加载设备与支付应用计数(码牌/商户终端/虚拟设备/微信应用/抖音应用)
    */
   function loadDeviceCounts() {
     DashboardDeviceApi.deviceCounts(mchNo.value)
@@ -281,6 +323,11 @@
    * 功能卡点击分发(磁贴 select 事件按 key 分发, 跳转携带 mchNo 预置筛选)
    */
   function handleCardSelect(key: string) {
+    // 启用/禁用商户卡片 → 按当前状态切换
+    if (key === 'toggleStatus') {
+      handleToggleStatus();
+      return;
+    }
     // 删除商户卡片 → 强确认删除
     if (key === 'deleteMerchant') {
       handleDeleteMerchant();
@@ -292,10 +339,11 @@
       credentialConfig: { path: '/payment/merchant/manage/credential' },
       dyApp: { path: '/payment/douyin/app', query: { tab: 'merchant' } },
       mchInfo: { path: '/payment/merchant/manage/info' },
+      qrcode: { path: '/device/qrcode' },
       store: { path: '/payment/merchant/store' },
       terminal: { path: '/payment/device/terminal/system' },
       user: { path: '/payment/merchant/user' },
-      virtualDevice: { path: '/device/virtual/list' },
+      virtualDevice: { path: '/device/virtual' },
       wxApp: { path: '/payment/wx/app', query: { tab: 'merchant' } },
       wxDomainVerify: { path: '/payment/merchant/manage/wx-verify' },
     };
@@ -306,6 +354,32 @@
         query: { mchNo: mchNo.value, ...target.query },
       });
     }
+  }
+
+  /**
+   * 启用/禁用商户（按当前状态切换，成功后刷新工作台）
+   */
+  function handleToggleStatus() {
+    const merchant = merchantInfo.value;
+    if (!merchant.id || !merchant.status) {
+      return;
+    }
+    const enabling = merchant.status !== 'enable';
+    confirm({
+      title: enabling
+        ? $t('payment.merchant.workbench.workbench.cardEnableMerchant')
+        : $t('payment.merchant.workbench.workbench.cardDisableMerchant'),
+      content: enabling
+        ? $t('payment.merchant.workbench.workbench.enableMerchantContent', { name: merchant.mchName || '' })
+        : $t('payment.merchant.workbench.workbench.disableMerchantContent', { name: merchant.mchName || '' }),
+      okText: enabling ? $t('payment.merchant.base.status.enable') : $t('payment.merchant.base.status.disabled'),
+      cancelText: $t('common.cancelText'),
+      onOk: () =>
+        (enabling ? MerchantApi.enable(merchant.id!) : MerchantApi.disable(merchant.id!)).then(() => {
+          msg.success($t('common.operationSuccess'));
+          loadMerchantInfo();
+        }),
+    });
   }
 
   /**
@@ -370,7 +444,17 @@
         </div>
 
         <!-- 功能分组磁贴 -->
-        <WorkbenchTileGrid :groups="functionCards" @select="handleCardSelect" />
+        <WorkbenchTileGrid :groups="functionCards" @select="handleCardSelect">
+          <template #badge="{ card }">
+            <!-- 对接配置磁贴右上角: 配置状态标签(紧凑形态; 计数未加载/失败时不渲染) -->
+            <CredentialStatusTag
+              v-if="card.key === 'credentialConfig'"
+              compact
+              :configured="baseCounts.credentialConfigured"
+              :missing="credentialMissing"
+            />
+          </template>
+        </WorkbenchTileGrid>
       </a-card>
     </a-spin>
   </div>

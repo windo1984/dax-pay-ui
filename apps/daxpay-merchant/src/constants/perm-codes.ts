@@ -82,7 +82,7 @@ export const PermCodes = {
       VIEW: 'merchant:store:view',
       MANAGE: 'merchant:store:manage',
     },
-    /** 系统终端 menuCode=merchant:terminal */
+    /** 商户终端 menuCode=merchant:terminal */
     Terminal: {
       VIEW: 'merchant:terminal:view',
       MANAGE: 'merchant:terminal:manage',
@@ -98,6 +98,17 @@ export const PermCodes = {
     WxDomainVerify: {
       VIEW: 'merchant:wx-verify:view',
       MANAGE: 'merchant:wx-verify:manage',
+    },
+    /** 审计日志(商户端只读, 不提供清理) menuCode=merchant:log:login|operate */
+    Log: {
+      Login: {
+        MENU: 'merchant:log:login',
+        VIEW: 'merchant:log:login:view',
+      },
+      Operate: {
+        MENU: 'merchant:log:operate',
+        VIEW: 'merchant:log:operate:view',
+      },
     },
   },
 
@@ -125,12 +136,10 @@ export const PermCodes = {
     Platform: {
       Product: {
         VIEW: 'payment:platform:product:view',
-        MANAGE: 'payment:platform:product:manage',
       },
       /** 支付渠道 */
       Provider: {
         VIEW: 'payment:platform:provider:view',
-        MANAGE: 'payment:platform:provider:manage',
       },
       PayChannel: {
         VIEW: 'payment:platform:pay-channel:view',
@@ -171,11 +180,6 @@ export const PermCodes = {
       },
       Hit: {
         VIEW: 'payment:risk:hit:view',
-      },
-      /** 商户风控配置(地理围栏等商户级风控) menuCode=payment:risk:mch-config */
-      MchConfig: {
-        VIEW: 'payment:risk:mch-config:view',
-        MANAGE: 'payment:risk:mch-config:manage',
       },
     },
   },

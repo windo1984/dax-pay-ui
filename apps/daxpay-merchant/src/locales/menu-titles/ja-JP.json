@@ -55,5 +55,9 @@
   "menu.trade.unipayLog": "決済APIログ",
   "menu.payment.merchant.qrcode": "QRコード管理",
   "menu.payment.merchant.file": "加盟店ファイル",
-  "menu.device.virtual": "仮想デバイス"
+  "menu.device.virtual": "仮想デバイス",
+  "menu.log": "監査ログ",
+  "menu.log.login": "ログインログ",
+  "menu.log.operate": "操作ログ",
+  "menu.system": "システム"
 }

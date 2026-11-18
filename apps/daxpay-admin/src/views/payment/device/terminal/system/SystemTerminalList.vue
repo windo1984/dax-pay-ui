@@ -36,6 +36,8 @@
   const { hasPermission } = usePermission();
 
   const mchNo = computed(() => routeContext.query.value.mchNo);
+  // 是否由门店工作台跳入(回退时原路返回门店工作台, 其余回商户工作台)
+  const fromStore = computed(() => normalizeRouteQueryValue(route.query.from) === 'store');
   const { setTabObjectTitle } = useDynamicTabTitle($t('payment.device.terminal.systemTitle'));
   // 商户信息（用于标题展示商户名称）
   const merchantInfo = ref<MerchantInfo>({});
@@ -141,7 +143,7 @@
   }
 
   /**
-   * 删除系统终端
+   * 删除商户终端
    */
   function handleDelete(row: TerminalDeviceResult) {
     confirm({
@@ -172,9 +174,21 @@
   });
 
   /**
-   * 返回商户工作台
+   * 返回上级工作台(门店工作台进入时回门店工作台, 其余回商户工作台)
    */
   function handleBack() {
+    // 门店工作台入口携带 from=store + 门店 id/storeNo, 原路返回
+    if (fromStore.value) {
+      router.push({
+        path: '/payment/merchant/store/workbench',
+        query: {
+          id: String(route.query.id ?? ''),
+          storeNo: String(route.query.storeNo ?? ''),
+          mchNo: mchNo.value,
+        },
+      });
+      return;
+    }
     router.push({
       path: '/payment/merchant/manage',
       query: { mchNo: mchNo.value },
@@ -206,7 +220,7 @@
   <div v-else class="m-3 p-3 bg-background rounded-lg list-page-compact">
     <a-card>
       <template #title>
-        <!-- 运营视角统一为「商户终端」, 与菜单/页签同口径; 门店维度仍称「系统终端」 -->
+        <!-- 全站统一定名「商户终端」, 与菜单/页签同口径 -->
         <PageTitleBar
           back
           :title="$t('payment.device.terminal.systemTitle')"
