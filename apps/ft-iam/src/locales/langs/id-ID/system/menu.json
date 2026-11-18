@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "Nama",
+    "icon": "Ikon",
+    "type": "Jenis",
+    "path": "Rute",
+    "component": "Komponen",
+    "permission": "Kode izin",
+    "status": "Status",
+    "action": "Aksi"
+  },
+  "typeOption": {
+    "dir": "Direktori",
+    "menu": "Menu",
+    "button": "Tombol"
+  },
+  "create": "Tambah direktori/menu",
+  "createChild": "Tambah sub item",
+  "edit": "Ubah menu",
+  "form": {
+    "name": "Nama",
+    "i18nKey": "Kunci multibahasa",
+    "i18nKeyPlaceholder": "menu.system.user (kosong = tampilkan nama)",
+    "type": "Jenis",
+    "parentId": "ID induk",
+    "sort": "Urutan",
+    "path": "Jalur rute",
+    "pathPlaceholder": "Direktori gunakan /system, menu gunakan user",
+    "component": "Komponen tampilan",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "Nama komponen",
+    "componentNamePlaceholder": "SystemUser (untuk keep-alive)",
+    "permission": "Kode izin",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "Ikon",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "Status",
+    "visible": "Tampil di menu",
+    "keepAlive": "Cache halaman",
+    "remark": "Catatan"
+  },
+  "msg": {
+    "nameRequired": "Harap isi nama menu",
+    "pathRequired": "Direktori/menu harus memiliki jalur rute",
+    "componentRequired": "Menu harus memiliki jalur komponen, mis. system/user/index",
+    "deleteConfirm": "Hapus menu \"{name}\"? Akan ditolak jika masih ada sub item."
+  }
+}

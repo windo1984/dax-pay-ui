@@ -1,0 +1,17 @@
+{
+  "title": "Log masuk akaun",
+  "tenantCode": "Kod penyewa",
+  "tenantCodePlaceholder": "cth. fighter",
+  "clientCode": "Kanal klien",
+  "username": "Akaun",
+  "usernamePlaceholder": "Masukkan akaun",
+  "password": "Kata laluan",
+  "passwordPlaceholder": "Masukkan kata laluan",
+  "submit": "Log masuk",
+  "tip": "Akaun lalai admin / admin123, penyewa fighter, kanal admin",
+  "msg": {
+    "required": "Sila masukkan akaun dan kata laluan",
+    "success": "Berjaya log masuk",
+    "failed": "Gagal log masuk"
+  }
+}

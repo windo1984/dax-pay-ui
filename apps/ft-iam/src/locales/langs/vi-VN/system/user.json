@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "Tài khoản",
+    "nickname": "Biệt danh",
+    "dept": "Phòng ban",
+    "mobile": "Di động",
+    "clientCode": "Kênh truy cập",
+    "status": "Trạng thái",
+    "createTime": "Thời gian tạo",
+    "action": "Thao tác"
+  },
+  "create": "Thêm người dùng",
+  "edit": "Sửa người dùng",
+  "form": {
+    "username": "Tài khoản",
+    "nickname": "Biệt danh",
+    "initPassword": "Mật khẩu ban đầu",
+    "initPasswordPlaceholder": "Để trống sẽ dùng mật khẩu mặc định của backend",
+    "dept": "Phòng ban",
+    "mobile": "Di động",
+    "email": "Email",
+    "sex": "Giới tính",
+    "status": "Trạng thái",
+    "clientCode": "Kênh truy cập",
+    "role": "Vai trò",
+    "post": "Chức vụ",
+    "remark": "Ghi chú"
+  },
+  "resetPassword": "Đặt lại mật khẩu",
+  "resetTitle": "Đặt lại mật khẩu",
+  "resetUser": "Người dùng: {name}",
+  "resetPlaceholder": "Để trống sẽ dùng mật khẩu ban đầu mặc định",
+  "msg": {
+    "usernameRequired": "Vui lòng nhập tài khoản",
+    "enabled": "Đã bật",
+    "disabled": "Đã tắt",
+    "passwordReset": "Đã đặt lại mật khẩu",
+    "resetFailed": "Đặt lại thất bại",
+    "deleteConfirm": "Xóa người dùng \"{name}\"?"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Login akun",
+  "tenantCode": "Kode tenant",
+  "tenantCodePlaceholder": "mis. fighter",
+  "clientCode": "Kanal klien",
+  "username": "Akun",
+  "usernamePlaceholder": "Masukkan akun",
+  "password": "Kata sandi",
+  "passwordPlaceholder": "Masukkan kata sandi",
+  "submit": "Masuk",
+  "tip": "Akun bawaan admin / admin123, tenant fighter, kanal admin",
+  "msg": {
+    "required": "Harap masukkan akun dan kata sandi",
+    "success": "Berhasil masuk",
+    "failed": "Gagal masuk"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "เข้าสู่ระบบบัญชี",
+  "tenantCode": "รหัสผู้เช่า",
+  "tenantCodePlaceholder": "เช่น fighter",
+  "clientCode": "ช่องทางไคลเอนต์",
+  "username": "บัญชี",
+  "usernamePlaceholder": "กรอกบัญชี",
+  "password": "รหัสผ่าน",
+  "passwordPlaceholder": "กรอกรหัสผ่าน",
+  "submit": "เข้าสู่ระบบ",
+  "tip": "บัญชีเริ่มต้น admin / admin123, ผู้เช่า fighter, ช่องทาง admin",
+  "msg": {
+    "required": "กรุณากรอกบัญชีและรหัสผ่าน",
+    "success": "เข้าสู่ระบบสำเร็จ",
+    "failed": "เข้าสู่ระบบไม่สำเร็จ"
+  }
+}

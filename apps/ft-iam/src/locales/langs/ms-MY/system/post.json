@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "Kod",
+    "name": "Nama jawatan",
+    "sort": "Susunan",
+    "status": "Status",
+    "remark": "Catatan",
+    "action": "Tindakan"
+  },
+  "create": "Tambah jawatan",
+  "edit": "Kemas kini jawatan",
+  "form": {
+    "code": "Kod jawatan",
+    "name": "Nama jawatan",
+    "sort": "Susunan",
+    "status": "Status",
+    "remark": "Catatan"
+  },
+  "msg": {
+    "required": "Sila isi nama dan kod jawatan",
+    "deleteConfirm": "Padam jawatan \"{name}\"?"
+  }
+}

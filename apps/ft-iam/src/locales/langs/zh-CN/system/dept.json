@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "部门名称",
+    "sort": "排序",
+    "leaderUserId": "负责人 ID",
+    "phone": "联系电话",
+    "status": "状态",
+    "action": "操作"
+  },
+  "create": "新增部门",
+  "createChild": "新增子部门",
+  "edit": "编辑部门",
+  "form": {
+    "parentId": "上级部门",
+    "topLevel": "顶级部门",
+    "name": "部门名称",
+    "sort": "排序",
+    "leaderUserId": "负责人 ID",
+    "phone": "联系电话",
+    "email": "邮箱",
+    "status": "状态"
+  },
+  "msg": {
+    "nameRequired": "请填写部门名称",
+    "deleteConfirm": "确认删除部门「{name}」？"
+  }
+}

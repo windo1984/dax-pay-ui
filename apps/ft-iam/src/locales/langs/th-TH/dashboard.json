@@ -1,0 +1,20 @@
+{
+  "hello": "สวัสดี {name}",
+  "defaultName": "ผู้ดูแลระบบ",
+  "sub": "ยินดีต้อนรับสู่ Fighter IAM · แพลตฟอร์มจัดการผู้ใช้และสิทธิ์แบบรวมศูนย์",
+  "roles": "บทบาทปัจจุบัน",
+  "rolesUnit": "รายการ",
+  "permCodes": "รหัสสิทธิ์ที่เข้าถึงได้",
+  "permUnit": "รายการ",
+  "menuNodes": "เมนูที่มองเห็น",
+  "menuUnit": "รายการ",
+  "descTitle": "ข้อมูล",
+  "backend": "บริการแบ็กเอนด์",
+  "backendValue": "ft-iam (พอร์ต 19310, การยืนยันตัวตน Sa-Token)",
+  "dataAccess": "การเข้าถึงข้อมูล",
+  "dataAccessValue": "MyBatis-Plus + MyBatis-Plus-Join (MySQL / PostgreSQL)",
+  "menuSource": "แหล่งที่มาของเมนู",
+  "menuSourceValue": "GET /auth/permission-info (เส้นทางตามสิทธิ์จากแบ็กเอนด์)",
+  "apiDoc": "เอกสาร API",
+  "apiDocValue": "/swagger-ui/index.html (ต้องตั้ง FT_SWAGGER_ENABLED=true)"
+}

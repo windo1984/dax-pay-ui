@@ -1,0 +1,20 @@
+{
+  "hello": "Helo, {name}",
+  "defaultName": "Pentadbir",
+  "sub": "Selamat datang ke Fighter IAM · Platform bersepadu pengurusan pengguna dan kebenaran",
+  "roles": "Peranan semasa",
+  "rolesUnit": "",
+  "permCodes": "Kod kebenaran yang boleh diakses",
+  "permUnit": "",
+  "menuNodes": "Menu yang dipaparkan",
+  "menuUnit": "",
+  "descTitle": "Keterangan",
+  "backend": "Perkhidmatan backend",
+  "backendValue": "ft-iam (port 19310, pengesahan Sa-Token)",
+  "dataAccess": "Akses data",
+  "dataAccessValue": "MyBatis-Plus + MyBatis-Plus-Join (MySQL / PostgreSQL)",
+  "menuSource": "Sumber menu",
+  "menuSourceValue": "GET /auth/permission-info (laluan berdasarkan kebenaran backend)",
+  "apiDoc": "Dokumentasi API",
+  "apiDocValue": "/swagger-ui/index.html (perlu FT_SWAGGER_ENABLED=true)"
+}

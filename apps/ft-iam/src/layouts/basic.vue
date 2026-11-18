@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+  import { computed } from 'vue';
   import { useRouter } from 'vue-router';
 
   import { BasicLayout } from '@vben/layouts';
   import { useAccessStore, useUserStore } from '@vben/stores';
 
+  import { $t } from '#/locales';
   import { useAuthStore } from '#/store';
 
   defineOptions({ name: 'FtIamBasicLayout' });
@@ -14,11 +15,10 @@
   const accessStore = useAccessStore();
   const authStore = useAuthStore();
 
-  const userName = ref('');
-
-  onMounted(() => {
-    userName.value = userStore.userInfo?.name || userStore.userInfo?.account || '';
-  });
+  /** 顶栏用户名：昵称/账号来自后端数据，不随语言切换 */
+  const displayName = computed(
+    () => userStore.userInfo?.name || userStore.userInfo?.account || '',
+  );
 
   function handleLogout() {
     authStore.logout(false);
@@ -33,14 +33,14 @@
   <BasicLayout @clear-preferences-and-logout="handleLogout" @click-logo="goHome">
     <template #user-dropdown>
       <div class="ft-user">
-        <span class="ft-user-name">{{ userName }}</span>
-        <a-button type="link" size="small" @click="handleLogout">退出登录</a-button>
+        <span class="ft-user-name">{{ displayName }}</span>
+        <a-button type="link" size="small" @click="handleLogout">{{ $t('common.layout.logout') }}</a-button>
       </div>
     </template>
     <template v-if="accessStore.loginExpired" #extra>
       <div class="ft-expired">
-        登录已过期，请
-        <a-button type="link" @click="handleLogout">重新登录</a-button>
+        {{ $t('common.layout.loginExpired') }}
+        <a-button type="link" @click="handleLogout">{{ $t('common.layout.relogin') }}</a-button>
       </div>
     </template>
   </BasicLayout>

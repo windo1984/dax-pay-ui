@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "Nama",
+    "icon": "Ikon",
+    "type": "Jenis",
+    "path": "Laluan",
+    "component": "Komponen",
+    "permission": "Kod kebenaran",
+    "status": "Status",
+    "action": "Tindakan"
+  },
+  "typeOption": {
+    "dir": "Direktori",
+    "menu": "Menu",
+    "button": "Butang"
+  },
+  "create": "Tambah direktori/menu",
+  "createChild": "Tambah sub item",
+  "edit": "Kemas kini menu",
+  "form": {
+    "name": "Nama",
+    "i18nKey": "Kunci berbilang bahasa",
+    "i18nKeyPlaceholder": "menu.system.user (kosong = papar nama)",
+    "type": "Jenis",
+    "parentId": "ID induk",
+    "sort": "Susunan",
+    "path": "Laluan penghalaan",
+    "pathPlaceholder": "Direktori guna /system, menu guna user",
+    "component": "Komponen paparan",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "Nama komponen",
+    "componentNamePlaceholder": "SystemUser (untuk keep-alive)",
+    "permission": "Kod kebenaran",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "Ikon",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "Status",
+    "visible": "Papar dalam menu",
+    "keepAlive": "Cache halaman",
+    "remark": "Catatan"
+  },
+  "msg": {
+    "nameRequired": "Sila isi nama menu",
+    "pathRequired": "Direktori/menu mesti mempunyai laluan penghalaan",
+    "componentRequired": "Menu mesti mempunyai laluan komponen, cth. system/user/index",
+    "deleteConfirm": "Padam menu \"{name}\"? Akan ditolak jika masih ada sub item."
+  }
+}

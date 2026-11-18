@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "Tên vai trò",
+    "code": "Mã",
+    "sort": "Thứ tự",
+    "dataScope": "Phạm vi dữ liệu",
+    "type": "Loại",
+    "status": "Trạng thái",
+    "action": "Thao tác"
+  },
+  "create": "Thêm vai trò",
+  "edit": "Sửa vai trò",
+  "form": {
+    "name": "Tên vai trò",
+    "code": "Mã vai trò",
+    "codePlaceholder": "Duy nhất, vd: operator",
+    "sort": "Thứ tự",
+    "dataScope": "Phạm vi dữ liệu",
+    "status": "Trạng thái",
+    "clientCode": "Kênh truy cập",
+    "remark": "Ghi chú"
+  },
+  "dataScopeOption": {
+    "all": "Toàn bộ dữ liệu",
+    "deptAndChild": "Phòng ban và phòng ban con",
+    "dept": "Phòng ban hiện tại",
+    "self": "Chỉ bản thân",
+    "custom": "Tùy chỉnh"
+  },
+  "internal": "Hệ thống",
+  "custom": "Tùy chỉnh",
+  "assignMenu": "Gán quyền menu",
+  "assignTitle": "Gán quyền menu",
+  "assignTarget": "Vai trò: {name} ({code})",
+  "msg": {
+    "nameRequired": "Vui lòng nhập tên và mã vai trò",
+    "statusUpdated": "Đã cập nhật trạng thái",
+    "assignSaved": "Đã lưu quyền menu",
+    "deleteConfirm": "Xóa vai trò \"{name}\"?"
+  }
+}

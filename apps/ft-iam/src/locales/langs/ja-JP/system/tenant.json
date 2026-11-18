@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "テナントコード",
+    "name": "テナント名",
+    "contactName": "担当者",
+    "contactMobile": "連絡先",
+    "accountCount": "アカウント数",
+    "expireTime": "有効期限",
+    "status": "状態",
+    "action": "操作"
+  },
+  "create": "テナントを追加",
+  "edit": "テナントを編集",
+  "form": {
+    "code": "テナントコード",
+    "codePlaceholder": "例: fighter",
+    "name": "テナント名",
+    "contactName": "担当者",
+    "contactMobile": "連絡先",
+    "package": "プラン",
+    "accountCount": "アカウント上限",
+    "expireTime": "有効期限",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "状態",
+    "websites": "サイト",
+    "websitesPlaceholder": "複数ドメインはカンマ区切り",
+    "remark": "備考"
+  },
+  "package": {
+    "manage": "プラン管理",
+    "title": "テナントプラン",
+    "create": "プランを追加",
+    "edit": "プランを編集",
+    "colCode": "コード",
+    "colName": "プラン名",
+    "colStatus": "状態",
+    "colAction": "操作",
+    "formCode": "プランコード",
+    "formName": "プラン名",
+    "formRemark": "備考"
+  },
+  "msg": {
+    "required": "テナントコードと名称を入力してください",
+    "deleteConfirm": "テナント「{name}」を削除しますか？削除後はそのテナントでログインできません。",
+    "packageDeleteConfirm": "プラン「{name}」を削除しますか？"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "계정",
+    "nickname": "닉네임",
+    "dept": "부서",
+    "mobile": "휴대전화",
+    "clientCode": "클라이언트 구분",
+    "status": "상태",
+    "createTime": "생성 시간",
+    "action": "작업"
+  },
+  "create": "사용자 추가",
+  "edit": "사용자 수정",
+  "form": {
+    "username": "계정",
+    "nickname": "닉네임",
+    "initPassword": "초기 비밀번호",
+    "initPasswordPlaceholder": "비우면 백엔드 기본 비밀번호 사용",
+    "dept": "부서",
+    "mobile": "휴대전화",
+    "email": "이메일",
+    "sex": "성별",
+    "status": "상태",
+    "clientCode": "클라이언트 구분",
+    "role": "역할",
+    "post": "직급",
+    "remark": "비고"
+  },
+  "resetPassword": "비밀번호 재설정",
+  "resetTitle": "비밀번호 재설정",
+  "resetUser": "사용자: {name}",
+  "resetPlaceholder": "비우면 백엔드 기본 초기 비밀번호 사용",
+  "msg": {
+    "usernameRequired": "계정을 입력하세요",
+    "enabled": "활성화되었습니다",
+    "disabled": "비활성화되었습니다",
+    "passwordReset": "비밀번호가 재설정되었습니다",
+    "resetFailed": "재설정에 실패했습니다",
+    "deleteConfirm": "\"{name}\" 사용자를 삭제하시겠습니까?"
+  }
+}

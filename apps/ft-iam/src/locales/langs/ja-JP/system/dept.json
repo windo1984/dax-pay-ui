@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "部門名",
+    "sort": "並び順",
+    "leaderUserId": "責任者 ID",
+    "phone": "電話番号",
+    "status": "状態",
+    "action": "操作"
+  },
+  "create": "部門を追加",
+  "createChild": "子部門を追加",
+  "edit": "部門を編集",
+  "form": {
+    "parentId": "上位部門",
+    "topLevel": "最上位部門",
+    "name": "部門名",
+    "sort": "並び順",
+    "leaderUserId": "責任者 ID",
+    "phone": "電話番号",
+    "email": "メールアドレス",
+    "status": "状態"
+  },
+  "msg": {
+    "nameRequired": "部門名を入力してください",
+    "deleteConfirm": "部門「{name}」を削除しますか？"
+  }
+}

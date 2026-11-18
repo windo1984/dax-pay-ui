@@ -8,6 +8,7 @@
   import type { MenuItem } from '#/api/auth.api';
   import { MenuApi } from '#/api/system/menu.api';
   import { RoleApi, type Role, type RoleSaveParam } from '#/api/system/role.api';
+  import { $t } from '#/locales';
 
   defineOptions({ name: 'SystemRole' });
 
@@ -36,15 +37,26 @@
 
   // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
   // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
-  const columns = [
-    { key: 'name', title: '角色名称', dataIndex: 'name' },
-    { key: 'code', title: '编码', dataIndex: 'code', width: 160 },
-    { key: 'sort', title: '排序', dataIndex: 'sort', width: 80 },
-    { key: 'dataScope', title: '数据范围', width: 130 },
-    { key: 'type', title: '类型', width: 90 },
-    { key: 'status', title: '状态', width: 90 },
-    { key: 'action', title: '操作', width: 230, fixed: 'right' },
-  ];
+  const columns = computed(() => [
+    { key: 'name', title: $t('system.role.col.name'), dataIndex: 'name' },
+    { key: 'code', title: $t('system.role.col.code'), dataIndex: 'code', width: 160 },
+    { key: 'sort', title: $t('system.role.col.sort'), dataIndex: 'sort', width: 80 },
+    { key: 'dataScope', title: $t('system.role.col.dataScope'), width: 130 },
+    { key: 'type', title: $t('system.role.col.type'), width: 90 },
+    { key: 'status', title: $t('system.role.col.status'), width: 90 },
+    { key: 'action', title: $t('system.role.col.action'), width: 230, fixed: 'right' },
+  ]);
+
+  const statusOptions = computed(() => [
+    { label: $t('common.status.enable'), value: 0 },
+    { label: $t('common.status.disable'), value: 1 },
+  ]);
+
+  const clientCodeOptions = computed(() => [
+    { label: 'admin', value: 'admin' },
+    { label: 'merchant', value: 'merchant' },
+    { label: 'app', value: 'app' },
+  ]);
 
   // 菜单授权
   const assignOpen = ref(false);
@@ -52,13 +64,13 @@
   const menuTree = ref<MenuItem[]>([]);
   const checkedKeys = ref<number[]>([]);
 
-  const dataScopeOptions = [
-    { label: '全部数据', value: 1 },
-    { label: '本部门及子部门', value: 2 },
-    { label: '本部门', value: 3 },
-    { label: '仅本人', value: 4 },
-    { label: '自定义', value: 5 },
-  ];
+  const dataScopeOptions = computed(() => [
+    { label: $t('system.role.dataScopeOption.all'), value: 1 },
+    { label: $t('system.role.dataScopeOption.deptAndChild'), value: 2 },
+    { label: $t('system.role.dataScopeOption.dept'), value: 3 },
+    { label: $t('system.role.dataScopeOption.self'), value: 4 },
+    { label: $t('system.role.dataScopeOption.custom'), value: 5 },
+  ]);
 
   async function load() {
     loading.value = true;
@@ -123,22 +135,22 @@
 
   async function submit() {
     if (!form.name || !form.code) {
-      message.warning('请填写角色名称与编码');
+      message.warning($t('system.role.msg.nameRequired'));
       return;
     }
     submitting.value = true;
     try {
       if (editing.value) {
         await RoleApi.update({ ...form });
-        message.success('更新成功');
+        message.success($t('common.msg.updated'));
       } else {
         await RoleApi.create({ ...form });
-        message.success('新增成功');
+        message.success($t('common.msg.created'));
       }
       modalOpen.value = false;
       await load();
     } catch (error: any) {
-      message.error(error?.response?.data?.msg || '保存失败');
+      message.error(error?.response?.data?.msg || $t('common.msg.saveFailed'));
     } finally {
       submitting.value = false;
     }
@@ -146,7 +158,7 @@
 
   async function toggleStatus(row: Role) {
     await RoleApi.updateStatus(row.id, row.status === 0 ? 1 : 0);
-    message.success('状态已更新');
+    message.success($t('system.role.msg.statusUpdated'));
     await load();
   }
 
@@ -165,20 +177,20 @@
     if (!assignTarget.value) return;
     // 只提交叶子级勾选：后端按 menuIds 覆盖角色菜单关联
     await RoleApi.assignMenu(assignTarget.value.id, checkedKeys.value);
-    message.success('菜单授权已保存');
+    message.success($t('system.role.msg.assignSaved'));
     assignOpen.value = false;
     await load();
   }
 
   function remove(row: Role) {
     Modal.confirm({
-      content: `确认删除角色「${row.name}」？`,
+      content: $t('system.role.msg.deleteConfirm', { name: row.name }),
       onOk: async () => {
         await RoleApi.delete(row.id);
-        message.success('已删除');
+        message.success($t('common.msg.deleted'));
         await load();
       },
-      title: '删除确认',
+      title: $t('common.msg.deleteConfirmTitle'),
     });
   }
 
@@ -189,29 +201,26 @@
   <div class="page">
     <a-card :bordered="false">
       <a-form layout="inline" :model="query" class="query">
-        <a-form-item label="名称">
-          <a-input v-model:value="query.name" allow-clear placeholder="模糊匹配" />
+        <a-form-item :label="$t('system.role.col.name')">
+          <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
         </a-form-item>
-        <a-form-item label="编码">
-          <a-input v-model:value="query.code" allow-clear placeholder="如 common" />
+        <a-form-item :label="$t('system.role.col.code')">
+          <a-input v-model:value="query.code" allow-clear placeholder="common" />
         </a-form-item>
-        <a-form-item label="状态">
+        <a-form-item :label="$t('system.role.col.status')">
           <a-select
             v-model:value="query.status"
             allow-clear
-            placeholder="全部"
+            :placeholder="$t('common.placeholder.all')"
             style="width: 110px"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
+            :options="statusOptions"
           />
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" @click="load">查询</a-button>
-            <a-button @click="resetQuery">重置</a-button>
-            <a-button v-if="canCreate" type="primary" ghost @click="openCreate">新增角色</a-button>
+            <a-button type="primary" @click="load">{{ $t('common.action.query') }}</a-button>
+            <a-button @click="resetQuery">{{ $t('common.action.reset') }}</a-button>
+            <a-button v-if="canCreate" type="primary" ghost @click="openCreate">{{ $t('system.role.create') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -225,7 +234,7 @@
           pageSize: query.pageSize,
           total,
           showSizeChanger: true,
-          showTotal: (t: number) => `共 ${t} 条`,
+          showTotal: (t: number) => $t('common.total', { total: t }),
         }"
         row-key="id"
         size="middle"
@@ -236,17 +245,23 @@
             {{ dataScopeOptions.find((d) => d.value === record.dataScope)?.label || '—' }}
           </template>
           <template v-else-if="column.key === 'type'">
-            <a-tag :color="record.internal ? 'blue' : 'default'">{{ record.internal ? '内置' : '自定义' }}</a-tag>
+            <a-tag :color="record.internal ? 'blue' : 'default'">
+              {{ record.internal ? $t('system.role.internal') : $t('system.role.custom') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'status'">
-            <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
+            <a-tag :color="record.status === 0 ? 'green' : 'red'">
+              {{ record.status === 0 ? $t('common.status.enable') : $t('common.status.disable') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <a-space>
-              <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
-              <a v-if="canAssign" @click="openAssign(record)">菜单授权</a>
-              <a v-if="canUpdate" @click="toggleStatus(record)">{{ record.status === 0 ? '停用' : '启用' }}</a>
-              <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
+              <a v-if="canUpdate" @click="openEdit(record)">{{ $t('common.action.edit') }}</a>
+              <a v-if="canAssign" @click="openAssign(record)">{{ $t('system.role.assignMenu') }}</a>
+              <a v-if="canUpdate" @click="toggleStatus(record)">
+                {{ record.status === 0 ? $t('common.status.disable') : $t('common.status.enable') }}
+              </a>
+              <a v-if="canDelete" class="danger" @click="remove(record)">{{ $t('common.action.delete') }}</a>
             </a-space>
           </template>
         </template>
@@ -256,51 +271,46 @@
     <a-modal
       v-model:open="modalOpen"
       :confirm-loading="submitting"
-      :title="editing ? '编辑角色' : '新增角色'"
+      :title="editing ? $t('system.role.edit') : $t('system.role.create')"
       destroy-on-close
       width="620px"
       @ok="submit"
     >
       <a-form :model="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
-        <a-form-item label="角色名称" required>
+        <a-form-item :label="$t('system.role.form.name')" required>
           <a-input v-model:value="form.name" />
         </a-form-item>
-        <a-form-item label="角色编码" required>
-          <a-input v-model:value="form.code" :disabled="editing" placeholder="唯一，如 operator" />
+        <a-form-item :label="$t('system.role.form.code')" required>
+          <a-input v-model:value="form.code" :disabled="editing" :placeholder="$t('system.role.form.codePlaceholder')" />
         </a-form-item>
-        <a-form-item label="排序">
+        <a-form-item :label="$t('system.role.form.sort')">
           <a-input-number v-model:value="form.sort" :min="0" style="width: 100%" />
         </a-form-item>
-        <a-form-item label="数据范围">
+        <a-form-item :label="$t('system.role.form.dataScope')">
           <a-select v-model:value="form.dataScope" :options="dataScopeOptions" />
         </a-form-item>
-        <a-form-item label="状态">
-          <a-select
-            v-model:value="form.status"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
-          />
+        <a-form-item :label="$t('system.role.form.status')">
+          <a-select v-model:value="form.status" :options="statusOptions" />
         </a-form-item>
-        <a-form-item label="身份域">
-          <a-select
-            v-model:value="form.clientCode"
-            :options="[
-              { label: 'admin', value: 'admin' },
-              { label: 'merchant', value: 'merchant' },
-              { label: 'app', value: 'app' },
-            ]"
-          />
+        <a-form-item :label="$t('system.role.form.clientCode')">
+          <a-select v-model:value="form.clientCode" :options="clientCodeOptions" />
         </a-form-item>
-        <a-form-item label="备注">
+        <a-form-item :label="$t('system.role.form.remark')">
           <a-textarea v-model:value="form.remark" :rows="2" />
         </a-form-item>
       </a-form>
     </a-modal>
 
-    <a-modal v-model:open="assignOpen" title="菜单授权" width="560px" destroy-on-close @ok="submitAssign">
-      <p v-if="assignTarget">角色：{{ assignTarget.name }}（{{ assignTarget.code }}）</p>
+    <a-modal
+      v-model:open="assignOpen"
+      :title="$t('system.role.assignTitle')"
+      width="560px"
+      destroy-on-close
+      @ok="submitAssign"
+    >
+      <p v-if="assignTarget">
+        {{ $t('system.role.assignTarget', { name: assignTarget.name, code: assignTarget.code }) }}
+      </p>
       <div class="tree-box">
         <a-tree
           v-model:checked-keys="checkedKeys"

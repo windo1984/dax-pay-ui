@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "Role name",
+    "code": "Code",
+    "sort": "Sort",
+    "dataScope": "Data scope",
+    "type": "Type",
+    "status": "Status",
+    "action": "Actions"
+  },
+  "create": "Create role",
+  "edit": "Edit role",
+  "form": {
+    "name": "Role name",
+    "code": "Role code",
+    "codePlaceholder": "Unique, e.g. operator",
+    "sort": "Sort",
+    "dataScope": "Data scope",
+    "status": "Status",
+    "clientCode": "Client domain",
+    "remark": "Remark"
+  },
+  "dataScopeOption": {
+    "all": "All data",
+    "deptAndChild": "Department and sub-departments",
+    "dept": "Department only",
+    "self": "Self only",
+    "custom": "Custom"
+  },
+  "internal": "Built-in",
+  "custom": "Custom",
+  "assignMenu": "Assign menus",
+  "assignTitle": "Assign menus",
+  "assignTarget": "Role: {name} ({code})",
+  "msg": {
+    "nameRequired": "Please enter the role name and code",
+    "statusUpdated": "Status updated",
+    "assignSaved": "Menu assignments saved",
+    "deleteConfirm": "Delete role \"{name}\"?"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "ชื่อแผนก",
+    "sort": "ลำดับ",
+    "leaderUserId": "ID ผู้รับผิดชอบ",
+    "phone": "เบอร์โทร",
+    "status": "สถานะ",
+    "action": "การกระทำ"
+  },
+  "create": "เพิ่มแผนก",
+  "createChild": "เพิ่มแผนกย่อย",
+  "edit": "แก้ไขแผนก",
+  "form": {
+    "parentId": "แผนกแม่",
+    "topLevel": "แผนกสูงสุด",
+    "name": "ชื่อแผนก",
+    "sort": "ลำดับ",
+    "leaderUserId": "ID ผู้รับผิดชอบ",
+    "phone": "เบอร์โทร",
+    "email": "อีเมล",
+    "status": "สถานะ"
+  },
+  "msg": {
+    "nameRequired": "กรุณากรอกชื่อแผนก",
+    "deleteConfirm": "ลบแผนก \"{name}\" หรือไม่?"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "계정 로그인",
+  "tenantCode": "테넌트 코드",
+  "tenantCodePlaceholder": "예: fighter",
+  "clientCode": "클라이언트 구분",
+  "username": "계정",
+  "usernamePlaceholder": "계정을 입력하세요",
+  "password": "비밀번호",
+  "passwordPlaceholder": "비밀번호를 입력하세요",
+  "submit": "로그인",
+  "tip": "기본 계정 admin / admin123, 테넌트 fighter, 클라이언트 구분 admin",
+  "msg": {
+    "required": "계정과 비밀번호를 입력하세요",
+    "success": "로그인되었습니다",
+    "failed": "로그인에 실패했습니다"
+  }
+}

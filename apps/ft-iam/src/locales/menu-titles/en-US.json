@@ -1,0 +1,11 @@
+{
+  "menu.dashboard": "Dashboard",
+  "menu.login": "Sign in",
+  "menu.system": "System",
+  "menu.system.user": "Users",
+  "menu.system.role": "Roles",
+  "menu.system.menu": "Menus",
+  "menu.system.dept": "Departments",
+  "menu.system.post": "Positions",
+  "menu.system.tenant": "Tenants"
+}

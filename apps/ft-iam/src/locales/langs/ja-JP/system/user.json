@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "アカウント",
+    "nickname": "ニックネーム",
+    "dept": "部門",
+    "mobile": "携帯番号",
+    "clientCode": "クライアント区分",
+    "status": "状態",
+    "createTime": "作成日時",
+    "action": "操作"
+  },
+  "create": "ユーザーを追加",
+  "edit": "ユーザーを編集",
+  "form": {
+    "username": "アカウント",
+    "nickname": "ニックネーム",
+    "initPassword": "初期パスワード",
+    "initPasswordPlaceholder": "空欄ならバックエンド既定のパスワード",
+    "dept": "部門",
+    "mobile": "携帯番号",
+    "email": "メールアドレス",
+    "sex": "性別",
+    "status": "状態",
+    "clientCode": "クライアント区分",
+    "role": "ロール",
+    "post": "職位",
+    "remark": "備考"
+  },
+  "resetPassword": "パスワード再設定",
+  "resetTitle": "パスワード再設定",
+  "resetUser": "ユーザー: {name}",
+  "resetPlaceholder": "空欄ならバックエンド既定の初期パスワード",
+  "msg": {
+    "usernameRequired": "アカウントを入力してください",
+    "enabled": "有効にしました",
+    "disabled": "無効にしました",
+    "passwordReset": "パスワードを再設定しました",
+    "resetFailed": "再設定に失敗しました",
+    "deleteConfirm": "ユーザー「{name}」を削除しますか？"
+  }
+}

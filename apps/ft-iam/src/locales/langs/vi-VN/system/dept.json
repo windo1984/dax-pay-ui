@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "Tên phòng ban",
+    "sort": "Thứ tự",
+    "leaderUserId": "ID người phụ trách",
+    "phone": "Số điện thoại",
+    "status": "Trạng thái",
+    "action": "Thao tác"
+  },
+  "create": "Thêm phòng ban",
+  "createChild": "Thêm phòng ban con",
+  "edit": "Sửa phòng ban",
+  "form": {
+    "parentId": "Phòng ban cấp trên",
+    "topLevel": "Phòng ban gốc",
+    "name": "Tên phòng ban",
+    "sort": "Thứ tự",
+    "leaderUserId": "ID người phụ trách",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "status": "Trạng thái"
+  },
+  "msg": {
+    "nameRequired": "Vui lòng nhập tên phòng ban",
+    "deleteConfirm": "Xóa phòng ban \"{name}\"?"
+  }
+}

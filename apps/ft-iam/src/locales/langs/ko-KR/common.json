@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "조회",
+    "reset": "초기화",
+    "create": "신규",
+    "edit": "수정",
+    "delete": "삭제",
+    "save": "저장"
+  },
+  "status": {
+    "enable": "활성",
+    "disable": "비활성"
+  },
+  "placeholder": {
+    "fuzzy": "부분 일치",
+    "all": "전체"
+  },
+  "total": "총 {total} 건",
+  "sex": {
+    "male": "남성",
+    "female": "여성",
+    "unknown": "미지정"
+  },
+  "clientCode": {
+    "admin": "운영 측(admin)",
+    "merchant": "가맹점 측(merchant)",
+    "app": "앱 측(app)",
+    "gateway": "게이트웨이(gateway)"
+  },
+  "layout": {
+    "logout": "로그아웃",
+    "loginExpired": "로그인이 만료되었습니다.",
+    "relogin": "다시 로그인"
+  },
+  "msg": {
+    "created": "생성되었습니다",
+    "updated": "수정되었습니다",
+    "deleted": "삭제되었습니다",
+    "saved": "저장되었습니다",
+    "saveFailed": "저장에 실패했습니다",
+    "deleteConfirmTitle": "삭제 확인",
+    "deleteConfirm": "\"{name}\"을(를) 삭제하시겠습니까?"
+  }
+}

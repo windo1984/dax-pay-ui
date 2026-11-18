@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "編碼",
+    "name": "崗位名稱",
+    "sort": "排序",
+    "status": "狀態",
+    "remark": "備註",
+    "action": "操作"
+  },
+  "create": "新增崗位",
+  "edit": "編輯崗位",
+  "form": {
+    "code": "崗位編碼",
+    "name": "崗位名稱",
+    "sort": "排序",
+    "status": "狀態",
+    "remark": "備註"
+  },
+  "msg": {
+    "required": "請填寫崗位名稱與編碼",
+    "deleteConfirm": "確認刪除崗位「{name}」？"
+  }
+}

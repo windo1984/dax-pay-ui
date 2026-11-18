@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "이름",
+    "icon": "아이콘",
+    "type": "유형",
+    "path": "라우트",
+    "component": "컴포넌트",
+    "permission": "권한 코드",
+    "status": "상태",
+    "action": "작업"
+  },
+  "typeOption": {
+    "dir": "디렉터리",
+    "menu": "메뉴",
+    "button": "버튼"
+  },
+  "create": "디렉터리/메뉴 추가",
+  "createChild": "하위 항목 추가",
+  "edit": "메뉴 수정",
+  "form": {
+    "name": "이름",
+    "i18nKey": "다국어 키",
+    "i18nKeyPlaceholder": "menu.system.user(비우면 이름을 그대로 표시)",
+    "type": "유형",
+    "parentId": "상위 ID",
+    "sort": "정렬",
+    "path": "라우트 경로",
+    "pathPlaceholder": "디렉터리는 /system, 메뉴는 user",
+    "component": "뷰 컴포넌트",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "컴포넌트명",
+    "componentNamePlaceholder": "SystemUser(keep-alive 용)",
+    "permission": "권한 코드",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "아이콘",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "상태",
+    "visible": "메뉴에 표시",
+    "keepAlive": "페이지 캐시",
+    "remark": "비고"
+  },
+  "msg": {
+    "nameRequired": "메뉴 이름을 입력하세요",
+    "pathRequired": "디렉터리/메뉴는 라우트 경로가 필요합니다",
+    "componentRequired": "메뉴는 뷰 컴포넌트 경로가 필요합니다. 예: system/user/index",
+    "deleteConfirm": "\"{name}\" 메뉴를 삭제하시겠습니까? 하위 노드가 있으면 거부됩니다."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "ค้นหา",
+    "reset": "รีเซ็ต",
+    "create": "เพิ่ม",
+    "edit": "แก้ไข",
+    "delete": "ลบ",
+    "save": "บันทึก"
+  },
+  "status": {
+    "enable": "เปิดใช้งาน",
+    "disable": "ปิดใช้งาน"
+  },
+  "placeholder": {
+    "fuzzy": "ค้นหาแบบบางส่วน",
+    "all": "ทั้งหมด"
+  },
+  "total": "รวม {total} รายการ",
+  "sex": {
+    "male": "ชาย",
+    "female": "หญิง",
+    "unknown": "ไม่ระบุ"
+  },
+  "clientCode": {
+    "admin": "ฝั่งผู้ให้บริการ (admin)",
+    "merchant": "ฝั่งร้านค้า (merchant)",
+    "app": "ฝั่งแอป (app)",
+    "gateway": "เกตเวย์ (gateway)"
+  },
+  "layout": {
+    "logout": "ออกจากระบบ",
+    "loginExpired": "เซสชันหมดอายุ กรุณา",
+    "relogin": "เข้าสู่ระบบอีกครั้ง"
+  },
+  "msg": {
+    "created": "สร้างสำเร็จ",
+    "updated": "อัปเดตสำเร็จ",
+    "deleted": "ลบแล้ว",
+    "saved": "บันทึกสำเร็จ",
+    "saveFailed": "บันทึกไม่สำเร็จ",
+    "deleteConfirmTitle": "ยืนยันการลบ",
+    "deleteConfirm": "ลบ \"{name}\" หรือไม่?"
+  }
+}

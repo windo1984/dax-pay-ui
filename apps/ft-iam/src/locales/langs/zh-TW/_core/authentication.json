@@ -1,0 +1,17 @@
+{
+  "title": "帳號登入",
+  "tenantCode": "租戶編碼",
+  "tenantCodePlaceholder": "如 fighter",
+  "clientCode": "身分域",
+  "username": "帳號",
+  "usernamePlaceholder": "請輸入帳號",
+  "password": "密碼",
+  "passwordPlaceholder": "請輸入密碼",
+  "submit": "登入",
+  "tip": "默認帳號 admin / admin123，租戶 fighter，身分域 admin",
+  "msg": {
+    "required": "請輸入帳號和密碼",
+    "success": "登入成功",
+    "failed": "登入失敗"
+  }
+}

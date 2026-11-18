@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "รหัสผู้เช่า",
+    "name": "ชื่อผู้เช่า",
+    "contactName": "ผู้ติดต่อ",
+    "contactMobile": "เบอร์ติดต่อ",
+    "accountCount": "จำนวนบัญชี",
+    "expireTime": "เวลาหมดอายุ",
+    "status": "สถานะ",
+    "action": "การกระทำ"
+  },
+  "create": "เพิ่มผู้เช่า",
+  "edit": "แก้ไขผู้เช่า",
+  "form": {
+    "code": "รหัสผู้เช่า",
+    "codePlaceholder": "เช่น fighter",
+    "name": "ชื่อผู้เช่า",
+    "contactName": "ผู้ติดต่อ",
+    "contactMobile": "เบอร์ติดต่อ",
+    "package": "แพ็กเกจ",
+    "accountCount": "จำนวนบัญชีสูงสุด",
+    "expireTime": "เวลาหมดอายุ",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "สถานะ",
+    "websites": "โดเมน",
+    "websitesPlaceholder": "หลายโดเมนคั่นด้วยจุลภาค",
+    "remark": "หมายเหตุ"
+  },
+  "package": {
+    "manage": "จัดการแพ็กเกจ",
+    "title": "แพ็กเกจผู้เช่า",
+    "create": "เพิ่มแพ็กเกจ",
+    "edit": "แก้ไขแพ็กเกจ",
+    "colCode": "รหัส",
+    "colName": "ชื่อแพ็กเกจ",
+    "colStatus": "สถานะ",
+    "colAction": "การกระทำ",
+    "formCode": "รหัสแพ็กเกจ",
+    "formName": "ชื่อแพ็กเกจ",
+    "formRemark": "หมายเหตุ"
+  },
+  "msg": {
+    "required": "กรุณากรอกรหัสและชื่อผู้เช่า",
+    "deleteConfirm": "ลบผู้เช่า \"{name}\" หรือไม่? หลังลบจะไม่สามารถเข้าสู่ระบบของผู้เช่านี้ได้",
+    "packageDeleteConfirm": "ลบแพ็กเกจ \"{name}\" หรือไม่?"
+  }
+}

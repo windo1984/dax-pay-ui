@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "Account",
+    "nickname": "Nickname",
+    "dept": "Department",
+    "mobile": "Mobile",
+    "clientCode": "Client domain",
+    "status": "Status",
+    "createTime": "Created at",
+    "action": "Actions"
+  },
+  "create": "Create user",
+  "edit": "Edit user",
+  "form": {
+    "username": "Account",
+    "nickname": "Nickname",
+    "initPassword": "Initial password",
+    "initPasswordPlaceholder": "Leave empty to use the backend default",
+    "dept": "Department",
+    "mobile": "Mobile",
+    "email": "Email",
+    "sex": "Gender",
+    "status": "Status",
+    "clientCode": "Client domain",
+    "role": "Roles",
+    "post": "Posts",
+    "remark": "Remark"
+  },
+  "resetPassword": "Reset password",
+  "resetTitle": "Reset password",
+  "resetUser": "User: {name}",
+  "resetPlaceholder": "Leave empty to use the backend default initial password",
+  "msg": {
+    "usernameRequired": "Please enter the account",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "passwordReset": "Password reset",
+    "resetFailed": "Reset failed",
+    "deleteConfirm": "Delete user \"{name}\"?"
+  }
+}

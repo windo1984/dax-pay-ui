@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "Tenant code",
+    "name": "Tenant name",
+    "contactName": "Contact",
+    "contactMobile": "Contact phone",
+    "accountCount": "Accounts",
+    "expireTime": "Expires at",
+    "status": "Status",
+    "action": "Actions"
+  },
+  "create": "Create tenant",
+  "edit": "Edit tenant",
+  "form": {
+    "code": "Tenant code",
+    "codePlaceholder": "e.g. fighter",
+    "name": "Tenant name",
+    "contactName": "Contact",
+    "contactMobile": "Contact phone",
+    "package": "Package",
+    "accountCount": "Account limit",
+    "expireTime": "Expires at",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "Status",
+    "websites": "Sites",
+    "websitesPlaceholder": "Separate multiple domains with commas",
+    "remark": "Remark"
+  },
+  "package": {
+    "manage": "Packages",
+    "title": "Tenant packages",
+    "create": "Create package",
+    "edit": "Edit package",
+    "colCode": "Code",
+    "colName": "Package name",
+    "colStatus": "Status",
+    "colAction": "Actions",
+    "formCode": "Package code",
+    "formName": "Package name",
+    "formRemark": "Remark"
+  },
+  "msg": {
+    "required": "Please enter the tenant code and name",
+    "deleteConfirm": "Delete tenant \"{name}\"? The tenant will no longer be able to sign in.",
+    "packageDeleteConfirm": "Delete package \"{name}\"?"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "Cari",
+    "reset": "Atur ulang",
+    "create": "Tambah",
+    "edit": "Ubah",
+    "delete": "Hapus",
+    "save": "Simpan"
+  },
+  "status": {
+    "enable": "Aktif",
+    "disable": "Nonaktif"
+  },
+  "placeholder": {
+    "fuzzy": "Cocok sebagian",
+    "all": "Semua"
+  },
+  "total": "Total {total} data",
+  "sex": {
+    "male": "Laki-laki",
+    "female": "Perempuan",
+    "unknown": "Tidak diketahui"
+  },
+  "clientCode": {
+    "admin": "Sisi operasi (admin)",
+    "merchant": "Sisi merchant (merchant)",
+    "app": "Sisi aplikasi (app)",
+    "gateway": "Gateway (gateway)"
+  },
+  "layout": {
+    "logout": "Keluar",
+    "loginExpired": "Sesi telah berakhir, silakan",
+    "relogin": "masuk kembali"
+  },
+  "msg": {
+    "created": "Berhasil dibuat",
+    "updated": "Berhasil diperbarui",
+    "deleted": "Telah dihapus",
+    "saved": "Berhasil disimpan",
+    "saveFailed": "Gagal menyimpan",
+    "deleteConfirmTitle": "Konfirmasi hapus",
+    "deleteConfirm": "Hapus \"{name}\"?"
+  }
+}

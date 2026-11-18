@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "Nama departemen",
+    "sort": "Urutan",
+    "leaderUserId": "ID penanggung jawab",
+    "phone": "Telepon",
+    "status": "Status",
+    "action": "Aksi"
+  },
+  "create": "Tambah departemen",
+  "createChild": "Tambah sub departemen",
+  "edit": "Ubah departemen",
+  "form": {
+    "parentId": "Departemen induk",
+    "topLevel": "Departemen teratas",
+    "name": "Nama departemen",
+    "sort": "Urutan",
+    "leaderUserId": "ID penanggung jawab",
+    "phone": "Telepon",
+    "email": "Email",
+    "status": "Status"
+  },
+  "msg": {
+    "nameRequired": "Harap isi nama departemen",
+    "deleteConfirm": "Hapus departemen \"{name}\"?"
+  }
+}

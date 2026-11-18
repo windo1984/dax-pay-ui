@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "Cari",
+    "reset": "Tetap semula",
+    "create": "Tambah",
+    "edit": "Kemas kini",
+    "delete": "Padam",
+    "save": "Simpan"
+  },
+  "status": {
+    "enable": "Aktif",
+    "disable": "Nyahaktif"
+  },
+  "placeholder": {
+    "fuzzy": "Padanan separa",
+    "all": "Semua"
+  },
+  "total": "Jumlah {total} rekod",
+  "sex": {
+    "male": "Lelaki",
+    "female": "Perempuan",
+    "unknown": "Tidak diketahui"
+  },
+  "clientCode": {
+    "admin": "Bahagian operasi (admin)",
+    "merchant": "Bahagian pedagang (merchant)",
+    "app": "Bahagian aplikasi (app)",
+    "gateway": "Get laluan (gateway)"
+  },
+  "layout": {
+    "logout": "Log keluar",
+    "loginExpired": "Sesi telah tamat, sila",
+    "relogin": "log masuk semula"
+  },
+  "msg": {
+    "created": "Berjaya dicipta",
+    "updated": "Berjaya dikemas kini",
+    "deleted": "Telah dipadam",
+    "saved": "Berjaya disimpan",
+    "saveFailed": "Gagal menyimpan",
+    "deleteConfirmTitle": "Pengesahan padam",
+    "deleteConfirm": "Padam \"{name}\"?"
+  }
+}

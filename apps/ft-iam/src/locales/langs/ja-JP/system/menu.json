@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "名称",
+    "icon": "アイコン",
+    "type": "種類",
+    "path": "ルート",
+    "component": "コンポーネント",
+    "permission": "権限コード",
+    "status": "状態",
+    "action": "操作"
+  },
+  "typeOption": {
+    "dir": "ディレクトリ",
+    "menu": "メニュー",
+    "button": "ボタン"
+  },
+  "create": "ディレクトリ/メニューを追加",
+  "createChild": "子項目を追加",
+  "edit": "メニューを編集",
+  "form": {
+    "name": "名称",
+    "i18nKey": "多言語キー",
+    "i18nKeyPlaceholder": "menu.system.user（空なら名称をそのまま表示）",
+    "type": "種類",
+    "parentId": "上位 ID",
+    "sort": "並び順",
+    "path": "ルートパス",
+    "pathPlaceholder": "ディレクトリは /system、メニューは user",
+    "component": "ビューコンポーネント",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "コンポーネント名",
+    "componentNamePlaceholder": "SystemUser（keep-alive 用）",
+    "permission": "権限コード",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "アイコン",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "状態",
+    "visible": "メニューに表示",
+    "keepAlive": "ページをキャッシュ",
+    "remark": "備考"
+  },
+  "msg": {
+    "nameRequired": "メニュー名を入力してください",
+    "pathRequired": "ディレクトリ/メニューにはルートパスが必要です",
+    "componentRequired": "メニューにはビューコンポーネントのパスが必要です（例: system/user/index）",
+    "deleteConfirm": "メニュー「{name}」を削除しますか？子ノードがある場合は拒否されます。"
+  }
+}

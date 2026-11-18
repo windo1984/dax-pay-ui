@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "Nama peran",
+    "code": "Kode",
+    "sort": "Urutan",
+    "dataScope": "Cakupan data",
+    "type": "Jenis",
+    "status": "Status",
+    "action": "Aksi"
+  },
+  "create": "Tambah peran",
+  "edit": "Ubah peran",
+  "form": {
+    "name": "Nama peran",
+    "code": "Kode peran",
+    "codePlaceholder": "Unik, mis. operator",
+    "sort": "Urutan",
+    "dataScope": "Cakupan data",
+    "status": "Status",
+    "clientCode": "Kanal klien",
+    "remark": "Catatan"
+  },
+  "dataScopeOption": {
+    "all": "Semua data",
+    "deptAndChild": "Departemen dan sub departemen",
+    "dept": "Departemen ini",
+    "self": "Hanya diri sendiri",
+    "custom": "Kustom"
+  },
+  "internal": "Bawaan",
+  "custom": "Kustom",
+  "assignMenu": "Izin menu",
+  "assignTitle": "Izin menu",
+  "assignTarget": "Peran: {name} ({code})",
+  "msg": {
+    "nameRequired": "Harap isi nama dan kode peran",
+    "statusUpdated": "Status telah diperbarui",
+    "assignSaved": "Izin menu tersimpan",
+    "deleteConfirm": "Hapus peran \"{name}\"?"
+  }
+}

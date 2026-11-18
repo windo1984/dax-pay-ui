@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "테넌트 코드",
+    "name": "테넌트명",
+    "contactName": "담당자",
+    "contactMobile": "연락처",
+    "accountCount": "계정 수",
+    "expireTime": "만료 시간",
+    "status": "상태",
+    "action": "작업"
+  },
+  "create": "테넌트 추가",
+  "edit": "테넌트 수정",
+  "form": {
+    "code": "테넌트 코드",
+    "codePlaceholder": "예: fighter",
+    "name": "테넌트명",
+    "contactName": "담당자",
+    "contactMobile": "연락처",
+    "package": "플랜",
+    "accountCount": "계정 수 상한",
+    "expireTime": "만료 시간",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "상태",
+    "websites": "사이트",
+    "websitesPlaceholder": "여러 도메인은 콤마로 구분",
+    "remark": "비고"
+  },
+  "package": {
+    "manage": "플랜 관리",
+    "title": "테넌트 플랜",
+    "create": "플랜 추가",
+    "edit": "플랜 수정",
+    "colCode": "코드",
+    "colName": "플랜명",
+    "colStatus": "상태",
+    "colAction": "작업",
+    "formCode": "플랜 코드",
+    "formName": "플랜명",
+    "formRemark": "비고"
+  },
+  "msg": {
+    "required": "테넌트 코드와 이름을 입력하세요",
+    "deleteConfirm": "\"{name}\" 테넌트를 삭제하시겠습니까? 삭제하면 해당 테넌트로 로그인할 수 없습니다.",
+    "packageDeleteConfirm": "\"{name}\" 플랜을 삭제하시겠습니까?"
+  }
+}

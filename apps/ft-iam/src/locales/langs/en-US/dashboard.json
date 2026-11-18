@@ -1,0 +1,20 @@
+{
+  "hello": "Hello, {name}",
+  "defaultName": "Administrator",
+  "sub": "Welcome to Fighter IAM · Unified user and permission management",
+  "roles": "Active roles",
+  "rolesUnit": "",
+  "permCodes": "Accessible permission codes",
+  "permUnit": "",
+  "menuNodes": "Visible menu nodes",
+  "menuUnit": "",
+  "descTitle": "Overview",
+  "backend": "Backend service",
+  "backendValue": "ft-iam (port 19310, Sa-Token auth)",
+  "dataAccess": "Data access",
+  "dataAccessValue": "MyBatis-Plus + MyBatis-Plus-Join (MySQL / PostgreSQL)",
+  "menuSource": "Menu source",
+  "menuSourceValue": "GET /auth/permission-info (backend-driven routes)",
+  "apiDoc": "API docs",
+  "apiDocValue": "/swagger-ui/index.html (requires FT_SWAGGER_ENABLED=true)"
+}

@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "Nama jabatan",
+    "sort": "Susunan",
+    "leaderUserId": "ID ketua",
+    "phone": "Telefon",
+    "status": "Status",
+    "action": "Tindakan"
+  },
+  "create": "Tambah jabatan",
+  "createChild": "Tambah sub jabatan",
+  "edit": "Kemas kini jabatan",
+  "form": {
+    "parentId": "Jabatan induk",
+    "topLevel": "Jabatan teratas",
+    "name": "Nama jabatan",
+    "sort": "Susunan",
+    "leaderUserId": "ID ketua",
+    "phone": "Telefon",
+    "email": "E-mel",
+    "status": "Status"
+  },
+  "msg": {
+    "nameRequired": "Sila isi nama jabatan",
+    "deleteConfirm": "Padam jabatan \"{name}\"?"
+  }
+}

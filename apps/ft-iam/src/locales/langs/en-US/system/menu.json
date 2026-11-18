@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "Name",
+    "icon": "Icon",
+    "type": "Type",
+    "path": "Route",
+    "component": "Component",
+    "permission": "Permission",
+    "status": "Status",
+    "action": "Actions"
+  },
+  "typeOption": {
+    "dir": "Directory",
+    "menu": "Menu",
+    "button": "Button"
+  },
+  "create": "Create directory/menu",
+  "createChild": "Create child",
+  "edit": "Edit menu",
+  "form": {
+    "name": "Name",
+    "i18nKey": "I18n key",
+    "i18nKeyPlaceholder": "menu.system.user (falls back to name when empty)",
+    "type": "Type",
+    "parentId": "Parent ID",
+    "sort": "Sort",
+    "path": "Route path",
+    "pathPlaceholder": "Directory: /system, menu: user",
+    "component": "View component",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "Component name",
+    "componentNamePlaceholder": "SystemUser (used by keep-alive)",
+    "permission": "Permission code",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "Icon",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "Status",
+    "visible": "Show in menu",
+    "keepAlive": "Cache page",
+    "remark": "Remark"
+  },
+  "msg": {
+    "nameRequired": "Please enter the menu name",
+    "pathRequired": "A directory/menu requires a route path",
+    "componentRequired": "A menu requires a view component path, e.g. system/user/index",
+    "deleteConfirm": "Delete menu \"{name}\"? The backend rejects it when it has children."
+  }
+}

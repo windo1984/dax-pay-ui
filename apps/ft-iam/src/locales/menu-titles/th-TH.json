@@ -1,0 +1,11 @@
+{
+  "menu.dashboard": "แดชบอร์ด",
+  "menu.login": "เข้าสู่ระบบ",
+  "menu.system": "ระบบ",
+  "menu.system.user": "ผู้ใช้",
+  "menu.system.role": "บทบาท",
+  "menu.system.menu": "เมนู",
+  "menu.system.dept": "แผนก",
+  "menu.system.post": "ตำแหน่ง",
+  "menu.system.tenant": "ผู้เช่า"
+}

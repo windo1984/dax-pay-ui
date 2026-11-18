@@ -8,9 +8,9 @@
 
 <template>
   <div class="fallback">
-    <a-result status="404" title="404" sub-title="抱歉，你访问的页面不存在">
+    <a-result status="404" title="404" :sub-title="$t('_core.fallback.notFound')">
       <template #extra>
-        <a-button type="primary" @click="router.replace('/dashboard')">返回工作台</a-button>
+        <a-button type="primary" @click="router.replace('/dashboard')">{{ $t('_core.fallback.backToDashboard') }}</a-button>
       </template>
     </a-result>
   </div>

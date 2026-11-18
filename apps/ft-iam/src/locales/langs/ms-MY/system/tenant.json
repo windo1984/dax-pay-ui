@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "Kod penyewa",
+    "name": "Nama penyewa",
+    "contactName": "Hubungan",
+    "contactMobile": "Telefon hubungan",
+    "accountCount": "Bilangan akaun",
+    "expireTime": "Masa luput",
+    "status": "Status",
+    "action": "Tindakan"
+  },
+  "create": "Tambah penyewa",
+  "edit": "Kemas kini penyewa",
+  "form": {
+    "code": "Kod penyewa",
+    "codePlaceholder": "cth. fighter",
+    "name": "Nama penyewa",
+    "contactName": "Hubungan",
+    "contactMobile": "Telefon hubungan",
+    "package": "Pakej",
+    "accountCount": "Had akaun",
+    "expireTime": "Masa luput",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "Status",
+    "websites": "Laman",
+    "websitesPlaceholder": "Beberapa domain dipisahkan dengan koma",
+    "remark": "Catatan"
+  },
+  "package": {
+    "manage": "Urus pakej",
+    "title": "Pakej penyewa",
+    "create": "Tambah pakej",
+    "edit": "Kemas kini pakej",
+    "colCode": "Kod",
+    "colName": "Nama pakej",
+    "colStatus": "Status",
+    "colAction": "Tindakan",
+    "formCode": "Kod pakej",
+    "formName": "Nama pakej",
+    "formRemark": "Catatan"
+  },
+  "msg": {
+    "required": "Sila isi kod dan nama penyewa",
+    "deleteConfirm": "Padam penyewa \"{name}\"? Selepas dipadam, penyewa ini tidak boleh log masuk.",
+    "packageDeleteConfirm": "Padam pakej \"{name}\"?"
+  }
+}

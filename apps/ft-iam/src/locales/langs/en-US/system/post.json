@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "Code",
+    "name": "Post name",
+    "sort": "Sort",
+    "status": "Status",
+    "remark": "Remark",
+    "action": "Actions"
+  },
+  "create": "Create post",
+  "edit": "Edit post",
+  "form": {
+    "code": "Post code",
+    "name": "Post name",
+    "sort": "Sort",
+    "status": "Status",
+    "remark": "Remark"
+  },
+  "msg": {
+    "required": "Please enter the post name and code",
+    "deleteConfirm": "Delete post \"{name}\"?"
+  }
+}

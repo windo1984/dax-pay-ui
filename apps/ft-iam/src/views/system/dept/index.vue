@@ -6,6 +6,7 @@
   import { message, Modal } from 'antdv-next';
 
   import { DeptApi, type Dept, type DeptSaveParam } from '#/api/system/dept.api';
+  import { $t } from '#/locales';
 
   defineOptions({ name: 'SystemDept' });
 
@@ -26,17 +27,28 @@
 
   // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
   // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
-  const columns = [
-    { key: 'name', title: '部门名称', dataIndex: 'name' },
-    { key: 'sort', title: '排序', dataIndex: 'sort', width: 80 },
-    { key: 'leaderUserId', title: '负责人 ID', width: 110 },
-    { key: 'phone', title: '联系电话', width: 140 },
-    { key: 'status', title: '状态', width: 90 },
-    { key: 'action', title: '操作', width: 170, fixed: 'right' },
-  ];
+  const columns = computed(() => [
+    { key: 'name', title: $t('system.dept.col.name'), dataIndex: 'name' },
+    { key: 'sort', title: $t('system.dept.col.sort'), dataIndex: 'sort', width: 80 },
+    { key: 'leaderUserId', title: $t('system.dept.col.leaderUserId'), width: 110 },
+    { key: 'phone', title: $t('system.dept.col.phone'), width: 140 },
+    { key: 'status', title: $t('system.dept.col.status'), width: 90 },
+    { key: 'action', title: $t('system.dept.col.action'), width: 170, fixed: 'right' },
+  ]);
+
+  const statusOptions = computed(() => [
+    { label: $t('common.status.enable'), value: 0 },
+    { label: $t('common.status.disable'), value: 1 },
+  ]);
 
   // 上级部门下拉（把树拍平成带层级前缀的列表）
   const parentOptions = ref<{ label: string; value: number }[]>([]);
+
+  /** 顶级部门选项（文案跟随语言） */
+  const parentSelectOptions = computed(() => [
+    { label: $t('system.dept.form.topLevel'), value: 0 },
+    ...parentOptions.value,
+  ]);
 
   function flatten(nodes: Dept[] = [], prefix = ''): { label: string; value: number }[] {
     return nodes.flatMap((node) => [
@@ -97,22 +109,22 @@
 
   async function submit() {
     if (!form.name) {
-      message.warning('请填写部门名称');
+      message.warning($t('system.dept.msg.nameRequired'));
       return;
     }
     submitting.value = true;
     try {
       if (editing.value) {
         await DeptApi.update({ ...form });
-        message.success('更新成功');
+        message.success($t('common.msg.updated'));
       } else {
         await DeptApi.create({ ...form });
-        message.success('新增成功');
+        message.success($t('common.msg.created'));
       }
       modalOpen.value = false;
       await load();
     } catch (error: any) {
-      message.error(error?.response?.data?.msg || '保存失败');
+      message.error(error?.response?.data?.msg || $t('common.msg.saveFailed'));
     } finally {
       submitting.value = false;
     }
@@ -120,13 +132,13 @@
 
   function remove(row: Dept) {
     Modal.confirm({
-      content: `确认删除部门「${row.name}」？`,
+      content: $t('system.dept.msg.deleteConfirm', { name: row.name }),
       onOk: async () => {
         await DeptApi.delete(row.id);
-        message.success('已删除');
+        message.success($t('common.msg.deleted'));
         await load();
       },
-      title: '删除确认',
+      title: $t('common.msg.deleteConfirmTitle'),
     });
   }
 
@@ -137,26 +149,23 @@
   <div class="page">
     <a-card :bordered="false">
       <a-form layout="inline" :model="query" class="query">
-        <a-form-item label="部门名称">
-          <a-input v-model:value="query.name" allow-clear placeholder="模糊匹配" />
+        <a-form-item :label="$t('system.dept.col.name')">
+          <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
         </a-form-item>
-        <a-form-item label="状态">
+        <a-form-item :label="$t('system.dept.col.status')">
           <a-select
             v-model:value="query.status"
             allow-clear
-            placeholder="全部"
+            :placeholder="$t('common.placeholder.all')"
             style="width: 110px"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
+            :options="statusOptions"
           />
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" @click="load">查询</a-button>
-            <a-button @click="resetQuery">重置</a-button>
-            <a-button v-if="canCreate" type="primary" ghost @click="openCreate()">新增部门</a-button>
+            <a-button type="primary" @click="load">{{ $t('common.action.query') }}</a-button>
+            <a-button @click="resetQuery">{{ $t('common.action.reset') }}</a-button>
+            <a-button v-if="canCreate" type="primary" ghost @click="openCreate()">{{ $t('system.dept.create') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -174,13 +183,15 @@
           <template v-if="column.key === 'leaderUserId'">{{ record.leaderUserId ?? '—' }}</template>
           <template v-else-if="column.key === 'phone'">{{ record.phone || '—' }}</template>
           <template v-else-if="column.key === 'status'">
-            <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
+            <a-tag :color="record.status === 0 ? 'green' : 'red'">
+              {{ record.status === 0 ? $t('common.status.enable') : $t('common.status.disable') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <a-space>
-              <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
-              <a v-if="canCreate" @click="openCreate(record)">新增子部门</a>
-              <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
+              <a v-if="canUpdate" @click="openEdit(record)">{{ $t('common.action.edit') }}</a>
+              <a v-if="canCreate" @click="openCreate(record)">{{ $t('system.dept.createChild') }}</a>
+              <a v-if="canDelete" class="danger" @click="remove(record)">{{ $t('common.action.delete') }}</a>
             </a-space>
           </template>
         </template>
@@ -190,43 +201,37 @@
     <a-modal
       v-model:open="modalOpen"
       :confirm-loading="submitting"
-      :title="editing ? '编辑部门' : '新增部门'"
+      :title="editing ? $t('system.dept.edit') : $t('system.dept.create')"
       destroy-on-close
       width="560px"
       @ok="submit"
     >
       <a-form :model="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
-        <a-form-item label="上级部门">
+        <a-form-item :label="$t('system.dept.form.parentId')">
           <a-select
             v-model:value="form.parentId"
-            :options="[{ label: '顶级部门', value: 0 }, ...parentOptions]"
+            :options="parentSelectOptions"
             show-search
             option-filter-prop="label"
           />
         </a-form-item>
-        <a-form-item label="部门名称" required>
+        <a-form-item :label="$t('system.dept.form.name')" required>
           <a-input v-model:value="form.name" />
         </a-form-item>
-        <a-form-item label="排序">
+        <a-form-item :label="$t('system.dept.form.sort')">
           <a-input-number v-model:value="form.sort" :min="0" style="width: 100%" />
         </a-form-item>
-        <a-form-item label="负责人 ID">
+        <a-form-item :label="$t('system.dept.form.leaderUserId')">
           <a-input-number v-model:value="form.leaderUserId" :min="1" style="width: 100%" />
         </a-form-item>
-        <a-form-item label="联系电话">
+        <a-form-item :label="$t('system.dept.form.phone')">
           <a-input v-model:value="form.phone" />
         </a-form-item>
-        <a-form-item label="邮箱">
+        <a-form-item :label="$t('system.dept.form.email')">
           <a-input v-model:value="form.email" />
         </a-form-item>
-        <a-form-item label="状态">
-          <a-select
-            v-model:value="form.status"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
-          />
+        <a-form-item :label="$t('system.dept.form.status')">
+          <a-select v-model:value="form.status" :options="statusOptions" />
         </a-form-item>
       </a-form>
     </a-modal>

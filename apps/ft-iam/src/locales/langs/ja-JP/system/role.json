@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "ロール名",
+    "code": "コード",
+    "sort": "並び順",
+    "dataScope": "データ範囲",
+    "type": "種類",
+    "status": "状態",
+    "action": "操作"
+  },
+  "create": "ロールを追加",
+  "edit": "ロールを編集",
+  "form": {
+    "name": "ロール名",
+    "code": "ロールコード",
+    "codePlaceholder": "一意。例: operator",
+    "sort": "並び順",
+    "dataScope": "データ範囲",
+    "status": "状態",
+    "clientCode": "クライアント区分",
+    "remark": "備考"
+  },
+  "dataScopeOption": {
+    "all": "すべてのデータ",
+    "deptAndChild": "自部門と子部門",
+    "dept": "自部門",
+    "self": "本人のみ",
+    "custom": "カスタム"
+  },
+  "internal": "組み込み",
+  "custom": "カスタム",
+  "assignMenu": "メニュー権限",
+  "assignTitle": "メニュー権限",
+  "assignTarget": "ロール: {name}（{code}）",
+  "msg": {
+    "nameRequired": "ロール名とコードを入力してください",
+    "statusUpdated": "状態を更新しました",
+    "assignSaved": "メニュー権限を保存しました",
+    "deleteConfirm": "ロール「{name}」を削除しますか？"
+  }
+}

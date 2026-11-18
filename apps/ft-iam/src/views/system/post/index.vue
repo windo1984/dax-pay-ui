@@ -6,6 +6,7 @@
   import { message, Modal } from 'antdv-next';
 
   import { PostApi, type Post, type PostSaveParam } from '#/api/system/post.api';
+  import { $t } from '#/locales';
 
   defineOptions({ name: 'SystemPost' });
 
@@ -26,14 +27,21 @@
 
   // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
   // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
-  const columns = [
-    { key: 'code', title: '编码', dataIndex: 'code', width: 180 },
-    { key: 'name', title: '岗位名称', dataIndex: 'name' },
-    { key: 'sort', title: '排序', dataIndex: 'sort', width: 80 },
-    { key: 'status', title: '状态', width: 90 },
-    { key: 'remark', title: '备注' },
-    { key: 'action', title: '操作', width: 140, fixed: 'right' },
-  ];
+  // 列标题用 computed：语言切换后表格头立即跟随
+  const columns = computed(() => [
+    { key: 'code', title: $t('system.post.col.code'), dataIndex: 'code', width: 180 },
+    { key: 'name', title: $t('system.post.col.name'), dataIndex: 'name' },
+    { key: 'sort', title: $t('system.post.col.sort'), dataIndex: 'sort', width: 80 },
+    { key: 'status', title: $t('system.post.col.status'), width: 90 },
+    { key: 'remark', title: $t('system.post.col.remark') },
+    { key: 'action', title: $t('system.post.col.action'), width: 140, fixed: 'right' },
+  ]);
+
+  /** 状态字典（含文案，切换语言后下拉立即跟随） */
+  const statusOptions = computed(() => [
+    { label: $t('common.status.enable'), value: 0 },
+    { label: $t('common.status.disable'), value: 1 },
+  ]);
 
   async function load() {
     loading.value = true;
@@ -77,22 +85,22 @@
 
   async function submit() {
     if (!form.name || !form.code) {
-      message.warning('请填写岗位名称与编码');
+      message.warning($t('system.post.msg.required'));
       return;
     }
     submitting.value = true;
     try {
       if (editing.value) {
         await PostApi.update({ ...form });
-        message.success('更新成功');
+        message.success($t('common.msg.updated'));
       } else {
         await PostApi.create({ ...form });
-        message.success('新增成功');
+        message.success($t('common.msg.created'));
       }
       modalOpen.value = false;
       await load();
     } catch (error: any) {
-      message.error(error?.response?.data?.msg || '保存失败');
+      message.error(error?.response?.data?.msg || $t('common.msg.saveFailed'));
     } finally {
       submitting.value = false;
     }
@@ -100,13 +108,13 @@
 
   function remove(row: Post) {
     Modal.confirm({
-      content: `确认删除岗位「${row.name}」？`,
+      content: $t('system.post.msg.deleteConfirm', { name: row.name }),
       onOk: async () => {
         await PostApi.delete(row.id);
-        message.success('已删除');
+        message.success($t('common.msg.deleted'));
         await load();
       },
-      title: '删除确认',
+      title: $t('common.msg.deleteConfirmTitle'),
     });
   }
 
@@ -117,29 +125,26 @@
   <div class="page">
     <a-card :bordered="false">
       <a-form layout="inline" :model="query" class="query">
-        <a-form-item label="岗位名称">
-          <a-input v-model:value="query.name" allow-clear placeholder="模糊匹配" />
+        <a-form-item :label="$t('system.post.col.name')">
+          <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
         </a-form-item>
-        <a-form-item label="编码">
+        <a-form-item :label="$t('system.post.col.code')">
           <a-input v-model:value="query.code" allow-clear />
         </a-form-item>
-        <a-form-item label="状态">
+        <a-form-item :label="$t('system.post.col.status')">
           <a-select
             v-model:value="query.status"
             allow-clear
-            placeholder="全部"
+            :placeholder="$t('common.placeholder.all')"
             style="width: 110px"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
+            :options="statusOptions"
           />
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" @click="load">查询</a-button>
-            <a-button @click="resetQuery">重置</a-button>
-            <a-button v-if="canCreate" type="primary" ghost @click="openCreate">新增岗位</a-button>
+            <a-button type="primary" @click="load">{{ $t('common.action.query') }}</a-button>
+            <a-button @click="resetQuery">{{ $t('common.action.reset') }}</a-button>
+            <a-button v-if="canCreate" type="primary" ghost @click="openCreate">{{ $t('system.post.create') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -154,13 +159,15 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'status'">
-            <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
+            <a-tag :color="record.status === 0 ? 'green' : 'red'">
+              {{ record.status === 0 ? $t('common.status.enable') : $t('common.status.disable') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'remark'">{{ record.remark || '—' }}</template>
           <template v-else-if="column.key === 'action'">
             <a-space>
-              <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
-              <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
+              <a v-if="canUpdate" @click="openEdit(record)">{{ $t('common.action.edit') }}</a>
+              <a v-if="canDelete" class="danger" @click="remove(record)">{{ $t('common.action.delete') }}</a>
             </a-space>
           </template>
         </template>
@@ -170,31 +177,25 @@
     <a-modal
       v-model:open="modalOpen"
       :confirm-loading="submitting"
-      :title="editing ? '编辑岗位' : '新增岗位'"
+      :title="editing ? $t('system.post.edit') : $t('system.post.create')"
       destroy-on-close
       width="520px"
       @ok="submit"
     >
       <a-form :model="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
-        <a-form-item label="岗位编码" required>
+        <a-form-item :label="$t('system.post.form.code')" required>
           <a-input v-model:value="form.code" :disabled="editing" />
         </a-form-item>
-        <a-form-item label="岗位名称" required>
+        <a-form-item :label="$t('system.post.form.name')" required>
           <a-input v-model:value="form.name" />
         </a-form-item>
-        <a-form-item label="排序">
+        <a-form-item :label="$t('system.post.form.sort')">
           <a-input-number v-model:value="form.sort" :min="0" style="width: 100%" />
         </a-form-item>
-        <a-form-item label="状态">
-          <a-select
-            v-model:value="form.status"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
-          />
+        <a-form-item :label="$t('system.post.form.status')">
+          <a-select v-model:value="form.status" :options="statusOptions" />
         </a-form-item>
-        <a-form-item label="备注">
+        <a-form-item :label="$t('system.post.form.remark')">
           <a-textarea v-model:value="form.remark" :rows="2" />
         </a-form-item>
       </a-form>

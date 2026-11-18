@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "Nama peranan",
+    "code": "Kod",
+    "sort": "Susunan",
+    "dataScope": "Skop data",
+    "type": "Jenis",
+    "status": "Status",
+    "action": "Tindakan"
+  },
+  "create": "Tambah peranan",
+  "edit": "Kemas kini peranan",
+  "form": {
+    "name": "Nama peranan",
+    "code": "Kod peranan",
+    "codePlaceholder": "Unik, cth. operator",
+    "sort": "Susunan",
+    "dataScope": "Skop data",
+    "status": "Status",
+    "clientCode": "Kanal klien",
+    "remark": "Catatan"
+  },
+  "dataScopeOption": {
+    "all": "Semua data",
+    "deptAndChild": "Jabatan dan sub jabatan",
+    "dept": "Jabatan ini",
+    "self": "Diri sendiri sahaja",
+    "custom": "Tersuai"
+  },
+  "internal": "Terbina dalam",
+  "custom": "Tersuai",
+  "assignMenu": "Kebenaran menu",
+  "assignTitle": "Kebenaran menu",
+  "assignTarget": "Peranan: {name} ({code})",
+  "msg": {
+    "nameRequired": "Sila isi nama dan kod peranan",
+    "statusUpdated": "Status telah dikemas kini",
+    "assignSaved": "Kebenaran menu telah disimpan",
+    "deleteConfirm": "Padam peranan \"{name}\"?"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "租户编码",
+    "name": "租户名称",
+    "contactName": "联系人",
+    "contactMobile": "联系电话",
+    "accountCount": "账号数",
+    "expireTime": "到期时间",
+    "status": "状态",
+    "action": "操作"
+  },
+  "create": "新增租户",
+  "edit": "编辑租户",
+  "form": {
+    "code": "租户编码",
+    "codePlaceholder": "如 fighter",
+    "name": "租户名称",
+    "contactName": "联系人",
+    "contactMobile": "联系电话",
+    "package": "套餐",
+    "accountCount": "账号数上限",
+    "expireTime": "到期时间",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "状态",
+    "websites": "站点",
+    "websitesPlaceholder": "多个域名用逗号分隔",
+    "remark": "备注"
+  },
+  "package": {
+    "manage": "套餐管理",
+    "title": "租户套餐",
+    "create": "新增套餐",
+    "edit": "编辑套餐",
+    "colCode": "编码",
+    "colName": "套餐名称",
+    "colStatus": "状态",
+    "colAction": "操作",
+    "formCode": "套餐编码",
+    "formName": "套餐名称",
+    "formRemark": "备注"
+  },
+  "msg": {
+    "required": "请填写租户编码与名称",
+    "deleteConfirm": "确认删除租户「{name}」？删除后将无法登录该租户。",
+    "packageDeleteConfirm": "确认删除套餐「{name}」？"
+  }
+}

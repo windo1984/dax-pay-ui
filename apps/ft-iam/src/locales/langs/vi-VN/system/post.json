@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "Mã",
+    "name": "Tên chức vụ",
+    "sort": "Thứ tự",
+    "status": "Trạng thái",
+    "remark": "Ghi chú",
+    "action": "Thao tác"
+  },
+  "create": "Thêm chức vụ",
+  "edit": "Sửa chức vụ",
+  "form": {
+    "code": "Mã chức vụ",
+    "name": "Tên chức vụ",
+    "sort": "Thứ tự",
+    "status": "Trạng thái",
+    "remark": "Ghi chú"
+  },
+  "msg": {
+    "required": "Vui lòng nhập tên và mã chức vụ",
+    "deleteConfirm": "Xóa chức vụ \"{name}\"?"
+  }
+}

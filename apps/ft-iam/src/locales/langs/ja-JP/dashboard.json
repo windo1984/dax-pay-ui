@@ -1,0 +1,20 @@
+{
+  "hello": "こんにちは、{name}",
+  "defaultName": "管理者",
+  "sub": "Fighter IAM へようこそ · 統合ユーザーと権限管理プラットフォーム",
+  "roles": "現在のロール",
+  "rolesUnit": "件",
+  "permCodes": "アクセス可能な権限コード",
+  "permUnit": "件",
+  "menuNodes": "表示メニュー",
+  "menuUnit": "件",
+  "descTitle": "概要",
+  "backend": "バックエンド",
+  "backendValue": "ft-iam（ポート 19310、Sa-Token 認証）",
+  "dataAccess": "データアクセス",
+  "dataAccessValue": "MyBatis-Plus + MyBatis-Plus-Join（MySQL / PostgreSQL 両対応）",
+  "menuSource": "メニュー取得元",
+  "menuSourceValue": "GET /auth/permission-info（バックエンド権限ベースのルーティング）",
+  "apiDoc": "API ドキュメント",
+  "apiDocValue": "/swagger-ui/index.html（バックエンドの FT_SWAGGER_ENABLED=true が必要）"
+}

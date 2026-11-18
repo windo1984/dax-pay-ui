@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "编码",
+    "name": "岗位名称",
+    "sort": "排序",
+    "status": "状态",
+    "remark": "备注",
+    "action": "操作"
+  },
+  "create": "新增岗位",
+  "edit": "编辑岗位",
+  "form": {
+    "code": "岗位编码",
+    "name": "岗位名称",
+    "sort": "排序",
+    "status": "状态",
+    "remark": "备注"
+  },
+  "msg": {
+    "required": "请填写岗位名称与编码",
+    "deleteConfirm": "确认删除岗位「{name}」？"
+  }
+}

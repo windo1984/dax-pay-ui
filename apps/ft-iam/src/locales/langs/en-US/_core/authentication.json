@@ -1,0 +1,17 @@
+{
+  "title": "Sign in",
+  "tenantCode": "Tenant code",
+  "tenantCodePlaceholder": "e.g. fighter",
+  "clientCode": "Client domain",
+  "username": "Account",
+  "usernamePlaceholder": "Enter your account",
+  "password": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "submit": "Sign in",
+  "tip": "Default account admin / admin123, tenant fighter, client domain admin",
+  "msg": {
+    "required": "Please enter account and password",
+    "success": "Signed in successfully",
+    "failed": "Sign-in failed"
+  }
+}

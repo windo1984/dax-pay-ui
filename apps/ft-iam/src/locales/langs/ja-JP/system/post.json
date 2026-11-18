@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "コード",
+    "name": "職位名",
+    "sort": "並び順",
+    "status": "状態",
+    "remark": "備考",
+    "action": "操作"
+  },
+  "create": "職位を追加",
+  "edit": "職位を編集",
+  "form": {
+    "code": "職位コード",
+    "name": "職位名",
+    "sort": "並び順",
+    "status": "状態",
+    "remark": "備考"
+  },
+  "msg": {
+    "required": "職位名とコードを入力してください",
+    "deleteConfirm": "職位「{name}」を削除しますか？"
+  }
+}

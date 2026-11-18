@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "角色名稱",
+    "code": "編碼",
+    "sort": "排序",
+    "dataScope": "數據範圍",
+    "type": "類型",
+    "status": "狀態",
+    "action": "操作"
+  },
+  "create": "新增角色",
+  "edit": "編輯角色",
+  "form": {
+    "name": "角色名稱",
+    "code": "角色編碼",
+    "codePlaceholder": "唯一，如 operator",
+    "sort": "排序",
+    "dataScope": "數據範圍",
+    "status": "狀態",
+    "clientCode": "身分域",
+    "remark": "備註"
+  },
+  "dataScopeOption": {
+    "all": "全部數據",
+    "deptAndChild": "本部門及子部門",
+    "dept": "本部門",
+    "self": "僅本人",
+    "custom": "自定義"
+  },
+  "internal": "內置",
+  "custom": "自定義",
+  "assignMenu": "選單授權",
+  "assignTitle": "選單授權",
+  "assignTarget": "角色：{name}（{code}）",
+  "msg": {
+    "nameRequired": "請填寫角色名稱與編碼",
+    "statusUpdated": "狀態已更新",
+    "assignSaved": "選單授權已儲存",
+    "deleteConfirm": "確認刪除角色「{name}」？"
+  }
+}

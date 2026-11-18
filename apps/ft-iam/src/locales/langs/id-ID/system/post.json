@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "Kode",
+    "name": "Nama jabatan",
+    "sort": "Urutan",
+    "status": "Status",
+    "remark": "Catatan",
+    "action": "Aksi"
+  },
+  "create": "Tambah jabatan",
+  "edit": "Ubah jabatan",
+  "form": {
+    "code": "Kode jabatan",
+    "name": "Nama jabatan",
+    "sort": "Urutan",
+    "status": "Status",
+    "remark": "Catatan"
+  },
+  "msg": {
+    "required": "Harap isi nama dan kode jabatan",
+    "deleteConfirm": "Hapus jabatan \"{name}\"?"
+  }
+}

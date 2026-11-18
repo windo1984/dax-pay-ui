@@ -1,0 +1,11 @@
+{
+  "menu.dashboard": "Papan pemuka",
+  "menu.login": "Log masuk",
+  "menu.system": "Sistem",
+  "menu.system.user": "Pengguna",
+  "menu.system.role": "Peranan",
+  "menu.system.menu": "Menu",
+  "menu.system.dept": "Jabatan",
+  "menu.system.post": "Jawatan",
+  "menu.system.tenant": "Penyewa"
+}

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
+  import { computed, reactive, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
 
   import { message } from 'antdv-next';
 
+  import { $t } from '#/locales';
   import { useAuthStore } from '#/store';
 
   defineOptions({ name: 'Login' });
@@ -20,16 +21,17 @@
     password: '',
   });
 
-  const clientOptions = [
-    { label: '运营端（admin）', value: 'admin' },
-    { label: '商户端（merchant）', value: 'merchant' },
-    { label: '应用端（app）', value: 'app' },
-    { label: '网关（gateway）', value: 'gateway' },
-  ];
+  // 身份域文案走词条，语言切换后下拉项立即跟随
+  const clientOptions = computed(() => [
+    { label: $t('common.clientCode.admin'), value: 'admin' },
+    { label: $t('common.clientCode.merchant'), value: 'merchant' },
+    { label: $t('common.clientCode.app'), value: 'app' },
+    { label: $t('common.clientCode.gateway'), value: 'gateway' },
+  ]);
 
   async function onSubmit() {
     if (!form.username || !form.password) {
-      message.warning('请输入账号和密码');
+      message.warning($t('_core.authentication.msg.required'));
       return;
     }
     loading.value = true;
@@ -46,9 +48,9 @@
           await router.replace(redirect ? decodeURIComponent(redirect) : '/dashboard');
         },
       );
-      message.success('登录成功');
+      message.success($t('_core.authentication.msg.success'));
     } catch (error: any) {
-      const msg = error?.response?.data?.msg || error?.msg || error?.message || '登录失败';
+      const msg = error?.response?.data?.msg || error?.msg || error?.message || $t('_core.authentication.msg.failed');
       message.error(msg);
     } finally {
       loading.value = false;
@@ -58,23 +60,27 @@
 
 <template>
   <div class="login-wrap">
-    <div class="login-title">账号登录</div>
+    <div class="login-title">{{ $t('_core.authentication.title') }}</div>
     <a-form :model="form" layout="vertical" @finish="onSubmit">
-      <a-form-item label="租户编码" name="tenantCode">
-        <a-input v-model:value="form.tenantCode" placeholder="如 fighter" allow-clear />
+      <a-form-item :label="$t('_core.authentication.tenantCode')" name="tenantCode">
+        <a-input v-model:value="form.tenantCode" :placeholder="$t('_core.authentication.tenantCodePlaceholder')" allow-clear />
       </a-form-item>
-      <a-form-item label="身份域" name="clientCode">
+      <a-form-item :label="$t('_core.authentication.clientCode')" name="clientCode">
         <a-select v-model:value="form.clientCode" :options="clientOptions" />
       </a-form-item>
-      <a-form-item label="账号" name="username">
-        <a-input v-model:value="form.username" placeholder="请输入账号" allow-clear />
+      <a-form-item :label="$t('_core.authentication.username')" name="username">
+        <a-input v-model:value="form.username" :placeholder="$t('_core.authentication.usernamePlaceholder')" allow-clear />
       </a-form-item>
-      <a-form-item label="密码" name="password">
-        <a-input-password v-model:value="form.password" placeholder="请输入密码" @press-enter="onSubmit" />
+      <a-form-item :label="$t('_core.authentication.password')" name="password">
+        <a-input-password
+          v-model:value="form.password"
+          :placeholder="$t('_core.authentication.passwordPlaceholder')"
+          @press-enter="onSubmit"
+        />
       </a-form-item>
-      <a-button type="primary" block :loading="loading" html-type="submit">登录</a-button>
+      <a-button type="primary" block :loading="loading" html-type="submit">{{ $t('_core.authentication.submit') }}</a-button>
     </a-form>
-    <div class="login-tip">默认账号 admin / admin123，租户 fighter，身份域 admin</div>
+    <div class="login-tip">{{ $t('_core.authentication.tip') }}</div>
   </div>
 </template>
 

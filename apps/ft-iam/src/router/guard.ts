@@ -1,11 +1,14 @@
 import type { Router } from 'vue-router';
 
+import { watch } from 'vue';
+
 import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
 import { AuthApi } from '#/api/auth.api';
+import { $t, i18n } from '#/locales';
 import { HOME_PATH } from '#/router/routes';
 import { useAuthStore } from '#/store';
 
@@ -102,9 +105,42 @@ function setupAccessGuard(router: Router) {
   });
 }
 
+/**
+ * 浏览器标签标题：路由 meta.title 现在存的是词条 key（如 menu.system.user），
+ * 直接拼进 document.title 会显示成 "menu.system.user - Fighter IAM"，
+ * 所以这里走一遍 $t 再拼应用名。放在最后注册，确保比其它 afterEach 更晚执行。
+ */
+function setupTitleGuard(router: Router) {
+  function apply(raw?: string) {
+    if (!raw) {
+      return;
+    }
+    const text = $t(raw);
+    const appName = preferences.app.name;
+    document.title = appName ? `${text} - ${appName}` : text;
+  }
+
+  router.afterEach((to) => {
+    const raw = to.meta?.title as string | undefined;
+    apply(raw);
+    // 框架自身也会写 document.title（保证在它之后落地）
+    setTimeout(() => apply(raw), 0);
+  });
+
+  // 语言切换不会触发路由变更，标题要单独跟着刷新
+  watch(
+    () => i18n.global.locale.value,
+    () => {
+      const raw = router.currentRoute.value.meta?.title as string | undefined;
+      setTimeout(() => apply(raw), 0);
+    },
+  );
+}
+
 function createRouterGuard(router: Router) {
   setupCommonGuard(router);
   setupAccessGuard(router);
+  setupTitleGuard(router);
 }
 
 export { createRouterGuard };

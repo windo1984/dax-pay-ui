@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "Akaun",
+    "nickname": "Nama samaran",
+    "dept": "Jabatan",
+    "mobile": "Telefon bimbit",
+    "clientCode": "Kanal klien",
+    "status": "Status",
+    "createTime": "Masa dicipta",
+    "action": "Tindakan"
+  },
+  "create": "Tambah pengguna",
+  "edit": "Kemas kini pengguna",
+  "form": {
+    "username": "Akaun",
+    "nickname": "Nama samaran",
+    "initPassword": "Kata laluan awal",
+    "initPasswordPlaceholder": "Kosong = kata laluan lalai backend",
+    "dept": "Jabatan",
+    "mobile": "Telefon bimbit",
+    "email": "E-mel",
+    "sex": "Jantina",
+    "status": "Status",
+    "clientCode": "Kanal klien",
+    "role": "Peranan",
+    "post": "Jawatan",
+    "remark": "Catatan"
+  },
+  "resetPassword": "Tetap semula kata laluan",
+  "resetTitle": "Tetap semula kata laluan",
+  "resetUser": "Pengguna: {name}",
+  "resetPlaceholder": "Kosong = kata laluan awal lalai",
+  "msg": {
+    "usernameRequired": "Sila isi akaun",
+    "enabled": "Telah diaktifkan",
+    "disabled": "Telah dinyahaktifkan",
+    "passwordReset": "Kata laluan telah ditetapkan semula",
+    "resetFailed": "Gagal menetapkan semula",
+    "deleteConfirm": "Padam pengguna \"{name}\"?"
+  }
+}

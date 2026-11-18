@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "账号",
+    "nickname": "昵称",
+    "dept": "部门",
+    "mobile": "手机号",
+    "clientCode": "身份域",
+    "status": "状态",
+    "createTime": "创建时间",
+    "action": "操作"
+  },
+  "create": "新增用户",
+  "edit": "编辑用户",
+  "form": {
+    "username": "账号",
+    "nickname": "昵称",
+    "initPassword": "初始密码",
+    "initPasswordPlaceholder": "留空用后端默认密码",
+    "dept": "部门",
+    "mobile": "手机号",
+    "email": "邮箱",
+    "sex": "性别",
+    "status": "状态",
+    "clientCode": "身份域",
+    "role": "角色",
+    "post": "岗位",
+    "remark": "备注"
+  },
+  "resetPassword": "重置密码",
+  "resetTitle": "重置密码",
+  "resetUser": "用户：{name}",
+  "resetPlaceholder": "留空则使用后端默认初始密码",
+  "msg": {
+    "usernameRequired": "请填写账号",
+    "enabled": "已启用",
+    "disabled": "已停用",
+    "passwordReset": "密码已重置",
+    "resetFailed": "重置失败",
+    "deleteConfirm": "确认删除用户「{name}」？"
+  }
+}

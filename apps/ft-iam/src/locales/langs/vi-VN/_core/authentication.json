@@ -1,0 +1,17 @@
+{
+  "title": "Đăng nhập tài khoản",
+  "tenantCode": "Mã tenant",
+  "tenantCodePlaceholder": "vd: fighter",
+  "clientCode": "Kênh truy cập",
+  "username": "Tài khoản",
+  "usernamePlaceholder": "Nhập tài khoản",
+  "password": "Mật khẩu",
+  "passwordPlaceholder": "Nhập mật khẩu",
+  "submit": "Đăng nhập",
+  "tip": "Tài khoản mặc định admin / admin123, tenant fighter, kênh truy cập admin",
+  "msg": {
+    "required": "Vui lòng nhập tài khoản và mật khẩu",
+    "success": "Đăng nhập thành công",
+    "failed": "Đăng nhập thất bại"
+  }
+}

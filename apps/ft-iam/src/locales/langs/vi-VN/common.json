@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "Truy vấn",
+    "reset": "Đặt lại",
+    "create": "Thêm mới",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "save": "Lưu"
+  },
+  "status": {
+    "enable": "Bật",
+    "disable": "Tắt"
+  },
+  "placeholder": {
+    "fuzzy": "Khớp mờ",
+    "all": "Tất cả"
+  },
+  "total": "Tổng {total} bản ghi",
+  "sex": {
+    "male": "Nam",
+    "female": "Nữ",
+    "unknown": "Không xác định"
+  },
+  "clientCode": {
+    "admin": "Kênh vận hành (admin)",
+    "merchant": "Kênh cửa hàng (merchant)",
+    "app": "Kênh ứng dụng (app)",
+    "gateway": "Cổng (gateway)"
+  },
+  "layout": {
+    "logout": "Đăng xuất",
+    "loginExpired": "Phiên đăng nhập đã hết hạn, vui lòng",
+    "relogin": "đăng nhập lại"
+  },
+  "msg": {
+    "created": "Đã tạo thành công",
+    "updated": "Đã cập nhật",
+    "deleted": "Đã xóa",
+    "saved": "Đã lưu",
+    "saveFailed": "Lưu thất bại",
+    "deleteConfirmTitle": "Xác nhận xóa",
+    "deleteConfirm": "Xóa \"{name}\"?"
+  }
+}

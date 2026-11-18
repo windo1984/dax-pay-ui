@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "Mã tenant",
+    "name": "Tên tenant",
+    "contactName": "Người liên hệ",
+    "contactMobile": "Số liên hệ",
+    "accountCount": "Số tài khoản",
+    "expireTime": "Thời gian hết hạn",
+    "status": "Trạng thái",
+    "action": "Thao tác"
+  },
+  "create": "Thêm tenant",
+  "edit": "Sửa tenant",
+  "form": {
+    "code": "Mã tenant",
+    "codePlaceholder": "vd: fighter",
+    "name": "Tên tenant",
+    "contactName": "Người liên hệ",
+    "contactMobile": "Số liên hệ",
+    "package": "Gói",
+    "accountCount": "Giới hạn tài khoản",
+    "expireTime": "Thời gian hết hạn",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "Trạng thái",
+    "websites": "Tên miền",
+    "websitesPlaceholder": "Nhiều tên miền cách nhau bằng dấu phẩy",
+    "remark": "Ghi chú"
+  },
+  "package": {
+    "manage": "Quản lý gói",
+    "title": "Gói tenant",
+    "create": "Thêm gói",
+    "edit": "Sửa gói",
+    "colCode": "Mã",
+    "colName": "Tên gói",
+    "colStatus": "Trạng thái",
+    "colAction": "Thao tác",
+    "formCode": "Mã gói",
+    "formName": "Tên gói",
+    "formRemark": "Ghi chú"
+  },
+  "msg": {
+    "required": "Vui lòng nhập mã và tên tenant",
+    "deleteConfirm": "Xóa tenant \"{name}\"? Sau khi xóa sẽ không thể đăng nhập vào tenant này.",
+    "packageDeleteConfirm": "Xóa gói \"{name}\"?"
+  }
+}

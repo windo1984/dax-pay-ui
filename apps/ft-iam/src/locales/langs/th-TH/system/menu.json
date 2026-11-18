@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "ชื่อ",
+    "icon": "ไอคอน",
+    "type": "ประเภท",
+    "path": "เส้นทาง",
+    "component": "คอมโพเนนต์",
+    "permission": "รหัสสิทธิ์",
+    "status": "สถานะ",
+    "action": "การกระทำ"
+  },
+  "typeOption": {
+    "dir": "ไดเรกทอรี",
+    "menu": "เมนู",
+    "button": "ปุ่ม"
+  },
+  "create": "เพิ่มไดเรกทอรี/เมนู",
+  "createChild": "เพิ่มรายการย่อย",
+  "edit": "แก้ไขเมนู",
+  "form": {
+    "name": "ชื่อ",
+    "i18nKey": "คีย์หลายภาษา",
+    "i18nKeyPlaceholder": "menu.system.user (เว้นว่างจะแสดงชื่อ)",
+    "type": "ประเภท",
+    "parentId": "ID แม่",
+    "sort": "ลำดับ",
+    "path": "เส้นทางของเราเตอร์",
+    "pathPlaceholder": "ไดเรกทอรีใช้ /system เมนูใช้ user",
+    "component": "คอมโพเนนต์ที่แสดง",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "ชื่อคอมโพเนนต์",
+    "componentNamePlaceholder": "SystemUser (สำหรับ keep-alive)",
+    "permission": "รหัสสิทธิ์",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "ไอคอน",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "สถานะ",
+    "visible": "แสดงในเมนู",
+    "keepAlive": "แคชหน้า",
+    "remark": "หมายเหตุ"
+  },
+  "msg": {
+    "nameRequired": "กรุณากรอกชื่อเมนู",
+    "pathRequired": "ไดเรกทอรี/เมนูต้องมีเส้นทาง",
+    "componentRequired": "เมนูต้องมีเส้นทางคอมโพเนนต์ เช่น system/user/index",
+    "deleteConfirm": "ลบเมนู \"{name}\" หรือไม่? ระบบจะปฏิเสธหากยังมีรายการย่อย"
+  }
+}

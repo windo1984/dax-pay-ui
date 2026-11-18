@@ -38,7 +38,7 @@ const coreRoutes: RouteRecordRaw[] = [
         path: 'dashboard',
         component: () => import('#/views/dashboard/index.vue'),
         meta: {
-          title: '工作台',
+          title: 'menu.dashboard',
           icon: 'lucide:layout-dashboard',
           affixTab: true,
         },
@@ -49,7 +49,7 @@ const coreRoutes: RouteRecordRaw[] = [
     component: AuthPageLayout,
     meta: {
       hideInTab: true,
-      title: '登录',
+      title: 'menu.login',
     },
     name: 'Authentication',
     path: '/auth',
@@ -60,7 +60,7 @@ const coreRoutes: RouteRecordRaw[] = [
         path: 'login',
         component: () => import('#/views/_core/authentication/login.vue'),
         meta: {
-          title: '登录',
+          title: 'menu.login',
         },
       },
     ],

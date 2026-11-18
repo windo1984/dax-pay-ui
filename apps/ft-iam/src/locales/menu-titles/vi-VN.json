@@ -1,0 +1,11 @@
+{
+  "menu.dashboard": "Bảng điều khiển",
+  "menu.login": "Đăng nhập",
+  "menu.system": "Hệ thống",
+  "menu.system.user": "Người dùng",
+  "menu.system.role": "Vai trò",
+  "menu.system.menu": "Menu",
+  "menu.system.dept": "Phòng ban",
+  "menu.system.post": "Chức vụ",
+  "menu.system.tenant": "Tenant"
+}

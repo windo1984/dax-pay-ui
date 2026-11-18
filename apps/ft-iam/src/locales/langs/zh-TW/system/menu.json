@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "名稱",
+    "icon": "圖標",
+    "type": "類型",
+    "path": "路由",
+    "component": "組件",
+    "permission": "權限標識",
+    "status": "狀態",
+    "action": "操作"
+  },
+  "typeOption": {
+    "dir": "目錄",
+    "menu": "選單",
+    "button": "按鈕"
+  },
+  "create": "新增目錄/選單",
+  "createChild": "新增子項",
+  "edit": "編輯選單",
+  "form": {
+    "name": "名稱",
+    "i18nKey": "多語言 Key",
+    "i18nKeyPlaceholder": "menu.system.user（留在空則直接顯示名稱）",
+    "type": "類型",
+    "parentId": "上級 ID",
+    "sort": "排序",
+    "path": "路由路徑",
+    "pathPlaceholder": "目錄用 /system，選單用 user",
+    "component": "視圖組件",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "組件名",
+    "componentNamePlaceholder": "SystemUser（keep-alive 用）",
+    "permission": "權限標識",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "圖標",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "狀態",
+    "visible": "顯示在選單",
+    "keepAlive": "緩存頁面",
+    "remark": "備註"
+  },
+  "msg": {
+    "nameRequired": "請填寫選單名稱",
+    "pathRequired": "目錄/選單必須填寫路由路徑",
+    "componentRequired": "選單必須填寫視圖組件路徑，如 system/user/index",
+    "deleteConfirm": "確認刪除選單「{name}」？存在子節點時後端會拒絕。"
+  }
+}

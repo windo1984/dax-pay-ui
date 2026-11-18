@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "部門名稱",
+    "sort": "排序",
+    "leaderUserId": "負責人 ID",
+    "phone": "聯繫電話",
+    "status": "狀態",
+    "action": "操作"
+  },
+  "create": "新增部門",
+  "createChild": "新增子部門",
+  "edit": "編輯部門",
+  "form": {
+    "parentId": "上級部門",
+    "topLevel": "頂級部門",
+    "name": "部門名稱",
+    "sort": "排序",
+    "leaderUserId": "負責人 ID",
+    "phone": "聯繫電話",
+    "email": "郵箱",
+    "status": "狀態"
+  },
+  "msg": {
+    "nameRequired": "請填寫部門名稱",
+    "deleteConfirm": "確認刪除部門「{name}」？"
+  }
+}

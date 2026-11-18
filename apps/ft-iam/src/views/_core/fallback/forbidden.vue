@@ -4,9 +4,9 @@
 
 <template>
   <div class="fallback">
-    <a-result status="403" title="403" sub-title="没有访问该页面的权限，请联系管理员分配">
+    <a-result status="403" title="403" :sub-title="$t('_core.fallback.forbidden')">
       <template #extra>
-        <a-button type="primary" @click="$router.replace('/dashboard')">返回工作台</a-button>
+        <a-button type="primary" @click="$router.replace('/dashboard')">{{ $t('_core.fallback.backToDashboard') }}</a-button>
       </template>
     </a-result>
   </div>

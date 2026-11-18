@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "Akun",
+    "nickname": "Nama panggilan",
+    "dept": "Departemen",
+    "mobile": "Ponsel",
+    "clientCode": "Kanal klien",
+    "status": "Status",
+    "createTime": "Waktu dibuat",
+    "action": "Aksi"
+  },
+  "create": "Tambah pengguna",
+  "edit": "Ubah pengguna",
+  "form": {
+    "username": "Akun",
+    "nickname": "Nama panggilan",
+    "initPassword": "Kata sandi awal",
+    "initPasswordPlaceholder": "Kosong = kata sandi bawaan backend",
+    "dept": "Departemen",
+    "mobile": "Ponsel",
+    "email": "Email",
+    "sex": "Jenis kelamin",
+    "status": "Status",
+    "clientCode": "Kanal klien",
+    "role": "Peran",
+    "post": "Jabatan",
+    "remark": "Catatan"
+  },
+  "resetPassword": "Atur ulang kata sandi",
+  "resetTitle": "Atur ulang kata sandi",
+  "resetUser": "Pengguna: {name}",
+  "resetPlaceholder": "Kosong = kata sandi awal bawaan",
+  "msg": {
+    "usernameRequired": "Harap isi akun",
+    "enabled": "Telah diaktifkan",
+    "disabled": "Telah dinonaktifkan",
+    "passwordReset": "Kata sandi telah diatur ulang",
+    "resetFailed": "Gagal mengatur ulang",
+    "deleteConfirm": "Hapus pengguna \"{name}\"?"
+  }
+}

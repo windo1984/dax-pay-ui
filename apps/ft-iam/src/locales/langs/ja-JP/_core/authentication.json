@@ -1,0 +1,17 @@
+{
+  "title": "アカウントログイン",
+  "tenantCode": "テナントコード",
+  "tenantCodePlaceholder": "例: fighter",
+  "clientCode": "クライアント区分",
+  "username": "アカウント",
+  "usernamePlaceholder": "アカウントを入力",
+  "password": "パスワード",
+  "passwordPlaceholder": "パスワードを入力",
+  "submit": "ログイン",
+  "tip": "既定アカウント admin / admin123、テナント fighter、クライアント区分 admin",
+  "msg": {
+    "required": "アカウントとパスワードを入力してください",
+    "success": "ログインしました",
+    "failed": "ログインに失敗しました"
+  }
+}

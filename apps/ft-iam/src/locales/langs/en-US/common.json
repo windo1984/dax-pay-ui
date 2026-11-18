@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "Search",
+    "reset": "Reset",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save"
+  },
+  "status": {
+    "enable": "Enabled",
+    "disable": "Disabled"
+  },
+  "placeholder": {
+    "fuzzy": "Fuzzy match",
+    "all": "All"
+  },
+  "total": "{total} in total",
+  "sex": {
+    "male": "Male",
+    "female": "Female",
+    "unknown": "Unknown"
+  },
+  "clientCode": {
+    "admin": "Admin (admin)",
+    "merchant": "Merchant (merchant)",
+    "app": "App (app)",
+    "gateway": "Gateway (gateway)"
+  },
+  "layout": {
+    "logout": "Sign out",
+    "loginExpired": "Session expired, please",
+    "relogin": "sign in again"
+  },
+  "msg": {
+    "created": "Created successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted",
+    "saved": "Saved successfully",
+    "saveFailed": "Failed to save",
+    "deleteConfirmTitle": "Delete confirmation",
+    "deleteConfirm": "Delete \"{name}\"?"
+  }
+}

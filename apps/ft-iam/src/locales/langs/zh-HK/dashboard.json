@@ -1,0 +1,20 @@
+{
+  "hello": "你好，{name}",
+  "defaultName": "管理員",
+  "sub": "歡迎使用 Fighter IAM · 統一用戶與權限管理平台",
+  "roles": "當前角色",
+  "rolesUnit": "個",
+  "permCodes": "可訪問權限碼",
+  "permUnit": "條",
+  "menuNodes": "可見選單節點",
+  "menuUnit": "個",
+  "descTitle": "説明",
+  "backend": "後端服務",
+  "backendValue": "ft-iam（端口 19310，Sa-Token 鑑權）",
+  "dataAccess": "數據訪問",
+  "dataAccessValue": "MyBatis-Plus + MyBatis-Plus-Join（MySQL / PostgreSQL 雙庫）",
+  "menuSource": "選單來源",
+  "menuSourceValue": "GET /auth/permission-info（後端權限驅動路由）",
+  "apiDoc": "接口文檔",
+  "apiDocValue": "/swagger-ui/index.html（需後端 FT_SWAGGER_ENABLED=true）"
+}

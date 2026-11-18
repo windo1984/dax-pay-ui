@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "Department name",
+    "sort": "Sort",
+    "leaderUserId": "Leader ID",
+    "phone": "Phone",
+    "status": "Status",
+    "action": "Actions"
+  },
+  "create": "Create department",
+  "createChild": "Create sub-department",
+  "edit": "Edit department",
+  "form": {
+    "parentId": "Parent department",
+    "topLevel": "Top level",
+    "name": "Department name",
+    "sort": "Sort",
+    "leaderUserId": "Leader ID",
+    "phone": "Phone",
+    "email": "Email",
+    "status": "Status"
+  },
+  "msg": {
+    "nameRequired": "Please enter the department name",
+    "deleteConfirm": "Delete department \"{name}\"?"
+  }
+}

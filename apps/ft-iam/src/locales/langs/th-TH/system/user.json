@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "บัญชี",
+    "nickname": "ชื่อเล่น",
+    "dept": "แผนก",
+    "mobile": "มือถือ",
+    "clientCode": "ช่องทางไคลเอนต์",
+    "status": "สถานะ",
+    "createTime": "เวลาสร้าง",
+    "action": "การกระทำ"
+  },
+  "create": "เพิ่มผู้ใช้",
+  "edit": "แก้ไขผู้ใช้",
+  "form": {
+    "username": "บัญชี",
+    "nickname": "ชื่อเล่น",
+    "initPassword": "รหัสผ่านเริ่มต้น",
+    "initPasswordPlaceholder": "เว้นว่างใช้รหัสผ่านเริ่มต้นของแบ็กเอนด์",
+    "dept": "แผนก",
+    "mobile": "มือถือ",
+    "email": "อีเมล",
+    "sex": "เพศ",
+    "status": "สถานะ",
+    "clientCode": "ช่องทางไคลเอนต์",
+    "role": "บทบาท",
+    "post": "ตำแหน่ง",
+    "remark": "หมายเหตุ"
+  },
+  "resetPassword": "รีเซ็ตรหัสผ่าน",
+  "resetTitle": "รีเซ็ตรหัสผ่าน",
+  "resetUser": "ผู้ใช้: {name}",
+  "resetPlaceholder": "เว้นว่างใช้รหัสผ่านเริ่มต้นของแบ็กเอนด์",
+  "msg": {
+    "usernameRequired": "กรุณากรอกบัญชี",
+    "enabled": "เปิดใช้งานแล้ว",
+    "disabled": "ปิดใช้งานแล้ว",
+    "passwordReset": "รีเซ็ตรหัสผ่านแล้ว",
+    "resetFailed": "รีเซ็ตไม่สำเร็จ",
+    "deleteConfirm": "ลบผู้ใช้ \"{name}\" หรือไม่?"
+  }
+}

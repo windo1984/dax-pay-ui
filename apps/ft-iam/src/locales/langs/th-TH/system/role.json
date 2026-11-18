@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "ชื่อบทบาท",
+    "code": "รหัส",
+    "sort": "ลำดับ",
+    "dataScope": "ขอบเขตข้อมูล",
+    "type": "ประเภท",
+    "status": "สถานะ",
+    "action": "การกระทำ"
+  },
+  "create": "เพิ่มบทบาท",
+  "edit": "แก้ไขบทบาท",
+  "form": {
+    "name": "ชื่อบทบาท",
+    "code": "รหัสบทบาท",
+    "codePlaceholder": "ไม่ซ้ำ เช่น operator",
+    "sort": "ลำดับ",
+    "dataScope": "ขอบเขตข้อมูล",
+    "status": "สถานะ",
+    "clientCode": "ช่องทางไคลเอนต์",
+    "remark": "หมายเหตุ"
+  },
+  "dataScopeOption": {
+    "all": "ข้อมูลทั้งหมด",
+    "deptAndChild": "แผนกและแผนกย่อย",
+    "dept": "แผนกนี้",
+    "self": "เฉพาะตนเอง",
+    "custom": "กำหนดเอง"
+  },
+  "internal": "ภายใน",
+  "custom": "กำหนดเอง",
+  "assignMenu": "สิทธิ์เมนู",
+  "assignTitle": "สิทธิ์เมนู",
+  "assignTarget": "บทบาท: {name} ({code})",
+  "msg": {
+    "nameRequired": "กรุณากรอกชื่อและรหัสบทบาท",
+    "statusUpdated": "อัปเดตสถานะแล้ว",
+    "assignSaved": "บันทึกสิทธิ์เมนูแล้ว",
+    "deleteConfirm": "ลบบทบาท \"{name}\" หรือไม่?"
+  }
+}

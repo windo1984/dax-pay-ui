@@ -1,0 +1,17 @@
+{
+  "title": "账号登录",
+  "tenantCode": "租户编码",
+  "tenantCodePlaceholder": "如 fighter",
+  "clientCode": "身份域",
+  "username": "账号",
+  "usernamePlaceholder": "请输入账号",
+  "password": "密码",
+  "passwordPlaceholder": "请输入密码",
+  "submit": "登录",
+  "tip": "默认账号 admin / admin123，租户 fighter，身份域 admin",
+  "msg": {
+    "required": "请输入账号和密码",
+    "success": "登录成功",
+    "failed": "登录失败"
+  }
+}

@@ -7,6 +7,7 @@
 
   import type { MenuItem } from '#/api/auth.api';
   import { MenuApi, type MenuSaveParam } from '#/api/system/menu.api';
+  import { $t } from '#/locales';
 
   defineOptions({ name: 'SystemMenu' });
 
@@ -36,22 +37,27 @@
 
   // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
   // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
-  const columns = [
-    { key: 'name', title: '名称', dataIndex: 'name' },
-    { key: 'icon', title: '图标', width: 150 },
-    { key: 'type', title: '类型', width: 80 },
-    { key: 'path', title: '路由', width: 150 },
-    { key: 'component', title: '组件', width: 180 },
-    { key: 'permission', title: '权限标识', width: 180 },
-    { key: 'status', title: '状态', width: 90 },
-    { key: 'action', title: '操作', width: 180, fixed: 'right' },
-  ];
+  const columns = computed(() => [
+    { key: 'name', title: $t('system.menu.col.name'), dataIndex: 'name' },
+    { key: 'icon', title: $t('system.menu.col.icon'), width: 150 },
+    { key: 'type', title: $t('system.menu.col.type'), width: 80 },
+    { key: 'path', title: $t('system.menu.col.path'), width: 150 },
+    { key: 'component', title: $t('system.menu.col.component'), width: 180 },
+    { key: 'permission', title: $t('system.menu.col.permission'), width: 180 },
+    { key: 'status', title: $t('system.menu.col.status'), width: 90 },
+    { key: 'action', title: $t('system.menu.col.action'), width: 180, fixed: 'right' },
+  ]);
 
-  const typeOptions = [
-    { label: '目录', value: 1 },
-    { label: '菜单', value: 2 },
-    { label: '按钮', value: 3 },
-  ];
+  const statusOptions = computed(() => [
+    { label: $t('common.status.enable'), value: 0 },
+    { label: $t('common.status.disable'), value: 1 },
+  ]);
+
+  const typeOptions = computed(() => [
+    { label: $t('system.menu.typeOption.dir'), value: 1 },
+    { label: $t('system.menu.typeOption.menu'), value: 2 },
+    { label: $t('system.menu.typeOption.button'), value: 3 },
+  ]);
 
   async function load() {
     loading.value = true;
@@ -125,30 +131,30 @@
 
   async function submit() {
     if (!form.name) {
-      message.warning('请填写菜单名称');
+      message.warning($t('system.menu.msg.nameRequired'));
       return;
     }
     if (form.type !== 3 && !form.path) {
-      message.warning('目录/菜单必须填写路由路径');
+      message.warning($t('system.menu.msg.pathRequired'));
       return;
     }
     if (form.type === 2 && !form.component) {
-      message.warning('菜单必须填写视图组件路径，如 system/user/index');
+      message.warning($t('system.menu.msg.componentRequired'));
       return;
     }
     submitting.value = true;
     try {
       if (editing.value) {
         await MenuApi.update({ ...form });
-        message.success('更新成功');
+        message.success($t('common.msg.updated'));
       } else {
         await MenuApi.create({ ...form });
-        message.success('新增成功');
+        message.success($t('common.msg.created'));
       }
       modalOpen.value = false;
       await load();
     } catch (error: any) {
-      message.error(error?.response?.data?.msg || '保存失败');
+      message.error(error?.response?.data?.msg || $t('common.msg.saveFailed'));
     } finally {
       submitting.value = false;
     }
@@ -156,13 +162,13 @@
 
   function remove(row: MenuItem) {
     Modal.confirm({
-      content: `确认删除菜单「${row.name}」？存在子节点时后端会拒绝。`,
+      content: $t('system.menu.msg.deleteConfirm', { name: row.name }),
       onOk: async () => {
         await MenuApi.delete(row.id);
-        message.success('已删除');
+        message.success($t('common.msg.deleted'));
         await load();
       },
-      title: '删除确认',
+      title: $t('common.msg.deleteConfirmTitle'),
     });
   }
 
@@ -173,26 +179,23 @@
   <div class="page">
     <a-card :bordered="false">
       <a-form layout="inline" :model="query" class="query">
-        <a-form-item label="名称">
-          <a-input v-model:value="query.name" allow-clear placeholder="模糊匹配" />
+        <a-form-item :label="$t('system.menu.col.name')">
+          <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
         </a-form-item>
-        <a-form-item label="状态">
+        <a-form-item :label="$t('system.menu.col.status')">
           <a-select
             v-model:value="query.status"
             allow-clear
-            placeholder="全部"
+            :placeholder="$t('common.placeholder.all')"
             style="width: 110px"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
+            :options="statusOptions"
           />
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" @click="load">查询</a-button>
-            <a-button @click="resetQuery">重置</a-button>
-            <a-button v-if="canCreate" type="primary" ghost @click="openCreate()">新增目录/菜单</a-button>
+            <a-button type="primary" @click="load">{{ $t('common.action.query') }}</a-button>
+            <a-button @click="resetQuery">{{ $t('common.action.reset') }}</a-button>
+            <a-button v-if="canCreate" type="primary" ghost @click="openCreate()">{{ $t('system.menu.create') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -210,20 +213,28 @@
           <template v-if="column.key === 'icon'">{{ record.icon || '—' }}</template>
           <template v-else-if="column.key === 'type'">
             <a-tag :color="record.type === 1 ? 'blue' : record.type === 2 ? 'green' : 'default'">
-              {{ record.type === 1 ? '目录' : record.type === 2 ? '菜单' : '按钮' }}
+              {{
+                record.type === 1
+                  ? $t('system.menu.typeOption.dir')
+                  : record.type === 2
+                    ? $t('system.menu.typeOption.menu')
+                    : $t('system.menu.typeOption.button')
+              }}
             </a-tag>
           </template>
           <template v-else-if="column.key === 'path'">{{ record.path || '—' }}</template>
           <template v-else-if="column.key === 'component'">{{ record.component || '—' }}</template>
           <template v-else-if="column.key === 'permission'">{{ record.permission || '—' }}</template>
           <template v-else-if="column.key === 'status'">
-            <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
+            <a-tag :color="record.status === 0 ? 'green' : 'red'">
+              {{ record.status === 0 ? $t('common.status.enable') : $t('common.status.disable') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <a-space>
-              <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
-              <a v-if="canCreate" @click="openCreate(record)">新增子项</a>
-              <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
+              <a v-if="canUpdate" @click="openEdit(record)">{{ $t('common.action.edit') }}</a>
+              <a v-if="canCreate" @click="openCreate(record)">{{ $t('system.menu.createChild') }}</a>
+              <a v-if="canDelete" class="danger" @click="remove(record)">{{ $t('common.action.delete') }}</a>
             </a-space>
           </template>
         </template>
@@ -233,7 +244,7 @@
     <a-modal
       v-model:open="modalOpen"
       :confirm-loading="submitting"
-      :title="editing ? '编辑菜单' : '新增菜单'"
+      :title="editing ? $t('system.menu.edit') : $t('system.menu.create')"
       destroy-on-close
       width="720px"
       @ok="submit"
@@ -241,73 +252,72 @@
       <a-form :model="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
         <a-row :gutter="8">
           <a-col :span="12">
-            <a-form-item label="名称" required>
+            <a-form-item :label="$t('system.menu.form.name')" required>
               <a-input v-model:value="form.name" />
             </a-form-item>
           </a-col>
+          <a-col v-if="form.type !== 3" :span="12">
+            <a-form-item :label="$t('system.menu.form.i18nKey')">
+              <a-input v-model:value="form.i18nKey" :placeholder="$t('system.menu.form.i18nKeyPlaceholder')" />
+            </a-form-item>
+          </a-col>
           <a-col :span="12">
-            <a-form-item label="类型" required>
+            <a-form-item :label="$t('system.menu.form.type')" required>
               <a-select v-model:value="form.type" :options="typeOptions" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="上级 ID">
+            <a-form-item :label="$t('system.menu.form.parentId')">
               <a-input-number v-model:value="form.parentId" :min="0" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="排序">
+            <a-form-item :label="$t('system.menu.form.sort')">
               <a-input-number v-model:value="form.sort" :min="0" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col v-if="form.type !== 3" :span="12">
-            <a-form-item label="路由路径">
-              <a-input v-model:value="form.path" placeholder="目录用 /system，菜单用 user" />
+            <a-form-item :label="$t('system.menu.form.path')">
+              <a-input v-model:value="form.path" :placeholder="$t('system.menu.form.pathPlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col v-if="form.type === 2" :span="12">
-            <a-form-item label="视图组件">
-              <a-input v-model:value="form.component" placeholder="system/user/index" />
+            <a-form-item :label="$t('system.menu.form.component')">
+              <a-input v-model:value="form.component" :placeholder="$t('system.menu.form.componentPlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col v-if="form.type === 2" :span="12">
-            <a-form-item label="组件名">
-              <a-input v-model:value="form.componentName" placeholder="SystemUser（keep-alive 用）" />
+            <a-form-item :label="$t('system.menu.form.componentName')">
+              <a-input v-model:value="form.componentName" :placeholder="$t('system.menu.form.componentNamePlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col v-if="form.type !== 1" :span="12">
-            <a-form-item label="权限标识">
-              <a-input v-model:value="form.permission" placeholder="system:user:query" />
+            <a-form-item :label="$t('system.menu.form.permission')">
+              <a-input v-model:value="form.permission" :placeholder="$t('system.menu.form.permissionPlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="图标">
-              <a-input v-model:value="form.icon" placeholder="lucide:users / ep:user" />
+            <a-form-item :label="$t('system.menu.form.icon')">
+              <a-input v-model:value="form.icon" :placeholder="$t('system.menu.form.iconPlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="状态">
-              <a-select
-                v-model:value="form.status"
-                :options="[
-                  { label: '启用', value: 0 },
-                  { label: '停用', value: 1 },
-                ]"
-              />
+            <a-form-item :label="$t('system.menu.form.status')">
+              <a-select v-model:value="form.status" :options="statusOptions" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="显示在菜单">
+            <a-form-item :label="$t('system.menu.form.visible')">
               <a-switch v-model:checked="form.visible" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="缓存页面">
+            <a-form-item :label="$t('system.menu.form.keepAlive')">
               <a-switch v-model:checked="form.keepAlive" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="备注" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+            <a-form-item :label="$t('system.menu.form.remark')" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
               <a-textarea v-model:value="form.remark" :rows="2" />
             </a-form-item>
           </a-col>

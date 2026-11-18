@@ -14,7 +14,8 @@ const DIRECTORY_TYPE = 1;
 
 function toMeta(menu: MenuItem) {
   return {
-    title: menu.name,
+    // 优先用后端下发的 i18n_key（由框架 $t 翻译），没有则退回中文名
+    title: menu.i18nKey || menu.name,
     icon: menu.icon || undefined,
     order: menu.sort ?? 0,
     hideInMenu: menu.visible === false,

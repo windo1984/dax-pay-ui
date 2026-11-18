@@ -1,0 +1,48 @@
+{
+  "col": {
+    "name": "Tên",
+    "icon": "Biểu tượng",
+    "type": "Loại",
+    "path": "Định tuyến",
+    "component": "Thành phần",
+    "permission": "Mã quyền",
+    "status": "Trạng thái",
+    "action": "Thao tác"
+  },
+  "typeOption": {
+    "dir": "Thư mục",
+    "menu": "Menu",
+    "button": "Nút"
+  },
+  "create": "Thêm thư mục/menu",
+  "createChild": "Thêm mục con",
+  "edit": "Sửa menu",
+  "form": {
+    "name": "Tên",
+    "i18nKey": "Khóa đa ngôn ngữ",
+    "i18nKeyPlaceholder": "menu.system.user (để trống sẽ hiển thị tên)",
+    "type": "Loại",
+    "parentId": "ID cấp trên",
+    "sort": "Thứ tự",
+    "path": "Đường dẫn định tuyến",
+    "pathPlaceholder": "Thư mục dùng /system, menu dùng user",
+    "component": "Thành phần hiển thị",
+    "componentPlaceholder": "system/user/index",
+    "componentName": "Tên thành phần",
+    "componentNamePlaceholder": "SystemUser (dùng cho keep-alive)",
+    "permission": "Mã quyền",
+    "permissionPlaceholder": "system:user:query",
+    "icon": "Biểu tượng",
+    "iconPlaceholder": "lucide:users / ep:user",
+    "status": "Trạng thái",
+    "visible": "Hiển thị trong menu",
+    "keepAlive": "Lưu đệm trang",
+    "remark": "Ghi chú"
+  },
+  "msg": {
+    "nameRequired": "Vui lòng nhập tên menu",
+    "pathRequired": "Thư mục/menu phải có đường dẫn định tuyến",
+    "componentRequired": "Menu phải có đường dẫn thành phần, vd: system/user/index",
+    "deleteConfirm": "Xóa menu \"{name}\"? Sẽ bị từ chối nếu còn mục con."
+  }
+}

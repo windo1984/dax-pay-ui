@@ -12,6 +12,7 @@
     type TenantPackage,
     type TenantSaveParam,
   } from '#/api/system/tenant.api';
+  import { $t } from '#/locales';
 
   defineOptions({ name: 'SystemTenant' });
 
@@ -40,24 +41,29 @@
 
   // antdv-next 的表格列必须走 columns 数组 + #bodyCell 插槽，
   // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
-  const columns = [
-    { key: 'code', title: '租户编码', dataIndex: 'code', width: 140 },
-    { key: 'name', title: '租户名称', dataIndex: 'name' },
-    { key: 'contactName', title: '联系人', width: 120 },
-    { key: 'contactMobile', title: '联系电话', width: 130 },
-    { key: 'accountCount', title: '账号数', dataIndex: 'accountCount', width: 90 },
-    { key: 'expireTime', title: '到期时间', width: 140 },
-    { key: 'status', title: '状态', width: 90 },
-    { key: 'action', title: '操作', width: 140, fixed: 'right' },
-  ];
+  const columns = computed(() => [
+    { key: 'code', title: $t('system.tenant.col.code'), dataIndex: 'code', width: 140 },
+    { key: 'name', title: $t('system.tenant.col.name'), dataIndex: 'name' },
+    { key: 'contactName', title: $t('system.tenant.col.contactName'), width: 120 },
+    { key: 'contactMobile', title: $t('system.tenant.col.contactMobile'), width: 130 },
+    { key: 'accountCount', title: $t('system.tenant.col.accountCount'), dataIndex: 'accountCount', width: 90 },
+    { key: 'expireTime', title: $t('system.tenant.col.expireTime'), width: 140 },
+    { key: 'status', title: $t('system.tenant.col.status'), width: 90 },
+    { key: 'action', title: $t('system.tenant.col.action'), width: 140, fixed: 'right' },
+  ]);
+
+  const statusOptions = computed(() => [
+    { label: $t('common.status.enable'), value: 0 },
+    { label: $t('common.status.disable'), value: 1 },
+  ]);
 
   // 套餐列表（弹窗内的表格）
-  const packageColumns = [
-    { key: 'code', title: '编码', dataIndex: 'code', width: 140 },
-    { key: 'name', title: '套餐名称', dataIndex: 'name' },
-    { key: 'status', title: '状态', width: 90 },
-    { key: 'action', title: '操作', width: 120 },
-  ];
+  const packageColumns = computed(() => [
+    { key: 'code', title: $t('system.tenant.package.colCode'), dataIndex: 'code', width: 140 },
+    { key: 'name', title: $t('system.tenant.package.colName'), dataIndex: 'name' },
+    { key: 'status', title: $t('system.tenant.package.colStatus'), width: 90 },
+    { key: 'action', title: $t('system.tenant.package.colAction'), width: 120 },
+  ]);
 
   // 套餐管理
   const packageOpen = ref(false);
@@ -135,22 +141,22 @@
 
   async function submit() {
     if (!form.code || !form.name) {
-      message.warning('请填写租户编码与名称');
+      message.warning($t('system.tenant.msg.required'));
       return;
     }
     submitting.value = true;
     try {
       if (editing.value) {
         await TenantApi.update({ ...form });
-        message.success('更新成功');
+        message.success($t('common.msg.updated'));
       } else {
         await TenantApi.create({ ...form });
-        message.success('新增成功');
+        message.success($t('common.msg.created'));
       }
       modalOpen.value = false;
       await load();
     } catch (error: any) {
-      message.error(error?.response?.data?.msg || '保存失败');
+      message.error(error?.response?.data?.msg || $t('common.msg.saveFailed'));
     } finally {
       submitting.value = false;
     }
@@ -158,13 +164,13 @@
 
   function remove(row: Tenant) {
     Modal.confirm({
-      content: `确认删除租户「${row.name}」？删除后将无法登录该租户。`,
+      content: $t('system.tenant.msg.deleteConfirm', { name: row.name }),
       onOk: async () => {
         await TenantApi.delete(row.id);
-        message.success('已删除');
+        message.success($t('common.msg.deleted'));
         await load();
       },
-      title: '删除确认',
+      title: $t('common.msg.deleteConfirmTitle'),
     });
   }
 
@@ -204,23 +210,23 @@
       } else {
         await TenantPackageApi.create({ ...packageForm });
       }
-      message.success('保存成功');
+      message.success($t('common.msg.saved'));
       packageFormOpen.value = false;
       await loadPackages();
     } catch (error: any) {
-      message.error(error?.response?.data?.msg || '保存失败');
+      message.error(error?.response?.data?.msg || $t('common.msg.saveFailed'));
     }
   }
 
   async function removePackage(row: TenantPackage) {
     Modal.confirm({
-      content: `确认删除套餐「${row.name}」？`,
+      content: $t('system.tenant.msg.packageDeleteConfirm', { name: row.name }),
       onOk: async () => {
         await TenantPackageApi.delete(row.id);
-        message.success('已删除');
+        message.success($t('common.msg.deleted'));
         await loadPackages();
       },
-      title: '删除确认',
+      title: $t('common.msg.deleteConfirmTitle'),
     });
   }
 
@@ -234,30 +240,27 @@
   <div class="page">
     <a-card :bordered="false">
       <a-form layout="inline" :model="query" class="query">
-        <a-form-item label="租户名称">
-          <a-input v-model:value="query.name" allow-clear placeholder="模糊匹配" />
+        <a-form-item :label="$t('system.tenant.col.name')">
+          <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
         </a-form-item>
-        <a-form-item label="租户编码">
+        <a-form-item :label="$t('system.tenant.col.code')">
           <a-input v-model:value="query.code" allow-clear />
         </a-form-item>
-        <a-form-item label="状态">
+        <a-form-item :label="$t('system.tenant.col.status')">
           <a-select
             v-model:value="query.status"
             allow-clear
-            placeholder="全部"
+            :placeholder="$t('common.placeholder.all')"
             style="width: 110px"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
+            :options="statusOptions"
           />
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" @click="load">查询</a-button>
-            <a-button @click="resetQuery">重置</a-button>
-            <a-button v-if="canCreate" type="primary" ghost @click="openCreate">新增租户</a-button>
-            <a-button @click="openPackages">套餐管理</a-button>
+            <a-button type="primary" @click="load">{{ $t('common.action.query') }}</a-button>
+            <a-button @click="resetQuery">{{ $t('common.action.reset') }}</a-button>
+            <a-button v-if="canCreate" type="primary" ghost @click="openCreate">{{ $t('system.tenant.create') }}</a-button>
+            <a-button @click="openPackages">{{ $t('system.tenant.package.manage') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -271,7 +274,7 @@
           pageSize: query.pageSize,
           total,
           showSizeChanger: true,
-          showTotal: (t: number) => `共 ${t} 条`,
+          showTotal: (t: number) => $t('common.total', { total: t }),
         }"
         row-key="id"
         size="middle"
@@ -282,12 +285,14 @@
           <template v-else-if="column.key === 'contactMobile'">{{ record.contactMobile || '—' }}</template>
           <template v-else-if="column.key === 'expireTime'">{{ record.expireTime || '—' }}</template>
           <template v-else-if="column.key === 'status'">
-            <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
+            <a-tag :color="record.status === 0 ? 'green' : 'red'">
+              {{ record.status === 0 ? $t('common.status.enable') : $t('common.status.disable') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <a-space>
-              <a v-if="canUpdate" @click="openEdit(record)">编辑</a>
-              <a v-if="canDelete" class="danger" @click="remove(record)">删除</a>
+              <a v-if="canUpdate" @click="openEdit(record)">{{ $t('common.action.edit') }}</a>
+              <a v-if="canDelete" class="danger" @click="remove(record)">{{ $t('common.action.delete') }}</a>
             </a-space>
           </template>
         </template>
@@ -297,7 +302,7 @@
     <a-modal
       v-model:open="modalOpen"
       :confirm-loading="submitting"
-      :title="editing ? '编辑租户' : '新增租户'"
+      :title="editing ? $t('system.tenant.edit') : $t('system.tenant.create')"
       destroy-on-close
       width="680px"
       @ok="submit"
@@ -305,27 +310,27 @@
       <a-form :model="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
         <a-row :gutter="8">
           <a-col :span="12">
-            <a-form-item label="租户编码" required>
-              <a-input v-model:value="form.code" :disabled="editing" placeholder="如 fighter" />
+            <a-form-item :label="$t('system.tenant.form.code')" required>
+              <a-input v-model:value="form.code" :disabled="editing" :placeholder="$t('system.tenant.form.codePlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="租户名称" required>
+            <a-form-item :label="$t('system.tenant.form.name')" required>
               <a-input v-model:value="form.name" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="联系人">
+            <a-form-item :label="$t('system.tenant.form.contactName')">
               <a-input v-model:value="form.contactName" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="联系电话">
+            <a-form-item :label="$t('system.tenant.form.contactMobile')">
               <a-input v-model:value="form.contactMobile" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="套餐">
+            <a-form-item :label="$t('system.tenant.form.package')">
               <a-select
                 v-model:value="form.packageId"
                 allow-clear
@@ -334,33 +339,27 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="账号数上限">
+            <a-form-item :label="$t('system.tenant.form.accountCount')">
               <a-input-number v-model:value="form.accountCount" :min="1" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="到期时间">
-              <a-input v-model:value="form.expireTime" placeholder="2099-12-31 23:59:59" />
+            <a-form-item :label="$t('system.tenant.form.expireTime')">
+              <a-input v-model:value="form.expireTime" :placeholder="$t('system.tenant.form.expireTimePlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="状态">
-              <a-select
-                v-model:value="form.status"
-                :options="[
-                  { label: '启用', value: 0 },
-                  { label: '停用', value: 1 },
-                ]"
-              />
+            <a-form-item :label="$t('system.tenant.form.status')">
+              <a-select v-model:value="form.status" :options="statusOptions" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="站点" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
-              <a-input v-model:value="form.websites" placeholder="多个域名用逗号分隔" />
+            <a-form-item :label="$t('system.tenant.form.websites')" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+              <a-input v-model:value="form.websites" :placeholder="$t('system.tenant.form.websitesPlaceholder')" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="备注" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+            <a-form-item :label="$t('system.tenant.form.remark')" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
               <a-textarea v-model:value="form.remark" :rows="2" />
             </a-form-item>
           </a-col>
@@ -368,9 +367,9 @@
       </a-form>
     </a-modal>
 
-    <a-modal v-model:open="packageOpen" title="租户套餐" width="720px" :footer="null" destroy-on-close>
+    <a-modal v-model:open="packageOpen" :title="$t('system.tenant.package.title')" width="720px" :footer="null" destroy-on-close>
       <div class="pkg-toolbar">
-        <a-button type="primary" size="small" @click="openPackageCreate">新增套餐</a-button>
+        <a-button type="primary" size="small" @click="openPackageCreate">{{ $t('system.tenant.package.create') }}</a-button>
       </div>
       <a-table
         :columns="packageColumns"
@@ -382,36 +381,37 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'status'">
-            <a-tag :color="record.status === 0 ? 'green' : 'red'">{{ record.status === 0 ? '启用' : '停用' }}</a-tag>
+            <a-tag :color="record.status === 0 ? 'green' : 'red'">
+              {{ record.status === 0 ? $t('common.status.enable') : $t('common.status.disable') }}
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <a-space>
-              <a @click="openPackageEdit(record)">编辑</a>
-              <a class="danger" @click="removePackage(record)">删除</a>
+              <a @click="openPackageEdit(record)">{{ $t('common.action.edit') }}</a>
+              <a class="danger" @click="removePackage(record)">{{ $t('common.action.delete') }}</a>
             </a-space>
           </template>
         </template>
       </a-table>
     </a-modal>
 
-    <a-modal v-model:open="packageFormOpen" :title="packageEditing ? '编辑套餐' : '新增套餐'" destroy-on-close @ok="submitPackage">
+    <a-modal
+      v-model:open="packageFormOpen"
+      :title="packageEditing ? $t('system.tenant.package.edit') : $t('system.tenant.package.create')"
+      destroy-on-close
+      @ok="submitPackage"
+    >
       <a-form :model="packageForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 17 }">
-        <a-form-item label="套餐编码" required>
+        <a-form-item :label="$t('system.tenant.package.formCode')" required>
           <a-input v-model:value="packageForm.code" :disabled="packageEditing" />
         </a-form-item>
-        <a-form-item label="套餐名称" required>
+        <a-form-item :label="$t('system.tenant.package.formName')" required>
           <a-input v-model:value="packageForm.name" />
         </a-form-item>
-        <a-form-item label="状态">
-          <a-select
-            v-model:value="packageForm.status"
-            :options="[
-              { label: '启用', value: 0 },
-              { label: '停用', value: 1 },
-            ]"
-          />
+        <a-form-item :label="$t('system.tenant.form.status')">
+          <a-select v-model:value="packageForm.status" :options="statusOptions" />
         </a-form-item>
-        <a-form-item label="备注">
+        <a-form-item :label="$t('system.tenant.package.formRemark')">
           <a-textarea v-model:value="packageForm.remark" :rows="2" />
         </a-form-item>
       </a-form>

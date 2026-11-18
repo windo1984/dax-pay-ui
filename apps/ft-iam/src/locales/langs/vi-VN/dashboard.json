@@ -1,0 +1,20 @@
+{
+  "hello": "Xin chào, {name}",
+  "defaultName": "Quản trị viên",
+  "sub": "Chào mừng đến Fighter IAM · Nền tảng quản lý người dùng và quyền hạn tập trung",
+  "roles": "Vai trò hiện tại",
+  "rolesUnit": "",
+  "permCodes": "Mã quyền có thể truy cập",
+  "permUnit": "",
+  "menuNodes": "Menu hiển thị",
+  "menuUnit": "",
+  "descTitle": "Thông tin",
+  "backend": "Dịch vụ backend",
+  "backendValue": "ft-iam (cổng 19310, xác thực Sa-Token)",
+  "dataAccess": "Truy cập dữ liệu",
+  "dataAccessValue": "MyBatis-Plus + MyBatis-Plus-Join (MySQL / PostgreSQL)",
+  "menuSource": "Nguồn menu",
+  "menuSourceValue": "GET /auth/permission-info (định tuyến theo quyền từ backend)",
+  "apiDoc": "Tài liệu API",
+  "apiDocValue": "/swagger-ui/index.html (cần FT_SWAGGER_ENABLED=true)"
+}

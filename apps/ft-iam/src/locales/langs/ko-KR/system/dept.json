@@ -1,0 +1,27 @@
+{
+  "col": {
+    "name": "부서명",
+    "sort": "정렬",
+    "leaderUserId": "책임자 ID",
+    "phone": "전화번호",
+    "status": "상태",
+    "action": "작업"
+  },
+  "create": "부서 추가",
+  "createChild": "하위 부서 추가",
+  "edit": "부서 수정",
+  "form": {
+    "parentId": "상위 부서",
+    "topLevel": "최상위 부서",
+    "name": "부서명",
+    "sort": "정렬",
+    "leaderUserId": "책임자 ID",
+    "phone": "전화번호",
+    "email": "이메일",
+    "status": "상태"
+  },
+  "msg": {
+    "nameRequired": "부서명을 입력하세요",
+    "deleteConfirm": "\"{name}\" 부서를 삭제하시겠습니까?"
+  }
+}

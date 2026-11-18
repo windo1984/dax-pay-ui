@@ -4,6 +4,7 @@
   import { useUserStore } from '@vben/stores';
 
   import { AuthApi } from '#/api/auth.api';
+  import { $t } from '#/locales';
   import { useAuthStore } from '#/store';
 
   defineOptions({ name: 'Dashboard' });
@@ -15,6 +16,11 @@
   const menuCount = ref(0);
 
   const user = computed(() => userStore.userInfo);
+
+  /** 欢迎语里的用户名，缺省时回退到词条里的“管理员” */
+  const displayName = computed(
+    () => user.value?.name || user.value?.account || $t('dashboard.defaultName'),
+  );
 
   onMounted(async () => {
     try {
@@ -33,36 +39,36 @@
   <div class="dashboard">
     <a-card :bordered="false">
       <div class="welcome">
-        <div class="hello">你好，{{ user?.name || user?.account || '管理员' }}</div>
-        <div class="sub">欢迎使用 Fighter IAM · 统一用户与权限管理平台</div>
+        <div class="hello">{{ $t('dashboard.hello', { name: displayName }) }}</div>
+        <div class="sub">{{ $t('dashboard.sub') }}</div>
       </div>
     </a-card>
 
     <a-row :gutter="16" class="mt">
       <a-col :span="8">
         <a-card :bordered="false">
-          <a-statistic title="当前角色" :value="authStore.roles.length" suffix="个" />
-          <div class="roles">{{ authStore.roles.join('、') || '—' }}</div>
+          <a-statistic :title="$t('dashboard.roles')" :value="authStore.roles.length" :suffix="$t('dashboard.rolesUnit')" />
+          <div class="roles">{{ authStore.roles.join($t('common.listSeparator')) || '—' }}</div>
         </a-card>
       </a-col>
       <a-col :span="8">
         <a-card :bordered="false">
-          <a-statistic title="可访问权限码" :value="permCount" suffix="条" />
+          <a-statistic :title="$t('dashboard.permCodes')" :value="permCount" :suffix="$t('dashboard.permUnit')" />
         </a-card>
       </a-col>
       <a-col :span="8">
         <a-card :bordered="false">
-          <a-statistic title="可见菜单节点" :value="menuCount" suffix="个" />
+          <a-statistic :title="$t('dashboard.menuNodes')" :value="menuCount" :suffix="$t('dashboard.menuUnit')" />
         </a-card>
       </a-col>
     </a-row>
 
-    <a-card :bordered="false" class="mt" title="说明">
+    <a-card :bordered="false" class="mt" :title="$t('dashboard.descTitle')">
       <a-descriptions :column="2" size="small">
-        <a-descriptions-item label="后端服务">ft-iam（端口 19310，Sa-Token 鉴权）</a-descriptions-item>
-        <a-descriptions-item label="数据访问">MyBatis-Plus + MyBatis-Plus-Join（MySQL / PostgreSQL 双库）</a-descriptions-item>
-        <a-descriptions-item label="菜单来源">GET /auth/permission-info（后端权限驱动路由）</a-descriptions-item>
-        <a-descriptions-item label="接口文档">/swagger-ui/index.html（需后端 FT_SWAGGER_ENABLED=true）</a-descriptions-item>
+        <a-descriptions-item :label="$t('dashboard.backend')">{{ $t('dashboard.backendValue') }}</a-descriptions-item>
+        <a-descriptions-item :label="$t('dashboard.dataAccess')">{{ $t('dashboard.dataAccessValue') }}</a-descriptions-item>
+        <a-descriptions-item :label="$t('dashboard.menuSource')">{{ $t('dashboard.menuSourceValue') }}</a-descriptions-item>
+        <a-descriptions-item :label="$t('dashboard.apiDoc')">{{ $t('dashboard.apiDocValue') }}</a-descriptions-item>
       </a-descriptions>
     </a-card>
   </div>

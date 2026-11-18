@@ -1,0 +1,23 @@
+{
+  "col": {
+    "code": "코드",
+    "name": "직급명",
+    "sort": "정렬",
+    "status": "상태",
+    "remark": "비고",
+    "action": "작업"
+  },
+  "create": "직급 추가",
+  "edit": "직급 수정",
+  "form": {
+    "code": "직급 코드",
+    "name": "직급명",
+    "sort": "정렬",
+    "status": "상태",
+    "remark": "비고"
+  },
+  "msg": {
+    "required": "직급명과 코드를 입력하세요",
+    "deleteConfirm": "\"{name}\" 직급을 삭제하시겠습니까?"
+  }
+}

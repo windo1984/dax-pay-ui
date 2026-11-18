@@ -1,0 +1,47 @@
+{
+  "col": {
+    "code": "Kode tenant",
+    "name": "Nama tenant",
+    "contactName": "Kontak",
+    "contactMobile": "Telepon kontak",
+    "accountCount": "Jumlah akun",
+    "expireTime": "Waktu kedaluwarsa",
+    "status": "Status",
+    "action": "Aksi"
+  },
+  "create": "Tambah tenant",
+  "edit": "Ubah tenant",
+  "form": {
+    "code": "Kode tenant",
+    "codePlaceholder": "mis. fighter",
+    "name": "Nama tenant",
+    "contactName": "Kontak",
+    "contactMobile": "Telepon kontak",
+    "package": "Paket",
+    "accountCount": "Batas akun",
+    "expireTime": "Waktu kedaluwarsa",
+    "expireTimePlaceholder": "2099-12-31 23:59:59",
+    "status": "Status",
+    "websites": "Situs",
+    "websitesPlaceholder": "Beberapa domain dipisahkan koma",
+    "remark": "Catatan"
+  },
+  "package": {
+    "manage": "Kelola paket",
+    "title": "Paket tenant",
+    "create": "Tambah paket",
+    "edit": "Ubah paket",
+    "colCode": "Kode",
+    "colName": "Nama paket",
+    "colStatus": "Status",
+    "colAction": "Aksi",
+    "formCode": "Kode paket",
+    "formName": "Nama paket",
+    "formRemark": "Catatan"
+  },
+  "msg": {
+    "required": "Harap isi kode dan nama tenant",
+    "deleteConfirm": "Hapus tenant \"{name}\"? Setelah dihapus, tenant ini tidak dapat masuk.",
+    "packageDeleteConfirm": "Hapus paket \"{name}\"?"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "역할명",
+    "code": "코드",
+    "sort": "정렬",
+    "dataScope": "데이터 범위",
+    "type": "유형",
+    "status": "상태",
+    "action": "작업"
+  },
+  "create": "역할 추가",
+  "edit": "역할 수정",
+  "form": {
+    "name": "역할명",
+    "code": "역할 코드",
+    "codePlaceholder": "고유값. 예: operator",
+    "sort": "정렬",
+    "dataScope": "데이터 범위",
+    "status": "상태",
+    "clientCode": "클라이언트 구분",
+    "remark": "비고"
+  },
+  "dataScopeOption": {
+    "all": "전체 데이터",
+    "deptAndChild": "부서 및 하위 부서",
+    "dept": "본 부서",
+    "self": "본인만",
+    "custom": "사용자 지정"
+  },
+  "internal": "내장",
+  "custom": "사용자 지정",
+  "assignMenu": "메뉴 권한",
+  "assignTitle": "메뉴 권한",
+  "assignTarget": "역할: {name}({code})",
+  "msg": {
+    "nameRequired": "역할명과 코드를 입력하세요",
+    "statusUpdated": "상태가 변경되었습니다",
+    "assignSaved": "메뉴 권한이 저장되었습니다",
+    "deleteConfirm": "\"{name}\" 역할을 삭제하시겠습니까?"
+  }
+}

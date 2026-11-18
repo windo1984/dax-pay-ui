@@ -1,0 +1,11 @@
+{
+  "menu.dashboard": "대시보드",
+  "menu.login": "로그인",
+  "menu.system": "시스템 관리",
+  "menu.system.user": "사용자 관리",
+  "menu.system.role": "역할 관리",
+  "menu.system.menu": "메뉴 관리",
+  "menu.system.dept": "부서 관리",
+  "menu.system.post": "직급 관리",
+  "menu.system.tenant": "테넌트 관리"
+}

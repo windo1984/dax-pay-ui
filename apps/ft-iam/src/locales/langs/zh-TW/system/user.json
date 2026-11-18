@@ -1,0 +1,41 @@
+{
+  "col": {
+    "username": "帳號",
+    "nickname": "暱稱",
+    "dept": "部門",
+    "mobile": "手機號",
+    "clientCode": "身分域",
+    "status": "狀態",
+    "createTime": "建立時間",
+    "action": "操作"
+  },
+  "create": "新增使用者",
+  "edit": "編輯使用者",
+  "form": {
+    "username": "帳號",
+    "nickname": "暱稱",
+    "initPassword": "初始密碼",
+    "initPasswordPlaceholder": "留空用後端默認密碼",
+    "dept": "部門",
+    "mobile": "手機號",
+    "email": "郵箱",
+    "sex": "性別",
+    "status": "狀態",
+    "clientCode": "身分域",
+    "role": "角色",
+    "post": "崗位",
+    "remark": "備註"
+  },
+  "resetPassword": "重設密碼",
+  "resetTitle": "重設密碼",
+  "resetUser": "使用者：{name}",
+  "resetPlaceholder": "留空則使用後端默認初始密碼",
+  "msg": {
+    "usernameRequired": "請填寫帳號",
+    "enabled": "已啟用",
+    "disabled": "已停用",
+    "passwordReset": "密碼已重設",
+    "resetFailed": "重設失敗",
+    "deleteConfirm": "確認刪除使用者「{name}」？"
+  }
+}

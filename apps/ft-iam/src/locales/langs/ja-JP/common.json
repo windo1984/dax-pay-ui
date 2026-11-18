@@ -1,0 +1,45 @@
+{
+  "listSeparator": ", ",
+  "action": {
+    "query": "検索",
+    "reset": "リセット",
+    "create": "新規",
+    "edit": "編集",
+    "delete": "削除",
+    "save": "保存"
+  },
+  "status": {
+    "enable": "有効",
+    "disable": "無効"
+  },
+  "placeholder": {
+    "fuzzy": "あいまい検索",
+    "all": "すべて"
+  },
+  "total": "全 {total} 件",
+  "sex": {
+    "male": "男性",
+    "female": "女性",
+    "unknown": "不明"
+  },
+  "clientCode": {
+    "admin": "運営側（admin）",
+    "merchant": "加盟店側（merchant）",
+    "app": "アプリ側（app）",
+    "gateway": "ゲートウェイ（gateway）"
+  },
+  "layout": {
+    "logout": "ログアウト",
+    "loginExpired": "セッションの有効期限が切れました。",
+    "relogin": "再度ログイン"
+  },
+  "msg": {
+    "created": "作成しました",
+    "updated": "更新しました",
+    "deleted": "削除しました",
+    "saved": "保存しました",
+    "saveFailed": "保存に失敗しました",
+    "deleteConfirmTitle": "削除の確認",
+    "deleteConfirm": "「{name}」を削除しますか？"
+  }
+}

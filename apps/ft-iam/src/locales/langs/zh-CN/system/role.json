@@ -1,0 +1,41 @@
+{
+  "col": {
+    "name": "角色名称",
+    "code": "编码",
+    "sort": "排序",
+    "dataScope": "数据范围",
+    "type": "类型",
+    "status": "状态",
+    "action": "操作"
+  },
+  "create": "新增角色",
+  "edit": "编辑角色",
+  "form": {
+    "name": "角色名称",
+    "code": "角色编码",
+    "codePlaceholder": "唯一，如 operator",
+    "sort": "排序",
+    "dataScope": "数据范围",
+    "status": "状态",
+    "clientCode": "身份域",
+    "remark": "备注"
+  },
+  "dataScopeOption": {
+    "all": "全部数据",
+    "deptAndChild": "本部门及子部门",
+    "dept": "本部门",
+    "self": "仅本人",
+    "custom": "自定义"
+  },
+  "internal": "内置",
+  "custom": "自定义",
+  "assignMenu": "菜单授权",
+  "assignTitle": "菜单授权",
+  "assignTarget": "角色：{name}（{code}）",
+  "msg": {
+    "nameRequired": "请填写角色名称与编码",
+    "statusUpdated": "状态已更新",
+    "assignSaved": "菜单授权已保存",
+    "deleteConfirm": "确认删除角色「{name}」？"
+  }
+}
