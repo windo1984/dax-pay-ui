@@ -45,6 +45,16 @@ export const AuthApi = {
     return requestClient.post('/token/logout');
   },
   /**
+   * 统一认证（ft-iam ticket）登录
+   *
+   * 基座 ft-layout 以 ft-iam 为唯一登录入口，进入本应用时在地址上带一次性 ticket；
+   * 本接口用 ticket 换本应用自己的 token（后端 /token/sso/iam-login）。
+   * 身份域由请求头 x-client-code（=merchant）决定，后端据此映射本端本地账号。
+   */
+  ssoIamLogin(ticket: string): Promise<Result<string>> {
+    return requestClient.post('/token/sso/iam-login', { ticket });
+  },
+  /**
    * 二次验证(密码通过后凭临时凭证 + 动态码完成登录)
    */
   secondVerify(data: SecondVerifyParams): Promise<Result<string>> {
