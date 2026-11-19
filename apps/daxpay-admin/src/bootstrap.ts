@@ -58,6 +58,10 @@ async function bootstrap(namespace: string) {
   // 配置 pinia-tore
   await initStores(app, { namespace });
 
+  // 统一认证（SSO）免登：基座 ft-layout 带 ticket 进入时，先换本应用 token 再跑路由守卫
+  const { adoptSsoTicketFromHost } = await import('./logics/adopt-sso-ticket');
+  await adoptSsoTicketFromHost();
+
   // 拉取站点品牌配置(系统名/Logo/备案), 失败不阻断启动
   const { initWebsiteConfig } = await import('./logics/init-website-config');
   await initWebsiteConfig();

@@ -2,6 +2,7 @@
   import { computed, onMounted, reactive, ref } from 'vue';
 
   import { useAccess } from '@vben/access';
+  import { IconifyIcon } from '@vben-core/icons';
 
   import { message, Modal } from 'antdv-next';
 
@@ -39,7 +40,6 @@
   // a-table-column 的子节点会被当成"分组表头"，不会再作为单元格渲染
   const columns = computed(() => [
     { key: 'name', title: $t('system.menu.col.name'), dataIndex: 'name' },
-    { key: 'icon', title: $t('system.menu.col.icon'), width: 150 },
     { key: 'type', title: $t('system.menu.col.type'), width: 80 },
     { key: 'path', title: $t('system.menu.col.path'), width: 150 },
     { key: 'component', title: $t('system.menu.col.component'), width: 180 },
@@ -209,8 +209,29 @@
         size="middle"
         default-expand-all-rows
       >
+        <!-- 展开符号用三角形（chevron），默认的 +/- 太丑 -->
+        <template #expandIcon="{ record, expanded, onExpand }">
+          <span
+            v-if="record.children && record.children.length"
+            class="mr-2 inline-flex size-4 cursor-pointer items-center justify-center text-gray-500 hover:text-blue-500"
+            @click.stop="(e: any) => onExpand(record, e)"
+          >
+            <IconifyIcon
+              :icon="expanded ? 'lucide:chevron-down' : 'lucide:chevron-right'"
+              class="size-3.5"
+            />
+          </span>
+          <span v-else class="mr-2 inline-block size-4" />
+        </template>
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'icon'">{{ record.icon || '—' }}</template>
+          <template v-if="column.key === 'name'">
+            <!-- 菜单图标 + 标题；标题统一走 i18n_key 翻译，name 只作兜底 -->
+            <span class="inline-flex items-center gap-1.5">
+              <IconifyIcon v-if="record.icon" :icon="record.icon" class="size-4 shrink-0" />
+              <span v-else class="inline-block size-4 shrink-0" />
+              <span>{{ record.i18nKey ? $t(record.i18nKey) : record.name }}</span>
+            </span>
+          </template>
           <template v-else-if="column.key === 'type'">
             <a-tag :color="record.type === 1 ? 'blue' : record.type === 2 ? 'green' : 'default'">
               {{

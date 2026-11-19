@@ -12,6 +12,62 @@ import type { RouteRecordStringComponent } from '@vben/types';
 const BUTTON_TYPE = 3;
 const DIRECTORY_TYPE = 1;
 
+/**
+ * 只保留属于指定微应用的菜单节点。
+ *
+ * iam_menu.app_key 标识菜单归属（iam / admin / merchant / yudao）。后端按 appKey 过滤是主路径，
+ * 这里再兜一层：万一后端漏了参数或版本没跟上，iam 也不会把子应用的菜单渲染到自己的侧边栏。
+ *
+ * 兼容老后端：整棵树都没有 appKey 字段时原样返回，行为不变。
+ */
+export function pickAppMenus(menus: MenuItem[], appKey: string): MenuItem[] {
+  if (!hasAppKeyField(menus)) {
+    return menus;
+  }
+  const walk = (list: MenuItem[]): MenuItem[] =>
+    list
+      .filter((menu) => menu.appKey === appKey)
+      .map((menu) => ({ ...menu, children: menu.children ? walk(menu.children) : [] }));
+  return walk(menus);
+}
+
+/** 递归检查是否有节点带 appKey（有则说明后端已下发归属字段） */
+function hasAppKeyField(menus: MenuItem[]): boolean {
+  return menus.some(
+    (menu) => menu.appKey !== undefined || hasAppKeyField(menu.children ?? []),
+  );
+}
+
+/** 模块入口前缀：iam_menu.link = 'app:/admin' 表示"跳基座 /admin" */
+const APP_LINK_PREFIX = 'app:';
+
+/**
+ * 把菜单的 link 解析成可点击地址。
+ *
+ * - `app:/admin` → 基座同源绝对地址（iam 是基座里的 iframe，取 window.top 的 origin）
+ * - 其它值（http(s) 外链）原样返回
+ *
+ * iam 自己只承载"系统管理"的页面；DaxPay 运营端 / 商户端 / 芋道管理只是入口，
+ * 点过去由基座打开对应子应用，所以这里必须跳基座的地址，不能留在 iam 内路由。
+ */
+function resolveAppLink(link?: null | string): string | undefined {
+  if (!link) {
+    return undefined;
+  }
+  if (!link.startsWith(APP_LINK_PREFIX)) {
+    return link;
+  }
+  const appPath = link.slice(APP_LINK_PREFIX.length) || '/';
+  let origin = window.location.origin;
+  try {
+    // 跨域时访问 top.location 会抛安全错误，退回自身 origin
+    origin = window.top?.location.origin ?? origin;
+  } catch {
+    origin = window.location.origin;
+  }
+  return `${origin}${appPath.startsWith('/') ? appPath : `/${appPath}`}`;
+}
+
 function toMeta(menu: MenuItem) {
   return {
     // 优先用后端下发的 i18n_key（由框架 $t 翻译），没有则退回中文名
@@ -24,7 +80,7 @@ function toMeta(menu: MenuItem) {
     keepAlive: menu.keepAlive !== false,
     activePath: menu.path || undefined,
     badge: menu.badge || undefined,
-    link: menu.link || undefined,
+    link: resolveAppLink(menu.link),
   };
 }
 

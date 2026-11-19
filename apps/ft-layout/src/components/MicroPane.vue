@@ -8,6 +8,11 @@ const props = defineProps<{
   active: boolean
   /** 基座登录态 token：子应用与基座不同 origin，localStorage 无法共享，只能通过 URL 传过去 */
   token?: string
+  /**
+   * 统一认证一次性 ticket：需要自己会话的子应用（daxpay / yudao）用它换本应用 token，
+   * 而不是直接复用 iam 的 token —— 两套 Sa-Token 会话互不通用
+   */
+  ticket?: string
   /** 租户 ID：子应用请求头 tenant-id 需要，缺失时后端回落默认租户 */
   tenantId?: number | string
   /** 身份域：子应用请求头 clientid 需要 */
@@ -23,11 +28,15 @@ const props = defineProps<{
 
 /**
  * 子应用真实加载地址
- * - 追加 ?token=&tenantId=&clientCode=，子应用启动时读取并写入自己的登录态（见 ft-iam/src/bootstrap.ts）
+ * - 追加 ?token=&tenantId=&clientCode=（iam 类子应用直接复用 iam token，见 ft-iam/src/bootstrap.ts）
+ * - 追加 ?ticket=（自持会话的子应用，如 daxpay-admin / yudao，见各自 adopt-sso-ticket）
  */
 const appUrl = computed(() => {
   try {
     const u = new URL(props.url)
+    if (props.ticket) {
+      u.searchParams.set('ticket', props.ticket)
+    }
     if (props.token) {
       u.searchParams.set('token', props.token)
     }

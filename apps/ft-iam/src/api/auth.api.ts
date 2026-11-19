@@ -37,6 +37,8 @@ export interface MenuItem {
   id: number;
   tenantId?: number;
   clientCode?: string;
+  /** 归属的微应用（iam_micro_app.app_key）；老版本后端不下发该字段 */
+  appKey?: string;
   parentId?: number;
   name: string;
   i18nKey?: null | string;
@@ -76,7 +78,15 @@ export const AuthApi = {
   getUserInfo() {
     return requestClient.get<CommonResult<UserInfo>>('/auth/user-info');
   },
-  getPermissionInfo() {
-    return requestClient.get<CommonResult<PermissionInfo>>('/auth/permission-info');
+  /**
+   * 当前用户的权限上下文（权限码 + 角色 + 菜单树）。
+   *
+   * @param appKey 微应用标识：菜单按 iam_menu.app_key 归属，iam 只取自己那套，
+   *               不会把 daxpay / yudao 的内部菜单混进侧边栏。
+   */
+  getPermissionInfo(appKey = 'iam') {
+    return requestClient.get<CommonResult<PermissionInfo>>('/auth/permission-info', {
+      params: { appKey },
+    });
   },
 };

@@ -38,7 +38,12 @@ export default defineConfig(async () => {
           '/api': {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
-            target: process.env.VITE_APP_GATEWAY_URL,
+            // .env 里的变量不会自动进入 process.env（需 loadEnv 或 shell 显式传入），
+            // 这里按注释语义兜底：FT_IAM_PROXY_TARGET 优先（走网关），否则直连 ft-iam 19310。
+            target:
+              process.env.FT_IAM_PROXY_TARGET ??
+              process.env.VITE_APP_GATEWAY_URL ??
+              'http://localhost:19310',
             ws: true,
           },
         },

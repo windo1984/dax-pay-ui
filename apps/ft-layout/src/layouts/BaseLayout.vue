@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import MicroPane from '../components/MicroPane.vue'
 import { useAppRegistry } from '../config/apps'
+import { AuthApi } from '../api/auth'
 import { removeAppRoutes } from '../router/dynamic'
 import { useAuth } from '../store/auth'
 
@@ -39,6 +40,7 @@ async function handleLogout() {
   registry.reset()
   tabs.value = [homeTab]
   opened.value = ['home']
+  ssoTickets.value = {}
   activeTab.value = 'home'
   await router.replace({ name: 'login' })
 }
@@ -61,6 +63,25 @@ const tabMeta = computed<Record<string, MenuItem>>(() => ({
 const tabs = ref<MenuItem[]>([homeTab])
 const activeTab = ref('home')
 const opened = ref<string[]>(['home'])
+/**
+ * 统一认证 ticket：key → ticket
+ * 只有需要自持会话的子应用（daxpay / yudao 等）才申请，iam 本身直接用基座的 token。
+ * ticket 一次性 + 120 秒有效，所以每次新打开 tab 现场申请，关闭 tab 即丢弃。
+ */
+const ssoTickets = ref<Record<string, string>>({})
+
+/** 为子应用申请一次性 ticket；iam 自己不需要（它就是 token 的签发方） */
+async function ensureSsoTicket(key: string) {
+  if (key === 'home' || key === 'iam' || ssoTickets.value[key]) return
+  try {
+    const resp = await AuthApi.createSsoTicket()
+    ssoTickets.value = { ...ssoTickets.value, [key]: resp.ticket }
+  }
+  catch (error) {
+    // 取不到 ticket 不阻断打开：子应用会退回自己的登录页，用户仍可手动登录
+    console.warn('[ft-layout] 申请统一认证 ticket 失败，子应用将走自身登录页', error)
+  }
+}
 
 const closableCount = computed(() => tabs.value.filter((t) => t.closable).length)
 const closableTabs = computed(() => tabs.value.filter((t) => t.key !== 'home'))
@@ -68,35 +89,53 @@ const closableTabs = computed(() => tabs.value.filter((t) => t.key !== 'home'))
 /** 当前子应用所属分组（顶栏面包屑式提示） */
 const currentGroup = computed(() => registry.findGroupOfApp(activeTab.value))
 
-function ensureTab(key: string) {
+async function ensureTab(key: string) {
   const meta = tabMeta.value[key]
   // 注册表里没有这个 key（无权限 / 已下线）就不开标签，避免空白 Tab
   if (!meta) return
   if (!tabs.value.find((t) => t.key === key)) {
     tabs.value.push(meta)
   }
+  // 首次打开先拿到 ticket 再挂载 iframe，否则子应用会先以无凭证的地址加载、落到自己的登录页
   if (!opened.value.includes(key)) {
+    await ensureSsoTicket(key)
     opened.value.push(key)
   }
   activeTab.value = key
 }
 
-ensureTab((route.name as string) || 'home')
+/**
+ * 让当前路由与激活的 Tab 对齐。
+ *
+ * BaseLayout 是常驻挂载的（App.vue 直接渲染，不走路由），所以 setup 只跑一次：
+ * 首次进入时模块注册表可能还没拉回来，ensureTab 会因为 tabMeta 缺 key 直接返回；
+ * 等注册表加载完、路由却早已停在 /admin 时，watch(route.name) 也不会再触发，
+ * 于是 URL 是 /admin、页面却停在首页。所以注册表就绪、组件挂载、路由变化三处都要对齐一次。
+ */
+function syncRouteTab() {
+  const key = (route.name as string) || 'home'
+  if (tabMeta.value[key]) void ensureTab(key)
+}
+
+syncRouteTab()
+
+watch(() => route.name, syncRouteTab)
 
 watch(
-  () => route.name,
-  (name) => {
-    const key = (name as string) || 'home'
-    if (tabMeta.value[key]) ensureTab(key)
+  () => registry.state.loaded,
+  (loaded) => {
+    if (loaded) syncRouteTab()
   },
 )
+
+onMounted(syncRouteTab)
 
 /** 菜单点击：按注册表里的 path 跳转（不再靠字符串拼 /key） */
 function openTab(path: string) {
   const app = registry.findByPath(path)
   const key = app?.key ?? (path === '/' ? 'home' : path.replace(/^\//, ''))
   if (key !== 'home' && !tabMeta.value[key]) return
-  ensureTab(key)
+  void ensureTab(key)
   router.push({ path: app?.path ?? (key === 'home' ? '/' : `/${key}`) })
 }
 
@@ -109,6 +148,8 @@ function switchTab(key: string) {
 function closeTab(key: string) {
   const idx = tabs.value.findIndex((t) => t.key === key)
   tabs.value = tabs.value.filter((t) => t.key !== key)
+  // ticket 已随 iframe 加载消费掉，重开时必须重新申请
+  delete ssoTickets.value[key]
   if (activeTab.value === key) {
     const next = tabs.value[idx - 1]?.key || tabs.value[tabs.value.length - 1]?.key || 'home'
     activeTab.value = next
@@ -118,6 +159,7 @@ function closeTab(key: string) {
 
 function closeAll() {
   tabs.value = tabs.value.filter((t) => !t.closable)
+  ssoTickets.value = {}
   activeTab.value = 'home'
   router.replace({ path: '/' })
 }
@@ -307,7 +349,13 @@ function reloadActive() {
           :key="app.key"
           :name="app.key"
           :url="app.url"
-          :token="auth.state.token"
+          :ticket="ssoTickets[app.key]"
+          :token="app.key === 'iam' ? auth.state.token : undefined"
+          :tenant-id="auth.state.userInfo?.tenantId"
+          :client-code="auth.state.userInfo?.clientCode"
+          :opened="opened.includes(app.key)"
+          :active="activeTab === app.key"
+        />
           :tenant-id="auth.state.userInfo?.tenantId"
           :client-code="auth.state.userInfo?.clientCode"
           :opened="opened.includes(app.key)"

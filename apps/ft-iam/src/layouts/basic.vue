@@ -6,6 +6,7 @@
   import { useAccessStore, useUserStore } from '@vben/stores';
 
   import { $t } from '#/locales';
+  import { UserDropdown } from '#/components/user-dropdown';
   import { useAuthStore } from '#/store';
 
   defineOptions({ name: 'FtIamBasicLayout' });
@@ -32,10 +33,7 @@
 <template>
   <BasicLayout @clear-preferences-and-logout="handleLogout" @click-logo="goHome">
     <template #user-dropdown>
-      <div class="ft-user">
-        <span class="ft-user-name">{{ displayName }}</span>
-        <a-button type="link" size="small" @click="handleLogout">{{ $t('common.layout.logout') }}</a-button>
-      </div>
+      <UserDropdown :text="displayName" @logout="handleLogout" />
     </template>
     <template v-if="accessStore.loginExpired" #extra>
       <div class="ft-expired">
@@ -47,18 +45,6 @@
 </template>
 
 <style scoped>
-  .ft-user {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    padding: 0 4px;
-  }
-
-  .ft-user-name {
-    font-size: 13px;
-    color: hsl(var(--foreground));
-  }
-
   .ft-expired {
     padding: 8px 16px;
   }

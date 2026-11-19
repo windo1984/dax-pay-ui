@@ -32,6 +32,12 @@ export interface PermissionInfo {
   menus: any[];
 }
 
+/** 统一认证一次性凭证：子系统凭它换自己的登录态，避免共享 Sa-Token 会话 */
+export interface SsoTicket {
+  ticket: string;
+  expiresIn: number;
+}
+
 /** ft-iam 鉴权接口（端口 19310，Sa-Token） */
 export const AuthApi = {
   login(data: LoginParam) {
@@ -45,5 +51,9 @@ export const AuthApi = {
   },
   getPermissionInfo() {
     return request<PermissionInfo>('/auth/permission-info');
+  },
+  /** 为当前登录用户签发一次性 ticket（打开子系统时现场申请，120 秒内有效且只能用一次） */
+  createSsoTicket() {
+    return request<SsoTicket>('/auth/sso/ticket', { method: 'POST' });
   },
 };

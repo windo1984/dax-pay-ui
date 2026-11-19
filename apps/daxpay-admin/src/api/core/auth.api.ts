@@ -15,6 +15,16 @@ export interface TwoFactorPreAuth {
  */
 export const AuthApi = {
   /**
+   * 统一认证 ticket 登录
+   *
+   * 基座 ft-layout 以 ft-iam 为唯一登录入口，进入本应用时在地址上带一次性 ticket；
+   * 本接口用 ticket 换本应用自己的 token（后端 /token/sso/iam-login）。
+   */
+  ssoIamLogin(ticket: string): Promise<Result<string>> {
+    return requestClient.post('/token/sso/iam-login', { ticket });
+  },
+
+  /**
    * 登录
    */
   login(data: LoginParams): Promise<Result<string | TwoFactorPreAuth>> {
