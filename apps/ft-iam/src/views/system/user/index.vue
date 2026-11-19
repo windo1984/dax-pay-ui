@@ -221,7 +221,7 @@
 
 <template>
   <div class="page">
-    <a-card :bordered="false">
+    <a-card variant="borderless">
       <a-form layout="inline" :model="query" class="query">
         <a-form-item :label="$t('system.user.col.username')">
           <a-input v-model:value="query.username" allow-clear :placeholder="$t('common.placeholder.fuzzy')" @press-enter="load" />
@@ -289,7 +289,7 @@
       v-model:open="modalOpen"
       :confirm-loading="submitting"
       :title="editing ? $t('system.user.edit') : $t('system.user.create')"
-      destroy-on-close
+      destroy-on-hidden
       width="720px"
       @ok="submit"
     >
@@ -362,7 +362,7 @@
     <a-modal
       v-model:open="resetOpen"
       :title="$t('system.user.resetTitle')"
-      destroy-on-close
+      destroy-on-hidden
       width="420px"
       @ok="submitReset"
     >

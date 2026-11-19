@@ -37,7 +37,7 @@
 
 <template>
   <div class="dashboard">
-    <a-card :bordered="false">
+    <a-card variant="borderless">
       <div class="welcome">
         <div class="hello">{{ $t('dashboard.hello', { name: displayName }) }}</div>
         <div class="sub">{{ $t('dashboard.sub') }}</div>
@@ -46,24 +46,24 @@
 
     <a-row :gutter="16" class="mt">
       <a-col :span="8">
-        <a-card :bordered="false">
+        <a-card variant="borderless">
           <a-statistic :title="$t('dashboard.roles')" :value="authStore.roles.length" :suffix="$t('dashboard.rolesUnit')" />
           <div class="roles">{{ authStore.roles.join($t('common.listSeparator')) || '—' }}</div>
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card :bordered="false">
+        <a-card variant="borderless">
           <a-statistic :title="$t('dashboard.permCodes')" :value="permCount" :suffix="$t('dashboard.permUnit')" />
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card :bordered="false">
+        <a-card variant="borderless">
           <a-statistic :title="$t('dashboard.menuNodes')" :value="menuCount" :suffix="$t('dashboard.menuUnit')" />
         </a-card>
       </a-col>
     </a-row>
 
-    <a-card :bordered="false" class="mt" :title="$t('dashboard.descTitle')">
+    <a-card variant="borderless" class="mt" :title="$t('dashboard.descTitle')">
       <a-descriptions :column="2" size="small">
         <a-descriptions-item :label="$t('dashboard.backend')">{{ $t('dashboard.backendValue') }}</a-descriptions-item>
         <a-descriptions-item :label="$t('dashboard.dataAccess')">{{ $t('dashboard.dataAccessValue') }}</a-descriptions-item>

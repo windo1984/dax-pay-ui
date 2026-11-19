@@ -177,7 +177,7 @@
 
 <template>
   <div class="page">
-    <a-card :bordered="false">
+    <a-card variant="borderless">
       <a-form layout="inline" :model="query" class="query">
         <a-form-item :label="$t('system.menu.col.name')">
           <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
@@ -266,7 +266,7 @@
       v-model:open="modalOpen"
       :confirm-loading="submitting"
       :title="editing ? $t('system.menu.edit') : $t('system.menu.create')"
-      destroy-on-close
+      destroy-on-hidden
       width="720px"
       @ok="submit"
     >

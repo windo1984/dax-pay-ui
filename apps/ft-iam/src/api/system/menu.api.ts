@@ -31,6 +31,8 @@ export interface MenuListParam {
   name?: string;
   status?: number;
   clientCode?: string;
+  /** 归属的微应用（iam_micro_app.app_key）；不传返回全部应用 */
+  appKey?: string;
 }
 
 export const MenuApi = {

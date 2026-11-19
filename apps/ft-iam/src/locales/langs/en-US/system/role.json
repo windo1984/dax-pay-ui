@@ -32,6 +32,12 @@
   "assignMenu": "Assign menus",
   "assignTitle": "Assign menus",
   "assignTarget": "Role: {name} ({code})",
+  "appTag": "App",
+  "menuTypeOption": {
+    "dir": "Dir",
+    "menu": "Menu",
+    "button": "Button"
+  },
   "msg": {
     "nameRequired": "Please enter the role name and code",
     "statusUpdated": "Status updated",

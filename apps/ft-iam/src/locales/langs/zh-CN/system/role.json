@@ -32,6 +32,12 @@
   "assignMenu": "菜单授权",
   "assignTitle": "菜单授权",
   "assignTarget": "角色：{name}（{code}）",
+  "appTag": "应用",
+  "menuTypeOption": {
+    "dir": "目录",
+    "menu": "菜单",
+    "button": "按钮"
+  },
   "msg": {
     "nameRequired": "请填写角色名称与编码",
     "statusUpdated": "状态已更新",

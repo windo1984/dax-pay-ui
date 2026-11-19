@@ -238,7 +238,7 @@
 
 <template>
   <div class="page">
-    <a-card :bordered="false">
+    <a-card variant="borderless">
       <a-form layout="inline" :model="query" class="query">
         <a-form-item :label="$t('system.tenant.col.name')">
           <a-input v-model:value="query.name" allow-clear :placeholder="$t('common.placeholder.fuzzy')" />
@@ -303,7 +303,7 @@
       v-model:open="modalOpen"
       :confirm-loading="submitting"
       :title="editing ? $t('system.tenant.edit') : $t('system.tenant.create')"
-      destroy-on-close
+      destroy-on-hidden
       width="680px"
       @ok="submit"
     >
@@ -367,7 +367,7 @@
       </a-form>
     </a-modal>
 
-    <a-modal v-model:open="packageOpen" :title="$t('system.tenant.package.title')" width="720px" :footer="null" destroy-on-close>
+    <a-modal v-model:open="packageOpen" :title="$t('system.tenant.package.title')" width="720px" :footer="null" destroy-on-hidden>
       <div class="pkg-toolbar">
         <a-button type="primary" size="small" @click="openPackageCreate">{{ $t('system.tenant.package.create') }}</a-button>
       </div>
@@ -398,7 +398,7 @@
     <a-modal
       v-model:open="packageFormOpen"
       :title="packageEditing ? $t('system.tenant.package.edit') : $t('system.tenant.package.create')"
-      destroy-on-close
+      destroy-on-hidden
       @ok="submitPackage"
     >
       <a-form :model="packageForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 17 }">
