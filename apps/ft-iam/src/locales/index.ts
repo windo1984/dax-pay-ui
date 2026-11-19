@@ -8,6 +8,7 @@ import type { LocaleMessageValue, LocaleSetupOptions, SupportedLanguagesType } f
 import { ref } from 'vue';
 
 import { $t, loadLocalesMapFromDir, setupI18n as coreSetup } from '@vben/locales';
+import { SUPPORT_LANGUAGES } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 
 import antdEnLocale from 'antdv-next/dist/locale/en_US';
@@ -186,8 +187,17 @@ async function loadDayjsLocale(lang: SupportedLanguagesType) {
 }
 
 async function setupI18n(app: App, options: LocaleSetupOptions = {}) {
+  // 语言切换目前只开放 简体中文 / 英文；历史上存过的其他语言（ja-JP 等）自动回落到 zh-CN，
+  // 避免偏好里残留一个下拉选不到的 locale，导致界面语言与开关不一致。
+  const supported = SUPPORT_LANGUAGES.map((item) => item.value) as string[];
+  const saved = (preferences.app.locale ?? 'zh-CN') as string;
+  const initialLocale = supported.includes(saved) ? saved : 'zh-CN';
+  if (initialLocale !== saved) {
+    preferences.app.locale = initialLocale as SupportedLanguagesType;
+  }
+
   await coreSetup(app, {
-    defaultLocale: preferences.app.locale ?? 'zh-CN',
+    defaultLocale: initialLocale as SupportedLanguagesType,
     loadMessages,
     missingWarn: !import.meta.env.PROD,
     ...options,
