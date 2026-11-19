@@ -2,6 +2,7 @@ import { createApp, watchEffect } from 'vue';
 
 import { registerLoadingDirective } from '@vben/common-ui/es/loading';
 import { addCollection } from '@vben/icons';
+import { compactAppHeader, setupHostAppearanceBridge } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
@@ -57,6 +58,11 @@ async function bootstrap(namespace: string) {
 
   // 配置 pinia-tore
   await initStores(app, { namespace });
+
+  // 顶栏工具（主题/语言/时区/全屏/设置）统一由基座 ft-layout 提供：
+  // 收敛本应用顶栏开关，并接收基座广播的外观设置
+  compactAppHeader();
+  setupHostAppearanceBridge();
 
   // 统一认证（SSO）免登：基座 ft-layout 带 ticket 进入时，先换本应用 token 再跑路由守卫
   const { adoptSsoTicketFromHost } = await import('./logics/adopt-sso-ticket');

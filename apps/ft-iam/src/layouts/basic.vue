@@ -1,25 +1,17 @@
 <script lang="ts" setup>
-  import { computed } from 'vue';
   import { useRouter } from 'vue-router';
 
   import { BasicLayout } from '@vben/layouts';
-  import { useAccessStore, useUserStore } from '@vben/stores';
+  import { useAccessStore } from '@vben/stores';
 
   import { $t } from '#/locales';
-  import { UserDropdown } from '#/components/user-dropdown';
   import { useAuthStore } from '#/store';
 
   defineOptions({ name: 'FtIamBasicLayout' });
 
   const router = useRouter();
-  const userStore = useUserStore();
   const accessStore = useAccessStore();
   const authStore = useAuthStore();
-
-  /** 顶栏用户名：昵称/账号来自后端数据，不随语言切换 */
-  const displayName = computed(
-    () => userStore.userInfo?.name || userStore.userInfo?.account || '',
-  );
 
   function handleLogout() {
     authStore.logout(false);
@@ -32,9 +24,7 @@
 
 <template>
   <BasicLayout @clear-preferences-and-logout="handleLogout" @click-logo="goHome">
-    <template #user-dropdown>
-      <UserDropdown :text="displayName" @logout="handleLogout" />
-    </template>
+    <!-- 顶栏工具（主题/语言/时区/全屏/用户菜单）已迁移到基座 ft-layout，这里不再提供 #user-dropdown -->
     <template v-if="accessStore.loginExpired" #extra>
       <div class="ft-expired">
         {{ $t('common.layout.loginExpired') }}

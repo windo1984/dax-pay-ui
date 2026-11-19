@@ -7,10 +7,15 @@ import { useAppRegistry } from '../config/apps'
 import { AuthApi } from '../api/auth'
 import { removeAppRoutes } from '../router/dynamic'
 import { useAuth } from '../store/auth'
+import { useLocale } from '../locales'
+import { pushToFrames } from '../store/appearance'
+import HeaderTools from '../components/HeaderTools.vue'
 
 interface MenuItem {
   key: string
   title: string
+  /** 英文标题，为空回落到 title */
+  titleEn?: string
   icon: string
   closable?: boolean
 }
@@ -18,6 +23,19 @@ interface MenuItem {
 const route = useRoute()
 const router = useRouter()
 const auth = useAuth()
+const { locale, t } = useLocale()
+
+/**
+ * 语言敏感的名称：分组名 / 应用名 / 说明来自库表（iam_micro_app_group、iam_micro_app），
+ * en-US 时优先用库里的 _en 列，缺失回落到中文，老数据不受影响。
+ */
+function pickName(item: { title: string; titleEn?: string }): string {
+  return locale.value === 'en-US' && item.titleEn ? item.titleEn : item.title
+}
+
+function pickDesc(item: { desc: string; descEn?: string }): string {
+  return locale.value === 'en-US' && item.descEn ? item.descEn : item.desc
+}
 /** 子应用注册表：登录后从 ft-iam 的 /auth/app-tree 拉取，已按权限裁剪 */
 const registry = useAppRegistry()
 
@@ -25,9 +43,9 @@ const registry = useAppRegistry()
 const userName = computed(
   () => auth.state.userInfo?.nickname || auth.state.userInfo?.username || '',
 )
-const userRole = computed(() => auth.state.roles.join('、'))
+const userRole = computed(() => auth.state.roles.join(t('roleSep')))
 const identity = computed(
-  () => `${auth.state.userInfo?.clientCode ?? 'admin'} / 租户 ${auth.state.userInfo?.tenantId ?? '—'}`,
+  () => `${auth.state.userInfo?.clientCode ?? 'admin'} / ${t('tenant')} ${auth.state.userInfo?.tenantId ?? '—'}`,
 )
 
 const appGroups = computed(() => registry.state.groups)
@@ -55,7 +73,7 @@ const tabMeta = computed<Record<string, MenuItem>>(() => ({
   ...Object.fromEntries(
     flatApps.value.map((app) => [
       app.key,
-      { key: app.key, title: app.title, icon: app.icon, closable: true },
+      { key: app.key, title: app.title, titleEn: app.titleEn, icon: app.icon, closable: true },
     ]),
   ),
 }))
@@ -173,10 +191,10 @@ function reloadActive() {
 
 <template>
   <div class="flex h-screen flex-col">
-    <header class="flex items-center gap-3 border-b border-gray-200 bg-white px-4 shadow-sm">
+    <header class="flex items-center gap-3 border-b border-gray-200 bg-white px-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">
       <button
-        class="flex h-8 w-8 items-center justify-center rounded text-lg text-gray-600 hover:bg-gray-100"
-        title="刷新当前页"
+        class="flex h-8 w-8 items-center justify-center rounded text-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+        :title="t('refresh')"
         @click="reloadActive"
       >
         ⟳
@@ -190,11 +208,11 @@ function reloadActive() {
           @mouseleave="headerHover = false"
         >
           <button
-            class="flex h-full items-center gap-2 px-3 text-base text-gray-700 hover:bg-gray-100"
+            class="flex h-full items-center gap-2 px-3 text-base text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
             :class="headerHover ? 'bg-emerald-50 text-emerald-600' : ''"
           >
             <span>☰</span>
-            <span class="text-sm">{{ currentGroup?.title ?? '全部应用' }}</span>
+            <span class="text-sm">{{ currentGroup ? pickName(currentGroup) : t('allApps') }}</span>
           </button>
           <transition
             enter-active-class="transition duration-150"
@@ -207,14 +225,14 @@ function reloadActive() {
               class="absolute left-0 top-12 z-50 w-64 rounded border border-gray-200 bg-white py-1 shadow-lg"
             >
               <div v-if="!appGroups.length" class="px-4 py-3 text-xs text-gray-400">
-                当前账号没有可访问的模块
+                {{ t('noApps') }}
               </div>
               <div v-for="group in appGroups" :key="group.key" class="py-1">
                 <div
                   class="flex items-center gap-2 border-b border-gray-100 px-4 pb-1 text-xs font-medium uppercase tracking-wide text-gray-400"
                 >
                   <span>{{ group.icon }}</span>
-                  <span>{{ group.title }}</span>
+                  <span>{{ pickName(group) }}</span>
                 </div>
                 <div
                   v-for="app in group.apps"
@@ -224,8 +242,8 @@ function reloadActive() {
                   @click="openTab(app.path)"
                 >
                   <span class="w-5 text-center">{{ app.icon }}</span>
-                  <span class="flex-1">{{ app.title }}</span>
-                  <span v-if="app.key === activeTab" class="text-[11px] text-emerald-600">当前</span>
+                  <span class="flex-1">{{ pickName(app) }}</span>
+                  <span v-if="app.key === activeTab" class="text-[11px] text-emerald-600">{{ t('current') }}</span>
                 </div>
               </div>
             </div>
@@ -234,12 +252,12 @@ function reloadActive() {
 
         <!-- 首页 -->
         <button
-          class="flex h-full items-center gap-1.5 px-3 text-sm text-gray-700 hover:bg-gray-100"
+          class="flex h-full items-center gap-1.5 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
           :class="activeTab === 'home' ? 'bg-emerald-50 text-emerald-600' : ''"
           @click="openTab('/')"
         >
           <span>🏠</span>
-          <span>首页</span>
+          <span>{{ t('home') }}</span>
         </button>
       </nav>
 
@@ -252,12 +270,12 @@ function reloadActive() {
           :class="
             tab.key === activeTab
               ? 'border-emerald-300 bg-emerald-50 text-emerald-600'
-              : 'border-gray-200 bg-gray-100 text-gray-500 hover:bg-gray-50'
+              : 'border-gray-200 bg-gray-100 text-gray-500 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
           "
           @click="switchTab(tab.key)"
         >
           <span class="w-5 text-center">{{ tab.icon }}</span>
-          <span>{{ tab.title }}</span>
+          <span>{{ tab.key === 'home' ? t('home') : pickName(tab) }}</span>
           <span
             v-if="tab.closable"
             class="flex h-4 w-4 items-center justify-center rounded-full text-base leading-none hover:bg-emerald-100"
@@ -270,36 +288,31 @@ function reloadActive() {
 
       <button
         v-if="closableCount"
-        class="ml-2 shrink-0 rounded border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-500 hover:border-red-200 hover:text-red-600"
+        class="ml-2 shrink-0 rounded border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-500 hover:border-red-200 hover:text-red-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-red-400"
         @click="closeAll"
       >
-        全部关闭
+        {{ t('closeAll') }}
       </button>
 
-      <!-- 登录用户与退出 -->
-      <div class="ml-auto flex shrink-0 items-center gap-3 border-l-2 border-gray-300 pl-3">
-        <div class="text-right leading-tight">
-          <div class="text-sm font-medium text-gray-800">{{ userName || '已登录' }}</div>
-          <div class="text-[11px] text-gray-400">
-            {{ identity }}<span v-if="userRole"> · {{ userRole }}</span>
-          </div>
-        </div>
-        <button
-          class="rounded border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-500 hover:border-red-200 hover:text-red-600"
-          @click="handleLogout"
-        >
-          退出登录
-        </button>
+      <!-- 公共工具（设置 / 主题 / 语言 / 时区 / 全屏 / 头像）：由基座统一持有并下发给子应用 -->
+      <div class="ml-auto flex h-12 shrink-0 items-center border-l-2 border-gray-300 pl-3">
+        <HeaderTools
+          :user-account="auth.state.userInfo?.username ?? ''"
+          :user-name="userName"
+          :user-role="userRole"
+          :identity="identity"
+          @logout="handleLogout"
+        />
       </div>
     </header>
 
     <main class="flex flex-1 flex-col overflow-hidden">
-      <div class="flex-1 overflow-hidden bg-white">
+      <div class="flex-1 overflow-hidden bg-white dark:bg-gray-900">
         <!-- 首页：按分组展示应用入口（分组与应用均来自数据库，已按权限裁剪） -->
         <div v-show="activeTab === 'home'" class="h-full overflow-auto p-6">
-          <h2 class="mb-1 text-xl font-bold">欢迎使用 Fighter 微前端基座</h2>
+          <h2 class="mb-1 text-xl font-bold">{{ t('welcome') }}</h2>
           <p class="text-gray-600">
-            顶部 ☰ hover 按产品线展开子应用，点击后以 Tab 形式打开，多 Tab 可并存；未登录仅能停留在登录页。
+            {{ t('intro') }}
           </p>
 
           <!-- 模块树拉取失败 / 无可用模块 -->
@@ -308,19 +321,18 @@ function reloadActive() {
             class="mt-6 rounded border border-dashed border-gray-300 bg-gray-50 p-4 text-sm"
           >
             <div v-if="registry.state.error" class="text-red-600">
-              主菜单加载失败：{{ registry.state.error }}
+              {{ t('loadFailed') }} {{ registry.state.error }}
             </div>
             <div v-else class="text-gray-500">
-              当前账号没有可访问的模块。请联系管理员在「IAM → 角色管理 → 分配菜单」中授予模块访问权限
-              （app:iam:access / app:daxpay:admin:access / app:daxpay:merchant:access / app:yudao:access）。
+              {{ t('noAppsHint') }}
             </div>
           </div>
 
           <div v-for="group in appGroups" :key="group.key" class="mt-6">
             <div class="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
               <span>{{ group.icon }}</span>
-              <span>{{ group.title }}</span>
-              <span class="text-xs font-normal text-gray-400">{{ group.apps.length }} 个应用</span>
+              <span>{{ pickName(group) }}</span>
+              <span class="text-xs font-normal text-gray-400">{{ t('appsCount', { n: group.apps.length }) }}</span>
             </div>
             <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
               <div
@@ -332,11 +344,11 @@ function reloadActive() {
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2 text-sm font-medium text-gray-800">
                     <span>{{ app.icon }}</span>
-                    <span>{{ app.title }}</span>
+                    <span>{{ pickName(app) }}</span>
                   </div>
                   <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[11px] text-gray-500">{{ app.path }}</span>
                 </div>
-                <div class="mt-2 text-xs text-gray-500">{{ app.desc }}</div>
+                <div class="mt-2 text-xs text-gray-500">{{ pickDesc(app) }}</div>
                 <div class="mt-1 break-all text-[11px] text-gray-400">{{ app.url }}</div>
               </div>
             </div>
@@ -355,11 +367,7 @@ function reloadActive() {
           :client-code="auth.state.userInfo?.clientCode"
           :opened="opened.includes(app.key)"
           :active="activeTab === app.key"
-        />
-          :tenant-id="auth.state.userInfo?.tenantId"
-          :client-code="auth.state.userInfo?.clientCode"
-          :opened="opened.includes(app.key)"
-          :active="activeTab === app.key"
+          @loaded="pushToFrames"
         />
       </div>
     </main>

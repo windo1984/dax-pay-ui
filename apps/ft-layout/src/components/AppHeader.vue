@@ -55,11 +55,22 @@
         </button>
       </div>
     </nav>
+
+    <div class="ml-auto flex h-full items-center">
+      <HeaderTools
+        :user-name="userName"
+        :user-role="userRole"
+        :identity="identity"
+        @logout="$emit('logout')"
+      />
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+import HeaderTools from './HeaderTools.vue'
 
 export interface MenuItem {
   key: string
@@ -71,11 +82,15 @@ export interface MenuItem {
 defineProps<{
   appMenu: MenuItem[]
   activeTab: string
+  userName: string
+  userRole: string
+  identity: string
 }>()
 
 defineEmits<{
   (e: 'select', item: MenuItem): void
   (e: 'refresh'): void
+  (e: 'logout'): void
 }>()
 
 const hover = ref(false)

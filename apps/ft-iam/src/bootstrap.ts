@@ -1,6 +1,7 @@
 import { createApp, watchEffect } from 'vue';
 
 import { registerLoadingDirective } from '@vben/common-ui/es/loading';
+import { compactAppHeader, setupHostAppearanceBridge } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
 import { initStores, useAccessStore } from '@vben/stores';
 import '@vben/styles';
@@ -43,6 +44,10 @@ function adoptTokenFromHost() {
   window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
 }
 
+/**
+ * 顶栏工具（主题 / 语言 / 时区 / 全屏 / 设置）已上收到基座 ft-layout：
+ * compactAppHeader / setupHostAppearanceBridge 由 @vben/layouts 统一提供。
+ */
 async function bootstrap(namespace: string) {
   const app = createApp(App);
 
@@ -57,6 +62,8 @@ async function bootstrap(namespace: string) {
 
   // initStores 之后 pinia 才可用
   adoptTokenFromHost();
+  compactAppHeader();
+  setupHostAppearanceBridge();
 
   const { initTippy } = await import('@vben/common-ui/es/tippy');
   initTippy(app);

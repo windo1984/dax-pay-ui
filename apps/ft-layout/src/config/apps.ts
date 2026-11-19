@@ -20,6 +20,8 @@ export interface AppDef {
   key: string;
   /** 菜单标题 */
   title: string;
+  /** 英文标题（库里的 name_en），为空时回落到 title */
+  titleEn?: string;
   /** 基座内路径 */
   path: string;
   /** 菜单图标（emoji） */
@@ -28,6 +30,8 @@ export interface AppDef {
   url: string;
   /** 菜单说明 */
   desc: string;
+  /** 英文说明（库里的 description_en），为空时回落到 desc */
+  descEn?: string;
   /** 访问所需权限码（后端已裁剪，这里仅用于展示/排查） */
   permission: string;
 }
@@ -35,6 +39,8 @@ export interface AppDef {
 export interface AppGroup {
   key: string;
   title: string;
+  /** 分组英文名，为空时回落到 title */
+  titleEn?: string;
   icon: string;
   apps: AppDef[];
 }
@@ -81,14 +87,17 @@ function normalize(groups: MicroAppGroupResp[]): AppGroup[] {
     .map((group) => ({
       key: group.key,
       title: group.title,
+      titleEn: group.titleEn ?? '',
       icon: group.icon,
       apps: group.apps.map((app) => ({
         key: app.key,
         title: app.title,
+        titleEn: app.titleEn ?? '',
         path: app.path,
         icon: app.icon || group.icon,
         url: resolveUrl(app.key, app.url),
         desc: app.desc ?? '',
+        descEn: app.descEn ?? '',
         permission: app.permission ?? '',
       })),
     }));

@@ -53,6 +53,9 @@ const appUrl = computed(() => {
 })
 
 const mode = computed(() => props.mode ?? 'iframe')
+
+/** iframe 加载完成：基座据此补发一次外观状态（主题/语言/时区），否则新开的子应用拿不到 */
+defineEmits<{ loaded: [] }>()
 </script>
 
 <template>
@@ -62,6 +65,7 @@ const mode = computed(() => props.mode ?? 'iframe')
       :src="appUrl"
       class="block h-full w-full border-0"
       :title="name"
+      @load="$emit('loaded')"
     ></iframe>
 
     <!--

@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
-/* micro-app iframe 模式：iframe 默认 0x0，需强制撑满 */
+/* 主题切换：基座用 class 策略（<html class="dark">），默认的 media 策略改为手动 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 基座自身深色底（子应用是 iframe，主题由基座广播给它们） */
+html.dark {
+  background-color: #111827;
+  color-scheme: dark;
+}
+
 micro-app {
   display: block;
   width: 100%;

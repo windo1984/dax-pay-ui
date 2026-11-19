@@ -4,10 +4,14 @@ import { request } from './request';
 export interface MicroAppResp {
   key: string;
   title: string;
+  /** 英文名，为空时回落到 title */
+  titleEn?: string;
   path: string;
   url: string;
   icon: string;
   desc: string;
+  /** 英文说明，为空时回落到 desc */
+  descEn?: string;
   permission: string;
   sort: number;
 }
@@ -16,6 +20,8 @@ export interface MicroAppResp {
 export interface MicroAppGroupResp {
   key: string;
   title: string;
+  /** 分组英文名，为空时回落到 title */
+  titleEn?: string;
   icon: string;
   sort: number;
   apps: MicroAppResp[];

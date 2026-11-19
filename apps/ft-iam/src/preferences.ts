@@ -9,6 +9,15 @@ export const overridesPreferences = defineOverridesPreferences({
     accessMode: 'backend',
     name: 'Fighter IAM',
     defaultHomePath: '/dashboard',
+    // 设置（偏好）入口已上收到基座 ft-layout，子应用顶栏不再提供
+    enablePreferences: false,
+  },
+  widget: {
+    // 主题 / 语言 / 时区 / 全屏 统一由基座顶栏控制，子应用只接收基座广播
+    themeToggle: false,
+    languageToggle: false,
+    timezone: false,
+    fullscreen: false,
   },
   logo: {
     enable: true,
